@@ -38,6 +38,10 @@ import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 	float currentx, currenty;
+	Button btnSaveLocation;
+	Button btnGetLocation;
+	ImageView imageView;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +49,11 @@ public class MainActivity extends ActionBarActivity {
         //Parse initialize
         Parse.initialize(this, "dqqy2pgILHlRNjtKu5MLi4VyY0LkZJY27FgrufLh", "fSFmvqwVMeuhsuzavaa7KJAMg5XDPhN0CcjTDiFE");
         
-        Button btnSaveLocation = (Button) findViewById(R.id.btnSaveLocation);
-        Button btnGetLocation = (Button) findViewById(R.id.btnGetLocation);
-        final ImageView imageView = (ImageView) findViewById(R.id.imgMap);
+        btnSaveLocation = (Button) findViewById(R.id.btnSaveLocation);
+        btnGetLocation = (Button) findViewById(R.id.btnGetLocation);
+        imageView = (ImageView) findViewById(R.id.imgMap);
 		
-        
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         
         btnSaveLocation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -57,6 +61,21 @@ public class MainActivity extends ActionBarActivity {
             	
             	
             	//get list of network
+            	
+            	
+            	
+            	
+            	
+            	builder.setMessage("Look at this dialog!")
+            	       .setCancelable(false)
+            	       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            	           public void onClick(DialogInterface dialog, int id) {
+            	                //do things
+            	           }
+            	       });
+            	AlertDialog alert = builder.create();
+            	//alert.show();
+            	
             	
             	
             	
@@ -222,7 +241,20 @@ public class MainActivity extends ActionBarActivity {
                     	query.findInBackground(new FindCallback<ParseObject>() {
                     	    public void done(List<ParseObject> scoreList, ParseException e) {
                     	        if (e == null) {
-                    	            Log.d("score", "Retrieved " + scoreList.get(0).getString("LOCATION"));
+                    	            String x = scoreList.get(0).getString("x");
+                    	            String y = scoreList.get(0).getString("y");
+                    	        	
+                    	            float fl_x = Float.parseFloat(x);
+                    	            float fl_y = Float.parseFloat(y);
+                    	            
+                    	            drawPointOnGivenLocation(fl_x, fl_y);
+                    				
+                    				
+                    	            
+                    	            
+                    	            
+                    	            
+                    	            Log.d("score", "Retrieved " + scoreList.get(0).getString("x")+" "+scoreList.get(0).getString("y"));
                     	        } else {
                     	            Log.d("score", "Error: " + e.getMessage());
                     	        }
@@ -274,6 +306,23 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    private void drawPointOnGivenLocation(float x, float y)
+    {
+    	Bitmap bmp =  Bitmap.createBitmap(imageView.getMeasuredWidth(), imageView.getMeasuredHeight(), Config.ARGB_8888);
+		imageView.setBackgroundResource(R.drawable.statafloorplan);
+		Canvas  c = new Canvas(bmp);
+
+        Paint p = new Paint();
+        int color = Color.WHITE;
+        p.setColor(color);
+
+        color = Color.RED;
+        p.setColor(color);
+        c.drawCircle(x, y, 10, p);
+
+        imageView.setImageBitmap(bmp);
+    }
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

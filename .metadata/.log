@@ -946,3 +946,6 @@ Binding(CTRL+SHIFT+\,
 		,,true),null),
 	org.eclipse.ui.defaultAcceleratorConfiguration,
 	org.eclipse.wst.sse.ui.structuredTextEditorScope,,,system)
+
+!ENTRY org.eclipse.ui 4 4 2014-11-15 16:26:05.205
+!MESSAGE Referenced part does not exist yet: org.eclipse.ui.views.ProblemView.
