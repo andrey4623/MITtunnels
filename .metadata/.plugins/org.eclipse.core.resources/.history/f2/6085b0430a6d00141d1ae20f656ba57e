@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.mit.mittunnels.MainActivity" >
+
+<Button
+        android:id="@+id/btnSaveLocations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save the location" />
+
+    <TextView
+        android:id="@+id/txtViewInstruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="14dp"
+        android:text="To train the system, touch the map and set the pointer in your current location, then press &apos;Save the location&apos;." />
+
+    <Button
+        android:id="@+id/btnGetLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:enabled="false"
+        android:text="Get Current Location" />
+
+    <ImageView
+        android:id="@+id/imgMap"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        android:layout_alignLeft="@+id/button2"
+        android:layout_below="@+id/button2"
+        android:scaleType="center"
+        android:src="@drawable/statafloorplan" />
+
+</RelativeLayout>
