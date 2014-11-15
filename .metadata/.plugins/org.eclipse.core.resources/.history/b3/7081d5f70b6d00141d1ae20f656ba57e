@@ -61,7 +61,6 @@ public class MainActivity extends ActionBarActivity {
             	
             	
             	
-            	
             	final WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
                 registerReceiver(new BroadcastReceiver() {
                         @Override
@@ -76,31 +75,8 @@ public class MainActivity extends ActionBarActivity {
                         	   testObject.put("SSID", ap.SSID);
                         	   testObject.put("MAC", ap.BSSID);
                         	   testObject.put("LEVEL", ap.level);
-                        	   
-                        	   
-                        	   
-                        	   
-                        	   testObject.saveInBackground(new SaveCallback() {
-                        		   public void done(ParseException e) {
-                        		     if (e == null) {
-                        		       //myObjectSavedSuccessfully();
-                        		    	 
-                        		    	 
-                        		    	 
-                        		    	 
-                        		    	 
-                        		     } else {
-                        		    	
-                        		     }
-                        		   }
-                        		 });
-                        	   
-                        	   
-                        	   
-                        	   //testObject.saveInBackground();
-                        	   Log.d("", "SSID=" + ap.SSID + " MAC=" + ap.BSSID+" LEVEL="+ap.level);
-                        	   
-                        	   
+                        	   testObject.saveInBackground();
+                        	   Log.d("", "SSID=" + ap.SSID + " MAC=" + ap.BSSID+" LEVEL="+ap.level); 
                            }
                         }
 

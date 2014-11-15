@@ -61,7 +61,6 @@ public class MainActivity extends ActionBarActivity {
             	
             	
             	
-            	
             	final WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
                 registerReceiver(new BroadcastReceiver() {
                         @Override
@@ -83,14 +82,9 @@ public class MainActivity extends ActionBarActivity {
                         	   testObject.saveInBackground(new SaveCallback() {
                         		   public void done(ParseException e) {
                         		     if (e == null) {
-                        		       //myObjectSavedSuccessfully();
-                        		    	 
-                        		    	 
-                        		    	 
-                        		    	 
-                        		    	 
+                        		       myObjectSavedSuccessfully();
                         		     } else {
-                        		    	
+                        		       myObjectSaveDidNotSucceed();
                         		     }
                         		   }
                         		 });

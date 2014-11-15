@@ -61,7 +61,6 @@ public class MainActivity extends ActionBarActivity {
             	
             	
             	
-            	
             	final WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
                 registerReceiver(new BroadcastReceiver() {
                         @Override
@@ -87,10 +86,28 @@ public class MainActivity extends ActionBarActivity {
                         		    	 
                         		    	 
                         		    	 
+                        		    	 AlertDialog.Builder builder1 = new AlertDialog.Builder(getBaseContext());
+                                         builder1.setMessage("Saved");
+                                         builder1.setCancelable(true);
+                                         builder1.setPositiveButton("Yes",
+                                                 new DialogInterface.OnClickListener() {
+                                             public void onClick(DialogInterface dialog, int id) {
+                                                 dialog.cancel();
+                                             }
+                                         });
+                                         builder1.setNegativeButton("No",
+                                                 new DialogInterface.OnClickListener() {
+                                             public void onClick(DialogInterface dialog, int id) {
+                                                 dialog.cancel();
+                                             }
+                                         });
+
+                                         AlertDialog alert11 = builder1.create();
+                                         alert11.show();
                         		    	 
                         		    	 
                         		     } else {
-                        		    	
+                        		       myObjectSaveDidNotSucceed();
                         		     }
                         		   }
                         		 });
