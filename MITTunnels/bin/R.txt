@@ -333,8 +333,9 @@ int drawable abc_textfield_default_mtrl_alpha 0x7f02002f
 int drawable abc_textfield_search_activated_mtrl_alpha 0x7f020030
 int drawable abc_textfield_search_default_mtrl_alpha 0x7f020031
 int drawable abc_textfield_search_material 0x7f020032
-int drawable ic_launcher 0x7f020033
-int drawable statafloorplan 0x7f020034
+int drawable fivefloorplanproject 0x7f020033
+int drawable ic_launcher 0x7f020034
+int drawable statafloorplan 0x7f020035
 int id action_bar 0x7f050033
 int id action_bar_activity_content 0x7f05001a
 int id action_bar_container 0x7f050032
@@ -353,7 +354,7 @@ int id activity_chooser_view_content 0x7f050023
 int id always 0x7f05000d
 int id beginning 0x7f050012
 int id bottom 0x7f050016
-int id btnGetLocation 0x7f050043
+int id btnGetLocation 0x7f050044
 int id btnSaveLocation 0x7f050041
 int id checkbox 0x7f05002b
 int id collapseActionView 0x7f05000f
@@ -400,7 +401,7 @@ int id submit_area 0x7f05003e
 int id tabMode 0x7f050003
 int id title 0x7f050029
 int id top 0x7f050015
-int id txtViewInstructions 0x7f050044
+int id txtViewInstructions 0x7f050043
 int id up 0x7f050018
 int id useLogo 0x7f050005
 int id withText 0x7f05000e

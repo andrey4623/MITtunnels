@@ -145,7 +145,7 @@ public class MainActivity extends ActionBarActivity {
 			public boolean onTouch(View v, MotionEvent event) {
 		
 				Bitmap bmp =  Bitmap.createBitmap(imageView.getMeasuredWidth(), imageView.getMeasuredHeight(), Config.ARGB_8888);
-				imageView.setBackgroundResource(R.drawable.statafloorplan);
+				imageView.setBackgroundResource(R.drawable.fivefloorplanproject);
 				Canvas  c = new Canvas(bmp);
 
 	            Paint p = new Paint();
@@ -156,6 +156,7 @@ public class MainActivity extends ActionBarActivity {
 	            p.setColor(color);
 	            currentx = event.getX();
 	            currenty = event.getY();
+	            //c.drawBitmap(bmp, 300, 300, p);
 	            c.drawCircle(event.getX(), event.getY(), 10, p);
 
 	            imageView.setImageBitmap(bmp);
@@ -182,6 +183,67 @@ public class MainActivity extends ActionBarActivity {
                 // Do something in response to button click
             	
             	
+            	
+            	
+            	final Bitmap bmp =  Bitmap.createBitmap(imageView.getMeasuredWidth(), imageView.getMeasuredHeight(), Config.ARGB_8888);
+				imageView.setBackgroundResource(R.drawable.fivefloorplanproject);
+				final Canvas  c = new Canvas(bmp);
+
+	            final Paint p = new Paint();
+	            int color = Color.WHITE;
+	            p.setColor(color);
+
+	            color = Color.RED;
+	            p.setColor(color);
+	            
+            	
+            	
+            	
+            	ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
+            	//query.whereEqualTo("MAC", tempm);
+            	
+            	query.findInBackground(new FindCallback<ParseObject>() {
+            	    public void done(List<ParseObject> scoreList, ParseException e) {
+            	        if (e == null) {
+            	        	
+            	        	for (int i=0; i<scoreList.size(); i++)
+            	        	{
+            	        	
+            	            String x = scoreList.get(i).getString("x");
+            	            String y = scoreList.get(i).getString("y");
+            	        	
+            	            float fl_x = Float.parseFloat(x);
+            	            float fl_y = Float.parseFloat(y);
+            	            
+            	            //drawPointOnGivenLocation(fl_x, fl_y);
+            				
+            				
+            	           // currentx = event.getX();
+            	            //currenty = event.getY();
+            	            //c.drawBitmap(bmp, 300, 300, p);
+            	            c.drawCircle(fl_x, fl_y, 10, p);
+            	        	}
+
+            	            imageView.setImageBitmap(bmp);
+            				
+            	            
+            	            
+            	            Log.d("score", "Retrieved " + scoreList.get(0).getString("x")+" "+scoreList.get(0).getString("y"));
+            	        } else {
+            	            Log.d("score", "Error: " + e.getMessage());
+            	        }
+            	    }
+            	});
+            	
+            	
+            	
+            	
+            	
+            	
+            	/*
+            	
+            	
+            	
             
             	
             	final ArrayList<AccessPoint> arrayList = new ArrayList<AccessPoint>();
@@ -203,12 +265,7 @@ public class MainActivity extends ActionBarActivity {
                         	   
                         	   
                            }
-                       /*    try {
-							wifiManager.wait();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}*/
+            
                            
                            //sort list
                            int size = arrayList.size();
@@ -232,8 +289,7 @@ public class MainActivity extends ActionBarActivity {
                            int a=1;
                            a=2;
                            String tempm = arrayList.get(0).MAC;
-                       /*	ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResults");
-                    	query.whereEqualTo("MAC", arrayList.get(0).MAC);*/
+                     
                     	
                     	ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
                     	query.whereEqualTo("MAC", tempm);
@@ -261,38 +317,21 @@ public class MainActivity extends ActionBarActivity {
                     	    }
                     	});
                     	
-                           
-                           /*AlertDialog.Builder builder1 = new AlertDialog.Builder(getBaseContext());
-                           builder1.setMessage("Write your message here.");
-                           builder1.setCancelable(true);
-                           builder1.setPositiveButton("Yes",
-                                   new DialogInterface.OnClickListener() {
-                               public void onClick(DialogInterface dialog, int id) {
-                                   dialog.cancel();
-                               }
-                           });
-                           builder1.setNegativeButton("No",
-                                   new DialogInterface.OnClickListener() {
-                               public void onClick(DialogInterface dialog, int id) {
-                                   dialog.cancel();
-                               }
-                           });
-
-                           AlertDialog alert11 = builder1.create();
-                           alert11.show();*/
+                     
                         }
 
         				
                 }, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)); 
                 wifiManager.startScan();
             	
-            	
+            	*/
             	
             	
             	
             	
             	
             }
+            
         });
         
         
@@ -309,7 +348,7 @@ public class MainActivity extends ActionBarActivity {
     private void drawPointOnGivenLocation(float x, float y)
     {
     	Bitmap bmp =  Bitmap.createBitmap(imageView.getMeasuredWidth(), imageView.getMeasuredHeight(), Config.ARGB_8888);
-		imageView.setBackgroundResource(R.drawable.statafloorplan);
+		imageView.setBackgroundResource(R.drawable.fivefloorplanproject);
 		Canvas  c = new Canvas(bmp);
 
         Paint p = new Paint();

@@ -1633,8 +1633,9 @@ containing a value of this type.
         public static final int abc_textfield_search_activated_mtrl_alpha=0x7f020030;
         public static final int abc_textfield_search_default_mtrl_alpha=0x7f020031;
         public static final int abc_textfield_search_material=0x7f020032;
-        public static final int ic_launcher=0x7f020033;
-        public static final int statafloorplan=0x7f020034;
+        public static final int fivefloorplanproject=0x7f020033;
+        public static final int ic_launcher=0x7f020034;
+        public static final int statafloorplan=0x7f020035;
     }
     public static final class id {
         public static final int action_bar=0x7f050033;
@@ -1655,7 +1656,7 @@ containing a value of this type.
         public static final int always=0x7f05000d;
         public static final int beginning=0x7f050012;
         public static final int bottom=0x7f050016;
-        public static final int btnGetLocation=0x7f050043;
+        public static final int btnGetLocation=0x7f050044;
         public static final int btnSaveLocation=0x7f050041;
         public static final int checkbox=0x7f05002b;
         public static final int collapseActionView=0x7f05000f;
@@ -1702,7 +1703,7 @@ containing a value of this type.
         public static final int tabMode=0x7f050003;
         public static final int title=0x7f050029;
         public static final int top=0x7f050015;
-        public static final int txtViewInstructions=0x7f050044;
+        public static final int txtViewInstructions=0x7f050043;
         public static final int up=0x7f050018;
         public static final int useLogo=0x7f050005;
         public static final int withText=0x7f05000e;
