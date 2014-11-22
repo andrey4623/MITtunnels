@@ -15,4 +15,5 @@
 <fullyQualifiedTypeName name="com.mit.mittunnels.R.raw"/>
 <fullyQualifiedTypeName name="android.graphics.Rect"/>
 <fullyQualifiedTypeName name="android.graphics.drawable.BitmapDrawable"/>
+<fullyQualifiedTypeName name="android.graphics.Point"/>
 </qualifiedTypeNameHistroy>

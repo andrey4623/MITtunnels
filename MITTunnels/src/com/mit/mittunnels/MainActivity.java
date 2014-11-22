@@ -34,6 +34,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.PictureDrawable;
@@ -53,10 +54,79 @@ import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
+	
+	private static final int SWIPE_THRESHOLD = 10;
+    private static final int SWIPE_VELOCITY_THRESHOLD = 10;
+    private static final int SWIPE_VELOCITY_MAPMOVE = 10;
+    
 	float currentx, currenty;
 	Button btnSaveLocation;
 	Button btnGetLocation;
+	Button btnMoveRight;
 	ImageView imageView;
+	int leftPos=0;
+	boolean isMapMoving=false;
+	Point pointStart;
+	Point pointCurrent;
+	
+	int x=250;
+	int y = 250;
+	
+	/** Called when the user touches the button */
+	public void moveMapRight(View view) {
+	    // Do something in response to button click
+		
+		//if (leftPos+310<500)
+		
+		x-=10;
+		
+		drawMap();
+	}
+	
+	  public void onSwipeRight() {
+		  x+=SWIPE_VELOCITY_MAPMOVE;
+		  drawMap();
+	    }
+
+	    public void onSwipeLeft() {
+	    	x-=SWIPE_VELOCITY_MAPMOVE;
+	    	drawMap();
+	    }
+
+	    public void onSwipeTop() {
+	    	y-=SWIPE_VELOCITY_MAPMOVE;
+	    	drawMap();
+	    }
+
+	    public void onSwipeBottom() {
+	    	y+=SWIPE_VELOCITY_MAPMOVE;
+	    	drawMap();
+	    }
+	
+	private void drawMap(){
+		SVG svg = SVGParser.getSVGFromString(readMapFromFile());
+    	PictureDrawable pictureDrawable = svg.createPictureDrawable();
+    	
+    	Bitmap bitmap = Bitmap.createBitmap(500, 500, Config.ARGB_8888);
+    	Canvas canvas = new Canvas(bitmap); 
+    	canvas.drawPicture(pictureDrawable.getPicture()); 
+    	
+    	int x1 = x-150;
+    			int y1=y-150;
+    			int x2=x+150;
+    			int y2= y+150;
+    	
+    			
+    			if ((x1<0)||(x2>400)||(y1<0)||(y2>400)) return;
+    	
+    			
+    			Bitmap yourBitmap = Bitmap.createBitmap(bitmap,x1,y1,x2,y2);
+    	Canvas yourcanvas = new Canvas(yourBitmap); 
+    	yourcanvas.drawBitmap(yourBitmap, 0,0, new Paint());
+
+    	imageView.setImageBitmap(yourBitmap);
+	}
+	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +137,23 @@ public class MainActivity extends ActionBarActivity {
         
         btnSaveLocation = (Button) findViewById(R.id.btnSaveLocation);
         btnGetLocation = (Button) findViewById(R.id.btnGetLocation);
+        btnMoveRight = (Button) findViewById(R.id.button1);
         imageView = (ImageView) findViewById(R.id.imgMap);
+        pointStart = new Point();
+        pointCurrent = new Point();
 		
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        
+        
+        
+        /*btnSaveLocation.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Do something in response to button click
+            	
+            
+            }
+        });
+        */
         
         btnSaveLocation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -160,6 +244,8 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 		
+				//The following code set pointer
+				/*
 				Bitmap bmp =  Bitmap.createBitmap(imageView.getMeasuredWidth(), imageView.getMeasuredHeight(), Config.ARGB_8888);
 				imageView.setBackgroundResource(R.drawable.fivefloorplanproject);
 				Canvas  c = new Canvas(bmp);
@@ -176,7 +262,7 @@ public class MainActivity extends ActionBarActivity {
 	            c.drawCircle(event.getX(), event.getY(), 10, p);
 
 	            imageView.setImageBitmap(bmp);
-				
+				*/
 				
 				
 				
@@ -185,7 +271,65 @@ public class MainActivity extends ActionBarActivity {
 		            switch (action) {
 
 		            case MotionEvent.ACTION_DOWN:
-		                Log.d(Float.toString(event.getRawX()),Float.toString(event.getRawY()));                                            
+		                
+		            	isMapMoving = true;
+		            	
+		            	
+		            	
+		            	pointStart.x = (int) event.getX();
+		            	pointStart.y = (int) event.getY();
+		            	
+		            	break;
+		                
+		            case MotionEvent.ACTION_MOVE:
+		            	
+		            	if (isMapMoving)
+		            	{
+		            		
+		            		pointCurrent.x = (int) event.getX();
+		            		pointCurrent.y = (int) event.getY();
+		            		
+		            		
+		            		
+		            		try {
+		                        int diffY = pointCurrent.y - pointStart.y;
+		                        int diffX = pointCurrent.x - pointStart.x;
+		                        if (Math.abs(diffX) > Math.abs(diffY)) {
+		                            if (Math.abs(diffX) > SWIPE_THRESHOLD ) {
+		                                if (diffX > 0) {
+		                                    onSwipeRight();
+		                                } else {
+		                                    onSwipeLeft();
+		                                }
+		                            }
+		                            //result = true;
+		                        } 
+		                        else if (Math.abs(diffY) > SWIPE_THRESHOLD ) {
+		                                if (diffY > 0) {
+		                                    onSwipeBottom();
+		                                } else {
+		                                    onSwipeTop();
+		                                }
+		                            }
+		                            //result = true;
+
+		                    } catch (Exception exception) {
+		                        exception.printStackTrace();
+		                    }
+		            		
+		            		
+		            		
+		            		
+		            	}
+		            		//x-=10;
+		            	//drawMap();
+		            		
+		                break;
+		                
+		            case MotionEvent.ACTION_UP:
+		            	isMapMoving = false;
+		            	
+		                imageView.invalidate();
 		                break;
 		            }
 				return true;
@@ -199,18 +343,7 @@ public class MainActivity extends ActionBarActivity {
                 // Do something in response to button click
             	
             	
-            	SVG svg = SVGParser.getSVGFromString(readMapFromFile());
-            	PictureDrawable pictureDrawable = svg.createPictureDrawable();
-            	
-            	Bitmap bitmap = Bitmap.createBitmap(500, 500, Config.ARGB_8888);
-            	Canvas canvas = new Canvas(bitmap); 
-            	canvas.drawPicture(pictureDrawable.getPicture()); 
-            	
-            	Bitmap yourBitmap = Bitmap.createBitmap(bitmap,0,0,300,300);
-            	Canvas yourcanvas = new Canvas(yourBitmap); 
-            	yourcanvas.drawBitmap(yourBitmap, 0,0, new Paint());
-
-            	imageView.setImageBitmap(yourBitmap);
+            	drawMap();
 				
             	
             	/*

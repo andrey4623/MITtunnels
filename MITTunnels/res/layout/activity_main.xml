@@ -41,4 +41,13 @@
         android:layout_marginTop="20dp"
         android:text="Get Current Location" />
 
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnGetLocation"
+        android:layout_toRightOf="@+id/btnGetLocation"
+        android:text="Move right"
+        android:onClick="moveMapRight" />
+
 </RelativeLayout>
