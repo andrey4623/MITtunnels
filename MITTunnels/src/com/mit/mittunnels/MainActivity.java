@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
 
 	private float currentx, currenty;
 	private Button btnSaveLocation;
-	private Button btnGetLocation;
+	//private Button btnGetLocation;
 	private Button btnMoveRight;
 	private Button btnZoomIn;
 	private Button btnZoomOut;
@@ -71,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
 	private boolean isMapMoving = false;
 	private Point pointStart;
 	private Point pointCurrent;
-	private TextView textViewDevelopers;
+	//private TextView textViewDevelopers;
 
 	private int mapMaxWidth = 640;
 	private int mapMaxHeight = 480;
@@ -170,7 +170,7 @@ public class MainActivity extends ActionBarActivity {
 
 		String str = Integer.toString(x1) + " " + Integer.toString(y1) + " "
 				+ Integer.toString(x2) + " " + Integer.toString(y2) + " ";
-		textViewDevelopers.setText(str);
+		//textViewDevelopers.setText(str);
 		Bitmap yourBitmap = Bitmap.createBitmap(bitmap, x1, y1, x2 - x1, y2
 				- y1);
 		Bitmap tempBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
@@ -203,7 +203,7 @@ public class MainActivity extends ActionBarActivity {
 				"fSFmvqwVMeuhsuzavaa7KJAMg5XDPhN0CcjTDiFE");
 
 		btnSaveLocation = (Button) findViewById(R.id.btnSaveLocation);
-		btnGetLocation = (Button) findViewById(R.id.btnGetLocation);
+		//btnGetLocation = (Button) findViewById(R.id.btnGetLocation);
 		btnMoveRight = (Button) findViewById(R.id.btnZoomIn);
 		btnZoomIn = (Button) findViewById(R.id.btnZoomIn);
 		btnZoomOut = (Button) findViewById(R.id.btnZoomOut);
@@ -211,7 +211,7 @@ public class MainActivity extends ActionBarActivity {
 		pointStart = new Point();
 		pointCurrent = new Point();
 
-		textViewDevelopers = (TextView) findViewById(R.id.txtViewInstructions);
+		//textViewDevelopers = (TextView) findViewById(R.id.txtViewInstructions);
 		loadMap();// load the svg file
 
 		mapMaxWidth = 500;
@@ -372,8 +372,8 @@ public class MainActivity extends ActionBarActivity {
 
 		});
 
-		btnGetLocation.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
+		//btnGetLocation.setOnClickListener(new View.OnClickListener() {
+		//	public void onClick(View v) {
 
 				/*
 				 * 
@@ -448,11 +448,20 @@ public class MainActivity extends ActionBarActivity {
 				 * wifiManager.startScan();
 				 */
 
-			}
+			//}
 
-		});
+		//});
 
+		
+		
+		//show the map 
+		x = (int)mapMaxWidth/2;
+		y = (int)mapMaxHeight/2;
+		drawMap();
+		
 	}
+	
+	
 
 	public String readMapFromFile() {
 		StringBuffer datax = new StringBuffer("");

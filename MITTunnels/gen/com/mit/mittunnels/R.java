@@ -1656,10 +1656,10 @@ containing a value of this type.
         public static final int always=0x7f06000d;
         public static final int beginning=0x7f060012;
         public static final int bottom=0x7f060016;
-        public static final int btnGetLocation=0x7f060044;
-        public static final int btnSaveLocation=0x7f060041;
-        public static final int btnZoomIn=0x7f060045;
-        public static final int btnZoomOut=0x7f060046;
+        public static final int btnSaveLocation=0x7f060044;
+        public static final int btnZoomIn=0x7f060042;
+        public static final int btnZoomOut=0x7f060043;
+        public static final int button1=0x7f060046;
         public static final int checkbox=0x7f06002b;
         public static final int collapseActionView=0x7f06000f;
         public static final int decor_content_parent=0x7f060031;
@@ -1671,12 +1671,13 @@ containing a value of this type.
         public static final int end=0x7f060014;
         public static final int expand_activities_button=0x7f060024;
         public static final int expanded_menu=0x7f06002a;
+        public static final int fakeView=0x7f060041;
         public static final int home=0x7f060017;
         public static final int homeAsUp=0x7f060007;
         public static final int icon=0x7f060028;
         public static final int ifRoom=0x7f06000c;
         public static final int image=0x7f060025;
-        public static final int imgMap=0x7f060042;
+        public static final int imgMap=0x7f060045;
         public static final int listMode=0x7f060002;
         public static final int list_item=0x7f060027;
         public static final int middle=0x7f060013;
@@ -1705,7 +1706,6 @@ containing a value of this type.
         public static final int tabMode=0x7f060003;
         public static final int title=0x7f060029;
         public static final int top=0x7f060015;
-        public static final int txtViewInstructions=0x7f060043;
         public static final int up=0x7f060018;
         public static final int useLogo=0x7f060005;
         public static final int withText=0x7f06000e;

@@ -354,10 +354,10 @@ int id activity_chooser_view_content 0x7f060023
 int id always 0x7f06000d
 int id beginning 0x7f060012
 int id bottom 0x7f060016
-int id btnGetLocation 0x7f060044
-int id btnSaveLocation 0x7f060041
-int id btnZoomIn 0x7f060045
-int id btnZoomOut 0x7f060046
+int id btnSaveLocation 0x7f060044
+int id btnZoomIn 0x7f060042
+int id btnZoomOut 0x7f060043
+int id button1 0x7f060046
 int id checkbox 0x7f06002b
 int id collapseActionView 0x7f06000f
 int id decor_content_parent 0x7f060031
@@ -369,12 +369,13 @@ int id edit_query 0x7f060035
 int id end 0x7f060014
 int id expand_activities_button 0x7f060024
 int id expanded_menu 0x7f06002a
+int id fakeView 0x7f060041
 int id home 0x7f060017
 int id homeAsUp 0x7f060007
 int id icon 0x7f060028
 int id ifRoom 0x7f06000c
 int id image 0x7f060025
-int id imgMap 0x7f060042
+int id imgMap 0x7f060045
 int id listMode 0x7f060002
 int id list_item 0x7f060027
 int id middle 0x7f060013
@@ -403,7 +404,6 @@ int id submit_area 0x7f06003e
 int id tabMode 0x7f060003
 int id title 0x7f060029
 int id top 0x7f060015
-int id txtViewInstructions 0x7f060043
 int id up 0x7f060018
 int id useLogo 0x7f060005
 int id withText 0x7f06000e
