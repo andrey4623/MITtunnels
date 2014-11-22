@@ -1,8 +1,13 @@
 package com.mit.mittunnels;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -29,6 +34,8 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.PictureDrawable;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
@@ -192,62 +199,19 @@ public class MainActivity extends ActionBarActivity {
                 // Do something in response to button click
             	
             	
+            	SVG svg = SVGParser.getSVGFromString(readMapFromFile());
+            	PictureDrawable pictureDrawable = svg.createPictureDrawable();
             	
+            	Bitmap bitmap = Bitmap.createBitmap(500, 500, Config.ARGB_8888);
+            	Canvas canvas = new Canvas(bitmap); 
+            	canvas.drawPicture(pictureDrawable.getPicture()); 
             	
-            	final Bitmap bmp =  Bitmap.createBitmap(imageView.getMeasuredWidth(), imageView.getMeasuredHeight(), Config.ARGB_8888);
-				imageView.setBackgroundResource(R.drawable.fivefloorplanproject);
-				final Canvas  c = new Canvas(bmp);
+            	Bitmap yourBitmap = Bitmap.createBitmap(bitmap,0,0,300,300);
+            	Canvas yourcanvas = new Canvas(yourBitmap); 
+            	yourcanvas.drawBitmap(yourBitmap, 0,0, new Paint());
 
-	            final Paint p = new Paint();
-	            int color = Color.WHITE;
-	            p.setColor(color);
-
-	            color = Color.RED;
-	            p.setColor(color);
-	            
-            	
-            	
-            	
-            	ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
-            	//query.whereEqualTo("MAC", tempm);
-            	
-            	query.findInBackground(new FindCallback<ParseObject>() {
-            	    public void done(List<ParseObject> scoreList, ParseException e) {
-            	        if (e == null) {
-            	        	
-            	        	for (int i=0; i<scoreList.size(); i++)
-            	        	{
-            	        	
-            	            String x = scoreList.get(i).getString("x");
-            	            String y = scoreList.get(i).getString("y");
-            	        	
-            	            float fl_x = Float.parseFloat(x);
-            	            float fl_y = Float.parseFloat(y);
-            	            
-            	            //drawPointOnGivenLocation(fl_x, fl_y);
-            				
-            				
-            	           // currentx = event.getX();
-            	            //currenty = event.getY();
-            	            //c.drawBitmap(bmp, 300, 300, p);
-            	            c.drawCircle(fl_x, fl_y, 10, p);
-            	        	}
-
-            	            imageView.setImageBitmap(bmp);
-            				
-            	            
-            	            
-            	            Log.d("score", "Retrieved " + scoreList.get(0).getString("x")+" "+scoreList.get(0).getString("y"));
-            	        } else {
-            	            Log.d("score", "Error: " + e.getMessage());
-            	        }
-            	    }
-            	});
-            	
-            	
-            	
-            	
-            	
+            	imageView.setImageBitmap(yourBitmap);
+				
             	
             	/*
             	
@@ -346,6 +310,30 @@ public class MainActivity extends ActionBarActivity {
         
     }
 
+    
+    public String readMapFromFile ( ) {
+        StringBuffer datax = new StringBuffer("");
+        try {
+   //         FileInputStream fIn = openFileInput (R.raw.map ) ;
+   
+            InputStream is = this.getResources().openRawResource(R.raw.map);
+            
+            InputStreamReader isr = new InputStreamReader (is) ;
+            BufferedReader buffreader = new BufferedReader ( isr ) ;
+
+            String readString = buffreader.readLine ( ) ;
+            while ( readString != null ) {
+                datax.append(readString);
+                readString = buffreader.readLine ( ) ;
+            }
+
+            isr.close ( ) ;
+        } catch ( IOException ioe ) {
+            ioe.printStackTrace ( ) ;
+        }
+        return datax.toString() ;
+    }
+    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
