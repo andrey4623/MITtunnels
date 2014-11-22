@@ -349,14 +349,15 @@ int id action_menu_presenter 0x7f06001d
 int id action_mode_bar 0x7f060030
 int id action_mode_bar_stub 0x7f06002f
 int id action_mode_close_button 0x7f060022
-int id action_settings 0x7f060046
+int id action_settings 0x7f060047
 int id activity_chooser_view_content 0x7f060023
 int id always 0x7f06000d
 int id beginning 0x7f060012
 int id bottom 0x7f060016
 int id btnGetLocation 0x7f060044
 int id btnSaveLocation 0x7f060041
-int id button1 0x7f060045
+int id btnZoomIn 0x7f060045
+int id btnZoomOut 0x7f060046
 int id checkbox 0x7f06002b
 int id collapseActionView 0x7f06000f
 int id decor_content_parent 0x7f060031

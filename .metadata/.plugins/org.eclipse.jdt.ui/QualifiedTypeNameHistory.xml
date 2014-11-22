@@ -16,4 +16,5 @@
 <fullyQualifiedTypeName name="android.graphics.Rect"/>
 <fullyQualifiedTypeName name="android.graphics.drawable.BitmapDrawable"/>
 <fullyQualifiedTypeName name="android.graphics.Point"/>
+<fullyQualifiedTypeName name="android.widget.TextView"/>
 </qualifiedTypeNameHistroy>
