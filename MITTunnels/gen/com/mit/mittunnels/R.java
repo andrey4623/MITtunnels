@@ -1768,6 +1768,7 @@ containing a value of this type.
     }
     public static final class raw {
         public static final int map=0x7f050000;
+        public static final int map2=0x7f050001;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
