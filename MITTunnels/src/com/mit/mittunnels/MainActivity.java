@@ -471,7 +471,7 @@ public class MainActivity extends ActionBarActivity {
 					
 					int xx1 = pointCurrent.x;
 					int yy1 = pointCurrent.y;
-					if ((pointStartStart.x==pointCurrent.x)&&(pointStartStart.y==pointCurrent.y))
+					if ((Math.abs(pointStartStart.x-pointCurrent.x)<10)&&(Math.abs(pointStartStart.y-pointCurrent.y)<10))
 					{
 						
 						int[] viewCoords = new int[2];
@@ -483,7 +483,12 @@ public class MainActivity extends ActionBarActivity {
 						int imageX = touchX;// - viewCoords[0]; // viewCoords[0] is the X coordinate
 						int imageY = touchY;// - viewCoords[1]; 
 						
-						Point point = new Point(imageX,imageY);
+						
+						int x1 = x - (int) CURRENT_VIEW_WIDTH / 2;
+						int y1 = y - (int) CURRENT_VIEW_HEIGHT / 2;
+						
+						
+						Point point = new Point(imageX+x1,imageY+y1);
 						_spots.add(point);
 						drawMap();
 
