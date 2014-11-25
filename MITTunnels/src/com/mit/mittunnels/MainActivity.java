@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -74,8 +75,8 @@ public class MainActivity extends ActionBarActivity {
 	private Point pointCurrent;
 	//private TextView textViewDevelopers;
 
-	private int mapMaxWidth = 1000;
-	private int mapMaxHeight = 1000;
+	private int mapMaxWidth = 575;
+	private int mapMaxHeight = 745;
 	
 	private int mapVisiblePhisicalWidth=-1;
 	private int mapVisiblePhisicalHeight=-1;
@@ -244,6 +245,7 @@ public class MainActivity extends ActionBarActivity {
 		SVG svg = SVGParser.getSVGFromString(readMapFromFile());
 		pictureDrawable = svg.createPictureDrawable();
 		bitmap = Bitmap.createBitmap(mapMaxWidth, mapMaxHeight, Config.ARGB_8888);
+		//bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fivefloorplanproject);
 		canvas = new Canvas(bitmap);
 		canvas.drawPicture(pictureDrawable.getPicture());
 	}

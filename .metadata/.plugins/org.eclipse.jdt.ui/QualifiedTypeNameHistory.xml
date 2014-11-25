@@ -18,4 +18,5 @@
 <fullyQualifiedTypeName name="android.graphics.Point"/>
 <fullyQualifiedTypeName name="android.widget.TextView"/>
 <fullyQualifiedTypeName name="android.widget.ImageView"/>
+<fullyQualifiedTypeName name="android.graphics.BitmapFactory"/>
 </qualifiedTypeNameHistroy>
