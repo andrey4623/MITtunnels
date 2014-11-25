@@ -24,6 +24,7 @@ import com.parse.SaveCallback;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.AlertDialog;
+import android.app.PendingIntent.OnFinished;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -82,6 +83,9 @@ public class MainActivity extends ActionBarActivity {
 	
 	private int mapVisiblePhisicalWidth=-1;
 	private int mapVisiblePhisicalHeight=-1;
+	
+	private int spotX=-1;
+	private int spotY=-1;
 
 	private int x = 250;
 	private int y = 250;
@@ -288,6 +292,8 @@ public class MainActivity extends ActionBarActivity {
 		pointCurrent = new Point();
 		_spots = new ArrayList<Point>();
 		
+		
+		
 		//textViewDevelopers = (TextView) findViewById(R.id.txtViewInstructions);
 		loadMap();// load the svg file
 
@@ -334,28 +340,65 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				// get list of network
 				
-				if ((pointStartStart.x==-1)||(pointStartStart.y==-1)) return;
+				if ((spotX == -1) || (spotY == -1)) {
+					AlertDialog alertDialogNoLocation = new AlertDialog.Builder(
+							MainActivity.this).create();
+					alertDialogNoLocation
+					.setMessage("Please select a location first");
+					alertDialogNoLocation.setButton(
+							DialogInterface.BUTTON_POSITIVE, "OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int which) {
+									// System.exit(0);
+								}
+							});
 
+					alertDialogNoLocation.show();
+					return;
+				}
+				
+				
+				
 				final WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 				registerReceiver(new BroadcastReceiver() {
+					
+					
 					@Override
 					public void onReceive(Context c, Intent intent) {
 						List<ScanResult> results = wifiManager.getScanResults();
+						final int size = results.size();
+						if (size <= 0) {
+							
+						}else
+						{
+							final String str="";
+							
 						for (ScanResult ap : results) {
 
 							ParseObject testObject = new ParseObject(
 									"ScanResult");
-							testObject.put("x", Integer.toString(pointStartStart.x));
-							testObject.put("y", Integer.toString(pointStartStart.y));
+							testObject.put("x", Integer.toString(spotX));
+							testObject.put("y", Integer.toString(spotY));
 							testObject.put("SSID", ap.SSID);
 							testObject.put("MAC", ap.BSSID);
 							testObject.put("LEVEL", ap.level);
+							
+							//str+=ap.SSID+" ";
 
 							testObject.saveInBackground(new SaveCallback() {
 								public void done(ParseException e) {
 									if (e == null) {
 										// myObjectSavedSuccessfully();
+										AlertDialog myAlertDialog = new AlertDialog.Builder(MainActivity.this).create();
+										myAlertDialog.setMessage("New location has been saved.");
+										myAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+										    public void onClick(DialogInterface dialog, int which) {
+										       // System.exit(0);
+										    }
+										});
 
+										myAlertDialog.show();
 									} else {
 
 									}
@@ -366,6 +409,7 @@ public class MainActivity extends ActionBarActivity {
 							Log.d("", "SSID=" + ap.SSID + " MAC=" + ap.BSSID
 									+ " LEVEL=" + ap.level);
 
+						}
 						}
 					}
 
@@ -487,8 +531,10 @@ public class MainActivity extends ActionBarActivity {
 						int x1 = x - (int) CURRENT_VIEW_WIDTH / 2;
 						int y1 = y - (int) CURRENT_VIEW_HEIGHT / 2;
 						
+						spotX = imageX+x1;
+						spotY = imageY+y1;
 						
-						Point point = new Point(imageX+x1,imageY+y1);
+						Point point = new Point(spotX,spotY);
 						_spots.add(point);
 						drawMap();
 

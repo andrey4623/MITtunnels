@@ -23,4 +23,7 @@
 <fullyQualifiedTypeName name="android.graphics.drawable.Drawable"/>
 <fullyQualifiedTypeName name="java.lang.Exception"/>
 <fullyQualifiedTypeName name="android.view.Display"/>
+<fullyQualifiedTypeName name="android.content.DialogInterface"/>
+<fullyQualifiedTypeName name="android.app.PendingIntent.OnFinished"/>
+<fullyQualifiedTypeName name="com.mit.mittunnels.MainActivity"/>
 </qualifiedTypeNameHistroy>
