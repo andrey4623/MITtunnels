@@ -283,7 +283,7 @@ public class MainActivity extends ActionBarActivity {
 		//bitmap = Bitmap.createBitmap(mapMaxWidth, mapMaxHeight, Config.ARGB_8888);
 		
 		//Drawable myIcon = getResources().getDrawable( R.drawable.mit );
-		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mit);
+		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.g);
 		
 		 mapMaxWidth = bitmap.getWidth();
 		mapMaxHeight = bitmap.getHeight();

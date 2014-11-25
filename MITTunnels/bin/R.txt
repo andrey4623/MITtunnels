@@ -334,9 +334,11 @@ int drawable abc_textfield_search_activated_mtrl_alpha 0x7f020030
 int drawable abc_textfield_search_default_mtrl_alpha 0x7f020031
 int drawable abc_textfield_search_material 0x7f020032
 int drawable fivefloorplanproject 0x7f020033
-int drawable ic_launcher 0x7f020034
-int drawable mit 0x7f020035
-int drawable statafloorplan 0x7f020036
+int drawable fivefloorplanproject3 0x7f020034
+int drawable g 0x7f020035
+int drawable ic_launcher 0x7f020036
+int drawable mit 0x7f020037
+int drawable statafloorplan 0x7f020038
 int id action_bar 0x7f060033
 int id action_bar_activity_content 0x7f06001a
 int id action_bar_container 0x7f060032
