@@ -91,8 +91,30 @@ public class MainActivity extends ActionBarActivity {
 	private int y = 250;
 	private ArrayList<Point> _spots;
 	
-	private void drawSpot(Point point){
-		
+	private void getPointsFromDatabase() {
+
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
+
+		query.findInBackground(new FindCallback<ParseObject>() {
+			public void done(List<ParseObject> scoreList, ParseException e) {
+				if (e == null) {
+					for (int i = 0; i < scoreList.size(); i++) {
+						String x = scoreList.get(i).getString("x");
+						String y = scoreList.get(i).getString("y");
+
+						int fl_x = Integer.parseInt(x);
+						int fl_y = Integer.parseInt(y);
+						Point point = new Point(fl_x, fl_y);
+						_spots.add(point);
+
+					}
+					drawMap();
+				} else {
+					Log.d("score", "Error: " + e.getMessage());
+				}
+			}
+		});
+
 	}
 
 	/** Called when the user touches the button */
@@ -302,7 +324,7 @@ public class MainActivity extends ActionBarActivity {
 		CURRENT_VIEW_HEIGHT = 705;
 		
 		
-		
+		getPointsFromDatabase();
 		
 		//imageView.onSizechanged(); 
 	//	mapVisiblePhisicalWidth = 500;//imageView.getWidth();
