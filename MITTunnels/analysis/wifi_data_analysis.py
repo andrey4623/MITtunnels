@@ -8,9 +8,11 @@ data = json.load(json_data)
 
 print(type(data))
 locations = {}
+macs = {}
 
 for x in data['results']:
     locations[x['x'] + ", " + x['y']] = []#.append({x['MAC'] : x['LEVEL']})
+    macs[x['MAC']] = x['MAC'] 
 
 for x in data['results']:
     locations[x['x'] + ", " + x['y']].append({'MAC':x['MAC'], 'LEVEL': x['LEVEL'], 'x':x['x'], 'y':x['y']})
@@ -20,11 +22,11 @@ for x in locations:
 
 distances_loc = []
 distances_signal = []
-color_list = ["Black", "Bisque", "Red", "DimGray", "SkyBlue", "Orange", "DeepPink", "BlueViolet", "SaddleBrown", "Yellow", "Green", "IndianRed", "Salmon", "SpringGreen", "DarkOliveGreen", "LightSteelBlue", "Ivory", "Gray", "MistyRose", "Goldenrod", "Orchid"]
+color_list = ["Black", "Green", "Red", "DimGray", "SkyBlue", "Orange", "DeepPink", "BlueViolet", "Yellow", "Green", "IndianRed",  "SpringGreen", "DarkOliveGreen", "LightSteelBlue", "Ivory", "Gray", "MistyRose", "Goldenrod", "Orchid"]
 colors = []
 color_count = 0 
 
-"""for a, i in locations.items():
+for a, i in locations.items():
     color_count += 1
     for b, j in locations.items():
         if i != j:
@@ -37,10 +39,18 @@ color_count = 0
                     if k['MAC'] == l['MAC']:
                         current_dist -=  float(l['LEVEL'])
                 dist_sum += current_dist**2
+            for k in j:
+               ##print(k)
+                current_dist = float(k['LEVEL'])
+                for l in i:
+                    if k['MAC'] == l['MAC']:
+                        current_dist = 0
+                dist_sum += current_dist**2
+
             distances_loc.append(loc_dist)
             distances_signal.append(dist_sum**.5)
 	    colors.append(color_list[color_count-1])
-"""
+
  
 #plt.figure(1)           
 #plt.subplot(111)
@@ -49,7 +59,7 @@ color_count = 0
 #plt.ylabel('Signal Euclidian Distance')
 #plt.xlabel('Physical Distance')
 
-            
+"""
 for a, i in locations.items():
     color_count += 1
     for b, j in locations.items():
@@ -68,10 +78,24 @@ for a, i in locations.items():
                             current_dist += 0
                         else:
                             current_dist -= 1
-                dist_sum += current_dist
-            distances_loc.append(loc_dist)
-            distances_signal.append(dist_sum**.5)
+                dist_sum += abs(current_dist)
+            for k in j:
+                if k['LEVEL'] == '0':
+                    current_dist = 0
+                else:
+                    current_dist = 1
+                for l in i:
+                    if k['MAC'] == l['MAC']:
+                        if l['LEVEL'] == '0':
+                            current_dist += 0
+                        else:
+                            current_dist -= 1
+                dist_sum += abs(current_dist)
+
+	    distances_loc.append(loc_dist)
+            distances_signal.append(dist_sum)
             colors.append(color_list[color_count-1])
+"""
 #            
 #
 #plt.scatter(distances_loc, distances_signal)
