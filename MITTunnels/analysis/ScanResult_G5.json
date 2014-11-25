@@ -1,0 +1,722 @@
+{ "results": [
+	{
+        "LEVEL": -52,
+        "MAC": "06:18:0a:30:05:14",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:50:36.495Z",
+        "objectId": "p2qvVHZ471",
+        "updatedAt": "2014-11-21T21:50:36.495Z",
+        "x": "201.0",
+        "y": "263.0"
+    },
+	{
+        "LEVEL": -78,
+        "MAC": "00:18:0a:38:ca:9c",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:50:36.504Z",
+        "objectId": "efnqKTlB07",
+        "updatedAt": "2014-11-21T21:50:36.504Z",
+        "x": "201.0",
+        "y": "263.0"
+    },
+	{
+        "LEVEL": -80,
+        "MAC": "06:18:0a:38:ca:9c",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:50:36.517Z",
+        "objectId": "Gl1KVFOpWk",
+        "updatedAt": "2014-11-21T21:50:36.517Z",
+        "x": "201.0",
+        "y": "263.0"
+    },
+	{
+        "LEVEL": -81,
+        "MAC": "06:18:0a:30:07:1f",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:50:36.519Z",
+        "objectId": "ftX5LWF4sE",
+        "updatedAt": "2014-11-21T21:50:36.519Z",
+        "x": "201.0",
+        "y": "263.0"
+    },
+	{
+        "LEVEL": -80,
+        "MAC": "00:18:0a:30:07:1f",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:50:36.529Z",
+        "objectId": "b3jQ3uexFD",
+        "updatedAt": "2014-11-21T21:50:36.529Z",
+        "x": "201.0",
+        "y": "263.0"
+    },
+	{
+        "LEVEL": -68,
+        "MAC": "06:18:0a:30:05:14",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:52:06.218Z",
+        "objectId": "BCwKFWJ2c3",
+        "updatedAt": "2014-11-21T21:52:06.218Z",
+        "x": "156.50633",
+        "y": "255.0"
+    },
+	{
+        "LEVEL": -78,
+        "MAC": "00:18:0a:30:04:a2",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:52:06.221Z",
+        "objectId": "0hxK2KPRUP",
+        "updatedAt": "2014-11-21T21:52:06.221Z",
+        "x": "156.50633",
+        "y": "255.0"
+    },
+	{
+        "LEVEL": -78,
+        "MAC": "06:18:0a:30:04:a2",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:52:06.223Z",
+        "objectId": "dWBikbXsMI",
+        "updatedAt": "2014-11-21T21:52:06.223Z",
+        "x": "156.50633",
+        "y": "255.0"
+    },
+	{
+        "LEVEL": -64,
+        "MAC": "06:18:0a:30:04:a2",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:53:22.839Z",
+        "objectId": "N6C3j03Ec6",
+        "updatedAt": "2014-11-21T21:53:22.839Z",
+        "x": "73.0",
+        "y": "394.0"
+    },
+	{
+        "LEVEL": -68,
+        "MAC": "06:18:0a:30:05:14",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:53:22.844Z",
+        "objectId": "nve1mBbSre",
+        "updatedAt": "2014-11-21T21:53:22.844Z",
+        "x": "73.0",
+        "y": "394.0"
+    },
+	{
+        "LEVEL": -80,
+        "MAC": "00:18:0a:38:ca:9c",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:53:22.847Z",
+        "objectId": "UTJbaXpeE1",
+        "updatedAt": "2014-11-21T21:53:22.847Z",
+        "x": "73.0",
+        "y": "394.0"
+    },
+	{
+        "LEVEL": -81,
+        "MAC": "06:18:0a:38:ca:9c",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:53:22.846Z",
+        "objectId": "5LgbKt5XiF",
+        "updatedAt": "2014-11-21T21:53:22.846Z",
+        "x": "73.0",
+        "y": "394.0"
+    },
+	{
+        "LEVEL": -49,
+        "MAC": "06:18:0a:38:ca:9c",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:54:42.916Z",
+        "objectId": "ZUsDYmdDtY",
+        "updatedAt": "2014-11-21T21:54:42.916Z",
+        "x": "200.0",
+        "y": "436.0"
+    },
+	{
+        "LEVEL": -86,
+        "MAC": "3c:15:c2:f2:86:8c",
+        "SSID": "TS",
+        "createdAt": "2014-11-21T21:54:42.924Z",
+        "objectId": "ZBJQuiRgoJ",
+        "updatedAt": "2014-11-21T21:54:42.924Z",
+        "x": "200.0",
+        "y": "436.0"
+    },
+	{
+        "LEVEL": -69,
+        "MAC": "06:18:0a:30:04:a2",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:54:42.922Z",
+        "objectId": "scSdtUap0H",
+        "updatedAt": "2014-11-21T21:54:42.922Z",
+        "x": "200.0",
+        "y": "436.0"
+    },
+	{
+        "LEVEL": -68,
+        "MAC": "06:18:0a:30:05:14",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:54:42.998Z",
+        "objectId": "7MNvvkGOee",
+        "updatedAt": "2014-11-21T21:54:42.998Z",
+        "x": "200.0",
+        "y": "436.0"
+    },
+	{
+        "LEVEL": -80,
+        "MAC": "00:18:0a:30:04:a8",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:55:08.921Z",
+        "objectId": "ftfcvcwS2F",
+        "updatedAt": "2014-11-21T21:55:08.921Z",
+        "x": "237.0",
+        "y": "422.0"
+    },
+	{
+        "LEVEL": -75,
+        "MAC": "3c:15:c2:f2:86:8c",
+        "SSID": "TS",
+        "createdAt": "2014-11-21T21:55:08.934Z",
+        "objectId": "SihinYzwZx",
+        "updatedAt": "2014-11-21T21:55:08.934Z",
+        "x": "237.0",
+        "y": "422.0"
+    },
+	{
+        "LEVEL": -66,
+        "MAC": "06:18:0a:30:04:a2",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:55:08.935Z",
+        "objectId": "bHj9SyFeEO",
+        "updatedAt": "2014-11-21T21:55:08.935Z",
+        "x": "237.0",
+        "y": "422.0"
+    },
+	{
+        "LEVEL": -68,
+        "MAC": "06:18:0a:30:05:14",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:55:08.937Z",
+        "objectId": "F9ToDcCbHF",
+        "updatedAt": "2014-11-21T21:55:08.937Z",
+        "x": "237.0",
+        "y": "422.0"
+    },
+	{
+        "LEVEL": -48,
+        "MAC": "06:18:0a:38:ca:9c",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:55:08.939Z",
+        "objectId": "2UAFTpV68h",
+        "updatedAt": "2014-11-21T21:55:08.939Z",
+        "x": "237.0",
+        "y": "422.0"
+    },
+	{
+        "LEVEL": -70,
+        "MAC": "06:18:0a:30:05:1b",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:55:08.982Z",
+        "objectId": "yr1czj1r8t",
+        "updatedAt": "2014-11-21T21:55:08.982Z",
+        "x": "237.0",
+        "y": "422.0"
+    },
+	{
+        "LEVEL": -73,
+        "MAC": "06:18:0a:30:04:a8",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:55:08.996Z",
+        "objectId": "laNW9Y6Tzk",
+        "updatedAt": "2014-11-21T21:55:08.996Z",
+        "x": "237.0",
+        "y": "422.0"
+    },
+	{
+        "LEVEL": -81,
+        "MAC": "00:18:0a:30:07:1f",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:55:35.486Z",
+        "objectId": "KfkYsHzyjr",
+        "updatedAt": "2014-11-21T21:55:35.486Z",
+        "x": "135.0",
+        "y": "350.0"
+    },
+	{
+        "LEVEL": -65,
+        "MAC": "06:18:0a:30:05:14",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:55:35.510Z",
+        "objectId": "h1ep5w0B4f",
+        "updatedAt": "2014-11-21T21:55:35.510Z",
+        "x": "135.0",
+        "y": "350.0"
+    },
+	{
+        "LEVEL": -80,
+        "MAC": "00:18:0a:30:07:20",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:55:35.526Z",
+        "objectId": "vXMZK9QSed",
+        "updatedAt": "2014-11-21T21:55:35.526Z",
+        "x": "135.0",
+        "y": "350.0"
+    },
+	{
+        "LEVEL": -90,
+        "MAC": "b8:8d:12:63:6a:29",
+        "SSID": "478",
+        "createdAt": "2014-11-21T21:55:35.530Z",
+        "objectId": "FyVUt6yZNo",
+        "updatedAt": "2014-11-21T21:55:35.530Z",
+        "x": "135.0",
+        "y": "350.0"
+    },
+	{
+        "LEVEL": -58,
+        "MAC": "06:18:0a:38:ca:9c",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:55:35.531Z",
+        "objectId": "upWRNe14vz",
+        "updatedAt": "2014-11-21T21:55:35.531Z",
+        "x": "135.0",
+        "y": "350.0"
+    },
+	{
+        "LEVEL": -60,
+        "MAC": "06:18:0a:30:04:a2",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:55:35.530Z",
+        "objectId": "v0di9nYAQl",
+        "updatedAt": "2014-11-21T21:55:35.530Z",
+        "x": "135.0",
+        "y": "350.0"
+    },
+	{
+        "LEVEL": -77,
+        "MAC": "06:18:0a:30:07:20",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:55:35.576Z",
+        "objectId": "HQhj0PZB0K",
+        "updatedAt": "2014-11-21T21:55:35.576Z",
+        "x": "135.0",
+        "y": "350.0"
+    },
+	{
+        "LEVEL": -81,
+        "MAC": "06:18:0a:30:07:1f",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:55:35.603Z",
+        "objectId": "pBe6lL0jtE",
+        "updatedAt": "2014-11-21T21:55:35.603Z",
+        "x": "135.0",
+        "y": "350.0"
+    },
+	{
+        "LEVEL": -70,
+        "MAC": "06:18:0a:30:04:a2",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:08.215Z",
+        "objectId": "f4JEmtqiXM",
+        "updatedAt": "2014-11-21T21:56:08.215Z",
+        "x": "231.0",
+        "y": "373.0"
+    },
+	{
+        "LEVEL": -84,
+        "MAC": "00:18:0a:30:07:20",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:56:08.225Z",
+        "objectId": "C3o04KBRH6",
+        "updatedAt": "2014-11-21T21:56:08.225Z",
+        "x": "231.0",
+        "y": "373.0"
+    },
+	{
+        "LEVEL": -79,
+        "MAC": "b8:8d:12:63:6a:29",
+        "SSID": "478",
+        "createdAt": "2014-11-21T21:56:08.224Z",
+        "objectId": "kbsTXXVnCJ",
+        "updatedAt": "2014-11-21T21:56:08.224Z",
+        "x": "231.0",
+        "y": "373.0"
+    },
+	{
+        "LEVEL": -67,
+        "MAC": "06:18:0a:30:05:14",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:08.225Z",
+        "objectId": "71D2wf2X2L",
+        "updatedAt": "2014-11-21T21:56:08.225Z",
+        "x": "231.0",
+        "y": "373.0"
+    },
+	{
+        "LEVEL": -60,
+        "MAC": "06:18:0a:38:ca:9c",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:08.221Z",
+        "objectId": "RhCttbXkOv",
+        "updatedAt": "2014-11-21T21:56:08.221Z",
+        "x": "231.0",
+        "y": "373.0"
+    },
+	{
+        "LEVEL": -84,
+        "MAC": "06:18:0a:30:07:20",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:08.280Z",
+        "objectId": "aJUauozhwD",
+        "updatedAt": "2014-11-21T21:56:08.280Z",
+        "x": "231.0",
+        "y": "373.0"
+    },
+	{
+        "LEVEL": -79,
+        "MAC": "00:18:0a:30:07:21",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:56:08.290Z",
+        "objectId": "6wCKDDSBvR",
+        "updatedAt": "2014-11-21T21:56:08.290Z",
+        "x": "231.0",
+        "y": "373.0"
+    },
+	{
+        "LEVEL": -82,
+        "MAC": "06:18:0a:30:07:21",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:08.296Z",
+        "objectId": "0LxAipvsUA",
+        "updatedAt": "2014-11-21T21:56:08.296Z",
+        "x": "231.0",
+        "y": "373.0"
+    },
+	{
+        "LEVEL": -75,
+        "MAC": "00:18:0a:30:07:20",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:56:49.500Z",
+        "objectId": "PaVcBF8d4b",
+        "updatedAt": "2014-11-21T21:56:49.500Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -60,
+        "MAC": "06:18:0a:30:04:a2",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:49.515Z",
+        "objectId": "dfDaZVaHHU",
+        "updatedAt": "2014-11-21T21:56:49.515Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -46,
+        "MAC": "06:18:0a:38:ca:9c",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:49.515Z",
+        "objectId": "wIVPruCvhO",
+        "updatedAt": "2014-11-21T21:56:49.515Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -80,
+        "MAC": "b8:8d:12:63:6a:29",
+        "SSID": "478",
+        "createdAt": "2014-11-21T21:56:49.523Z",
+        "objectId": "JhDAu0orHu",
+        "updatedAt": "2014-11-21T21:56:49.523Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -62,
+        "MAC": "06:18:0a:30:05:14",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:49.530Z",
+        "objectId": "Dw1zKrVxvO",
+        "updatedAt": "2014-11-21T21:56:49.530Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -79,
+        "MAC": "06:18:0a:30:07:20",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:49.558Z",
+        "objectId": "UIgNAwTiFk",
+        "updatedAt": "2014-11-21T21:56:49.558Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -68,
+        "MAC": "06:18:0a:30:07:21",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:49.575Z",
+        "objectId": "9SG3d6GGJY",
+        "updatedAt": "2014-11-21T21:56:49.575Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -62,
+        "MAC": "00:18:0a:30:05:1b",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:56:49.575Z",
+        "objectId": "sWIWZ8CjTQ",
+        "updatedAt": "2014-11-21T21:56:49.575Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -68,
+        "MAC": "00:18:0a:30:07:21",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:56:49.579Z",
+        "objectId": "Ie4vGJzOfW",
+        "updatedAt": "2014-11-21T21:56:49.579Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -65,
+        "MAC": "00:18:0a:30:04:a8",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:56:49.587Z",
+        "objectId": "BCCDCXALtM",
+        "updatedAt": "2014-11-21T21:56:49.587Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -80,
+        "MAC": "00:18:0a:30:07:1f",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:56:49.604Z",
+        "objectId": "WesnmzsNS4",
+        "updatedAt": "2014-11-21T21:56:49.604Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -56,
+        "MAC": "06:18:0a:30:05:1b",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:49.616Z",
+        "objectId": "fq5y8XP7uT",
+        "updatedAt": "2014-11-21T21:56:49.616Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -67,
+        "MAC": "06:18:0a:30:04:a8",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:49.614Z",
+        "objectId": "gK4N6GU12q",
+        "updatedAt": "2014-11-21T21:56:49.614Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -81,
+        "MAC": "06:18:0a:30:05:6e",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:49.611Z",
+        "objectId": "Uf5koUEinA",
+        "updatedAt": "2014-11-21T21:56:49.611Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -85,
+        "MAC": "06:18:0a:30:07:1f",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:56:49.626Z",
+        "objectId": "PeCvp9qo6o",
+        "updatedAt": "2014-11-21T21:56:49.626Z",
+        "x": "247.0",
+        "y": "400.0"
+    },
+	{
+        "LEVEL": -62,
+        "MAC": "06:18:0a:30:05:14",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:57:57.047Z",
+        "objectId": "V0qA3jlzHn",
+        "updatedAt": "2014-11-21T21:57:57.047Z",
+        "x": "387.0",
+        "y": "426.1654"
+    },
+	{
+        "LEVEL": -77,
+        "MAC": "06:18:0a:30:04:a8",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:57:57.038Z",
+        "objectId": "vCV0W24bdC",
+        "updatedAt": "2014-11-21T21:57:57.038Z",
+        "x": "387.0",
+        "y": "426.1654"
+    },
+	{
+        "LEVEL": -77,
+        "MAC": "00:18:0a:30:04:a8",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T21:57:57.054Z",
+        "objectId": "6kyTGCJQGw",
+        "updatedAt": "2014-11-21T21:57:57.054Z",
+        "x": "387.0",
+        "y": "426.1654"
+    },
+	{
+        "LEVEL": -54,
+        "MAC": "06:18:0a:30:05:1b",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:58:02.318Z",
+        "objectId": "k0NsVGLkOW",
+        "updatedAt": "2014-11-21T21:58:02.318Z",
+        "x": "387.0",
+        "y": "426.1654"
+    },
+	{
+        "LEVEL": -79,
+        "MAC": "06:18:0a:38:ca:9c",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T21:58:02.316Z",
+        "objectId": "xk6vEAORTS",
+        "updatedAt": "2014-11-21T21:58:02.316Z",
+        "x": "387.0",
+        "y": "426.1654"
+    },
+	{
+        "LEVEL": -71,
+        "MAC": "06:18:0a:30:04:a2",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T22:00:09.008Z",
+        "objectId": "W8J3fKJt3N",
+        "updatedAt": "2014-11-21T22:00:09.008Z",
+        "x": "100.49554",
+        "y": "405.0"
+    },
+	{
+        "LEVEL": -62,
+        "MAC": "06:18:0a:30:05:14",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T22:00:09.032Z",
+        "objectId": "s7kQzt0J3Z",
+        "updatedAt": "2014-11-21T22:00:09.032Z",
+        "x": "100.49554",
+        "y": "405.0"
+    },
+	{
+        "LEVEL": -74,
+        "MAC": "06:18:0a:38:ca:9c",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T22:00:09.036Z",
+        "objectId": "OhHdGKEMwA",
+        "updatedAt": "2014-11-21T22:00:09.036Z",
+        "x": "100.49554",
+        "y": "405.0"
+    },
+	{
+        "LEVEL": -78,
+        "MAC": "00:18:0a:30:07:1f",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T22:14:28.052Z",
+        "objectId": "6aBawbFVdF",
+        "updatedAt": "2014-11-21T22:14:28.052Z",
+        "x": "91.24848",
+        "y": "294.75153"
+    },
+	{
+        "LEVEL": -83,
+        "MAC": "b8:8d:12:63:6a:29",
+        "SSID": "478",
+        "createdAt": "2014-11-21T22:14:28.067Z",
+        "objectId": "5njRgJPLKM",
+        "updatedAt": "2014-11-21T22:14:28.067Z",
+        "x": "91.24848",
+        "y": "294.75153"
+    },
+	{
+        "LEVEL": -65,
+        "MAC": "06:18:0a:30:05:14",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T22:14:28.076Z",
+        "objectId": "gZE3dDINYF",
+        "updatedAt": "2014-11-21T22:14:28.076Z",
+        "x": "91.24848",
+        "y": "294.75153"
+    },
+	{
+        "LEVEL": -80,
+        "MAC": "00:18:0a:30:07:20",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T22:14:28.079Z",
+        "objectId": "Q1ZeCXPRy3",
+        "updatedAt": "2014-11-21T22:14:28.079Z",
+        "x": "91.24848",
+        "y": "294.75153"
+    },
+	{
+        "LEVEL": -69,
+        "MAC": "02:18:4a:a4:80:a0",
+        "SSID": "CSAILPrivate",
+        "createdAt": "2014-11-21T22:14:28.079Z",
+        "objectId": "2i4zpg0tZu",
+        "updatedAt": "2014-11-21T22:14:28.079Z",
+        "x": "91.24848",
+        "y": "294.75153"
+    },
+	{
+        "LEVEL": -69,
+        "MAC": "06:18:0a:38:ca:9c",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T22:14:28.135Z",
+        "objectId": "5YQjGmyp2w",
+        "updatedAt": "2014-11-21T22:14:28.135Z",
+        "x": "91.24848",
+        "y": "294.75153"
+    },
+	{
+        "LEVEL": -81,
+        "MAC": "06:18:0a:30:07:20",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T22:14:28.135Z",
+        "objectId": "saMy1rs1wG",
+        "updatedAt": "2014-11-21T22:14:28.135Z",
+        "x": "91.24848",
+        "y": "294.75153"
+    },
+	{
+        "LEVEL": -58,
+        "MAC": "06:18:0a:30:04:a2",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T22:14:28.140Z",
+        "objectId": "zRR1Xy90tj",
+        "updatedAt": "2014-11-21T22:14:28.140Z",
+        "x": "91.24848",
+        "y": "294.75153"
+    },
+	{
+        "LEVEL": -69,
+        "MAC": "02:18:4a:a4:80:a1",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T22:14:28.163Z",
+        "objectId": "4BXW8qsJyA",
+        "updatedAt": "2014-11-21T22:14:28.163Z",
+        "x": "91.24848",
+        "y": "294.75153"
+    },
+	{
+        "LEVEL": -85,
+        "MAC": "06:18:0a:30:07:1f",
+        "SSID": "StataCenter",
+        "createdAt": "2014-11-21T22:14:28.181Z",
+        "objectId": "5zJ87ecazk",
+        "updatedAt": "2014-11-21T22:14:28.181Z",
+        "x": "91.24848",
+        "y": "294.75153"
+    }
+] }
