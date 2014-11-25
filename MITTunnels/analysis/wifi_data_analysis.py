@@ -68,7 +68,7 @@ for a, i in locations.items():
                             current_dist += 0
                         else:
                             current_dist -= 1
-                dist_sum += current_dist
+                dist_sum += abs(current_dist)
             distances_loc.append(loc_dist)
             distances_signal.append(dist_sum**.5)
             colors.append(color_list[color_count-1])
