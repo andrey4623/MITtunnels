@@ -23,8 +23,13 @@ for x in locations:
 
 distances_loc = []
 distances_signal = []
+color_list = ["Black", "Bisque", "Red", "DimGray", "SkyBlue", "Orange", "DeepPink", "BlueViolet", "SaddleBrown", "Yellow", "Green", "IndianRed", "Salmon", "SpringGreen", "DarkOliveGreen", "LightSteelBlue", "Ivory", "Gray", "MistyRose", "Goldenrod", "Orchid"]
+
+colors = []
+color_count = 0 
 
 for a, i in locations.items():
+    color_count += 1
     for b, j in locations.items():
         if i != j:
             loc_dist = ((float(i[0]['x']) - float(j[0]['x']))**2 + (float(i[0]['y']) - float(j[0]['y']))**2)**.5
@@ -38,10 +43,13 @@ for a, i in locations.items():
                 dist_sum += current_dist**2
             distances_loc.append(loc_dist)
             distances_signal.append(dist_sum**.5)
+            colors.append(color_list[color_count-1])
 
-print(distances)
+print("number of locations ", len(locations))
+print("pairs ", len(distances_loc))
+print("len of colors array ", len(colors))
 
-plt.scatter(distances_loc, distances_signal)
+plt.scatter(distances_loc, distances_signal, c=colors)
 plt.ylabel('Signal Euclidian Distance')
 plt.xlabel('Physical Distance')
 plt.show()
