@@ -76,6 +76,9 @@ public class MainActivity extends ActionBarActivity {
 
 	private int mapMaxWidth = 640;
 	private int mapMaxHeight = 480;
+	
+	private int mapVisiblePhisicalWidth=-1;
+	private int mapVisiblePhisicalHeight=-1;
 
 	private int x = 250;
 	private int y = 250;
@@ -158,10 +161,10 @@ public class MainActivity extends ActionBarActivity {
 
 		// crop the bitmap
 		// we are at x1,y1
-		int x1 = x - (int) CURRENT_VIEW_WIDTH / 2;
-		int y1 = y - (int) CURRENT_VIEW_HEIGHT / 2;
-		int x2 = x + (int) CURRENT_VIEW_WIDTH / 2;
-		int y2 = y + (int) CURRENT_VIEW_HEIGHT / 2;
+		int x1 = x - (int) mapVisiblePhisicalWidth / 2;
+		int y1 = y - (int) mapVisiblePhisicalHeight / 2;
+		int x2 = x + (int) mapVisiblePhisicalWidth / 2;
+		int y2 = y + (int) mapVisiblePhisicalHeight / 2;
 
 		// exit from the map
 
@@ -179,13 +182,13 @@ public class MainActivity extends ActionBarActivity {
 		//textViewDevelopers.setText(str);
 		Bitmap yourBitmap = Bitmap.createBitmap(bitmap, x1, y1, x2 - x1, y2
 				- y1);
-		Bitmap tempBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
-				CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
+		//Bitmap tempBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
+			//	CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
 
-		Bitmap largeWhiteBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
-				CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
+		Bitmap largeWhiteBitmap = Bitmap.createBitmap(mapVisiblePhisicalWidth,
+				mapVisiblePhisicalHeight, Bitmap.Config.ARGB_8888);
 		Canvas yourcanvas = new Canvas(largeWhiteBitmap);
-		yourcanvas.drawColor(0xffffffff);
+		//yourcanvas.drawColor(0xffffffff);
 
 		yourcanvas.drawBitmap(yourBitmap, 0, 0, new Paint());
 		
@@ -268,6 +271,15 @@ public class MainActivity extends ActionBarActivity {
 		//textViewDevelopers = (TextView) findViewById(R.id.txtViewInstructions);
 		loadMap();// load the svg file
 
+		
+		
+		
+		
+		
+		
+		//imageView.onSizechanged(); 
+		mapVisiblePhisicalWidth = 500;//imageView.getWidth();
+		mapVisiblePhisicalHeight = 500;//imageView.getHeight();
 		mapMaxWidth = 500;
 		mapMaxHeight = 500;
 		//loadSpotsFromDatabase();
@@ -435,10 +447,22 @@ public class MainActivity extends ActionBarActivity {
 					//checking for new spot
 					int xx = pointStartStart.x;
 					int yy = pointStartStart.y;
+					
+					int xx1 = pointCurrent.x;
+					int yy1 = pointCurrent.y;
 					if ((pointStartStart.x==pointCurrent.x)&&(pointStartStart.y==pointCurrent.y))
 					{
 						
-						Point point = new Point(pointStartStart.x-imageView.getLeft(),pointStartStart.y-imageView.getTop());
+						int[] viewCoords = new int[2];
+						imageView.getLocationOnScreen(viewCoords);
+						
+						int touchX = (int) pointStartStart.x;
+						int touchY = (int) pointStartStart.y;
+
+						int imageX = touchX;// - viewCoords[0]; // viewCoords[0] is the X coordinate
+						int imageY = touchY;// - viewCoords[1]; 
+						
+						Point point = new Point(imageX,imageY);
 						_spots.add(point);
 						drawMap();
 

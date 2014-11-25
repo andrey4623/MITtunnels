@@ -54,8 +54,8 @@ import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 
-	private static final int SWIPE_THRESHOLD = 1;
-	private static final int SWIPE_VELOCITY_THRESHOLD = 1;
+	private static final int SWIPE_THRESHOLD = 5;
+	private static final int SWIPE_VELOCITY_THRESHOLD = 5;
 	private static final int SWIPE_VELOCITY_MAPMOVE = 30;
 	private static int CURRENT_VIEW_WIDTH = 400;
 	private static int CURRENT_VIEW_HEIGHT = 400;
@@ -70,15 +70,19 @@ public class MainActivity extends ActionBarActivity {
 	private int leftPos = 0;
 	private boolean isMapMoving = false;
 	private Point pointStart;
+	private Point pointStartStart;
 	private Point pointCurrent;
 	//private TextView textViewDevelopers;
 
 	private int mapMaxWidth = 640;
 	private int mapMaxHeight = 480;
+	
+	private int mapVisiblePhisicalWidth=-1;
+	private int mapVisiblePhisicalHeight=-1;
 
 	private int x = 250;
 	private int y = 250;
-	private ArrayList _spots;
+	private ArrayList<Point> _spots;
 	
 	private void drawSpot(Point point){
 		
@@ -157,10 +161,10 @@ public class MainActivity extends ActionBarActivity {
 
 		// crop the bitmap
 		// we are at x1,y1
-		int x1 = x - (int) CURRENT_VIEW_WIDTH / 2;
-		int y1 = y - (int) CURRENT_VIEW_HEIGHT / 2;
-		int x2 = x + (int) CURRENT_VIEW_WIDTH / 2;
-		int y2 = y + (int) CURRENT_VIEW_HEIGHT / 2;
+		int x1 = x - (int) mapVisiblePhisicalWidth / 2;
+		int y1 = y - (int) mapVisiblePhisicalHeight / 2;
+		int x2 = x + (int) mapVisiblePhisicalWidth / 2;
+		int y2 = y + (int) mapVisiblePhisicalHeight / 2;
 
 		// exit from the map
 
@@ -178,17 +182,62 @@ public class MainActivity extends ActionBarActivity {
 		//textViewDevelopers.setText(str);
 		Bitmap yourBitmap = Bitmap.createBitmap(bitmap, x1, y1, x2 - x1, y2
 				- y1);
-		Bitmap tempBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
-				CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
+		//Bitmap tempBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
+			//	CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
 
-		Bitmap largeWhiteBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
-				CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
+		Bitmap largeWhiteBitmap = Bitmap.createBitmap(mapVisiblePhisicalWidth,
+				mapVisiblePhisicalHeight, Bitmap.Config.ARGB_8888);
 		Canvas yourcanvas = new Canvas(largeWhiteBitmap);
 		yourcanvas.drawColor(0xffffffff);
 
 		yourcanvas.drawBitmap(yourBitmap, 0, 0, new Paint());
+		
+		//draw spots 
+		
+				for (int i=0; i<_spots.size(); i++)
+				{
+					Point point = _spots.get(i);
+					if ((point.x>=x1)&&(point.x<=x2)&&(point.y>=y1)&&(point.y<=y2))
+					{
+						//draw it 
+					
+						Paint p = new Paint(); 
+						int color = Color.WHITE;
+						p.setColor(color);
+
+						color = Color.RED;
+						p.setColor(color);
+						// c.drawBitmap(bmp, 300, 300, p);
+						yourcanvas.drawCircle(point.x-x1, point.y-y1, 10, p);
+
+						//imageView.setImageBitmap(bmp);
+					}
+				}
 
 		imageView.setImageBitmap(largeWhiteBitmap);
+	}
+	
+	private void loadSpotsFromDatabase(){
+		ParseQuery<ParseObject> query =
+				ParseQuery.getQuery("ScanResult"); 
+
+		query.findInBackground(new FindCallback<ParseObject>() {
+			public void done(List<ParseObject> scoreList, ParseException
+					e) 
+			{ 
+				if (e == null) { 
+					String x =
+
+							scoreList.get(0).getString("x"); 
+					String y =
+							scoreList.get(0).getString("y");
+
+					Point point = new Point(Integer.parseInt(x),Integer.parseInt(y));
+					_spots.add(point);
+					
+				}
+			}
+		});
 	}
 
 	private void loadMap() {
@@ -214,13 +263,26 @@ public class MainActivity extends ActionBarActivity {
 		btnZoomOut = (Button) findViewById(R.id.btnZoomOut);
 		imageView = (ImageView) findViewById(R.id.imgMap);
 		pointStart = new Point();
+		pointStartStart = new Point(-1,-1);
+		
 		pointCurrent = new Point();
-
+		_spots = new ArrayList<Point>();
+		
 		//textViewDevelopers = (TextView) findViewById(R.id.txtViewInstructions);
 		loadMap();// load the svg file
 
+		
+		
+		
+		
+		
+		
+		//imageView.onSizechanged(); 
+		mapVisiblePhisicalWidth = 500;//imageView.getWidth();
+		mapVisiblePhisicalHeight = 500;//imageView.getHeight();
 		mapMaxWidth = 500;
 		mapMaxHeight = 500;
+		//loadSpotsFromDatabase();
 
 		
 
@@ -250,6 +312,8 @@ public class MainActivity extends ActionBarActivity {
 		btnSaveLocation.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// get list of network
+				
+				if ((pointStartStart.x==-1)||(pointStartStart.y==-1)) return;
 
 				final WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 				registerReceiver(new BroadcastReceiver() {
@@ -260,8 +324,8 @@ public class MainActivity extends ActionBarActivity {
 
 							ParseObject testObject = new ParseObject(
 									"ScanResult");
-							testObject.put("x", Float.toString(currentx));
-							testObject.put("y", Float.toString(currenty));
+							testObject.put("x", Integer.toString(pointStartStart.x));
+							testObject.put("y", Integer.toString(pointStartStart.y));
 							testObject.put("SSID", ap.SSID);
 							testObject.put("MAC", ap.BSSID);
 							testObject.put("LEVEL", ap.level);
@@ -297,7 +361,7 @@ public class MainActivity extends ActionBarActivity {
 
 				// The following code set pointer
 				
-				Bitmap bmp =
+			/*	Bitmap bmp =
 						Bitmap.createBitmap(imageView.getMeasuredWidth(),
 								imageView.getMeasuredHeight(), Config.ARGB_8888);
 				imageView.setBackgroundResource
@@ -315,7 +379,7 @@ public class MainActivity extends ActionBarActivity {
 				// c.drawBitmap(bmp, 300, 300, p);
 				c.drawCircle(event.getX(), event.getY(), 10, p);
 
-				imageView.setImageBitmap(bmp);
+				imageView.setImageBitmap(bmp);*/
 				 
 
 				int action = event.getAction();
@@ -327,6 +391,9 @@ public class MainActivity extends ActionBarActivity {
 
 					pointStart.x = (int) event.getX();
 					pointStart.y = (int) event.getY();
+					
+					pointStartStart.x = (int) event.getX();
+					pointStartStart.y = (int) event.getY();
 
 					break;
 
@@ -374,11 +441,28 @@ public class MainActivity extends ActionBarActivity {
 
 					imageView.invalidate();
 					
-					//checking for new spot
+					pointCurrent.x = (int) event.getX();
+					pointCurrent.y = (int) event.getY();
 					
-					if ((pointStart.x==pointCurrent.x)&&(pointStart.y==pointCurrent.y))
+					//checking for new spot
+					int xx = pointStartStart.x;
+					int yy = pointStartStart.y;
+					if ((pointStartStart.x==pointCurrent.x)&&(pointStartStart.y==pointCurrent.y))
 					{
 						
+						int[] viewCoords = new int[2];
+						imageView.getLocationOnScreen(viewCoords);
+						
+						int touchX = (int) pointStartStart.x;
+						int touchY = (int) pointStartStart.y;
+
+						int imageX = touchX - viewCoords[0]; // viewCoords[0] is the X coordinate
+						int imageY = touchY - viewCoords[1]; 
+						
+						Point point = new Point(imageX,imageY);
+						_spots.add(point);
+						drawMap();
+
 					}
 					break;
 				}

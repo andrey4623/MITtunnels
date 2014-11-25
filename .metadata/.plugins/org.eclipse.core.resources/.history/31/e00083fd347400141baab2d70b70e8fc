@@ -45,9 +45,9 @@
     <ImageView
         android:id="@+id/imgMap"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignLeft="@+id/button1"
-        android:layout_below="@+id/btnSaveLocation"
+        android:layout_below="@+id/button1"
         android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>
