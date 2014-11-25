@@ -74,8 +74,8 @@ public class MainActivity extends ActionBarActivity {
 	private Point pointCurrent;
 	//private TextView textViewDevelopers;
 
-	private int mapMaxWidth = 640;
-	private int mapMaxHeight = 480;
+	private int mapMaxWidth = 1000;
+	private int mapMaxHeight = 1000;
 	
 	private int mapVisiblePhisicalWidth=-1;
 	private int mapVisiblePhisicalHeight=-1;
@@ -161,10 +161,10 @@ public class MainActivity extends ActionBarActivity {
 
 		// crop the bitmap
 		// we are at x1,y1
-		int x1 = x - (int) mapVisiblePhisicalWidth / 2;
-		int y1 = y - (int) mapVisiblePhisicalHeight / 2;
-		int x2 = x + (int) mapVisiblePhisicalWidth / 2;
-		int y2 = y + (int) mapVisiblePhisicalHeight / 2;
+		int x1 = x - (int) CURRENT_VIEW_WIDTH / 2;
+		int y1 = y - (int) CURRENT_VIEW_HEIGHT / 2;
+		int x2 = x + (int) CURRENT_VIEW_WIDTH / 2;
+		int y2 = y + (int) CURRENT_VIEW_HEIGHT / 2;
 
 		// exit from the map
 
@@ -185,10 +185,10 @@ public class MainActivity extends ActionBarActivity {
 		//Bitmap tempBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
 			//	CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
 
-		Bitmap largeWhiteBitmap = Bitmap.createBitmap(mapVisiblePhisicalWidth,
-				mapVisiblePhisicalHeight, Bitmap.Config.ARGB_8888);
+		Bitmap largeWhiteBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
+				CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
 		Canvas yourcanvas = new Canvas(largeWhiteBitmap);
-		//yourcanvas.drawColor(0xffffffff);
+		yourcanvas.drawColor(0xffffffff);
 
 		yourcanvas.drawBitmap(yourBitmap, 0, 0, new Paint());
 		
@@ -243,7 +243,7 @@ public class MainActivity extends ActionBarActivity {
 	private void loadMap() {
 		SVG svg = SVGParser.getSVGFromString(readMapFromFile());
 		pictureDrawable = svg.createPictureDrawable();
-		bitmap = Bitmap.createBitmap(500, 500, Config.ARGB_8888);
+		bitmap = Bitmap.createBitmap(mapMaxWidth, mapMaxHeight, Config.ARGB_8888);
 		canvas = new Canvas(bitmap);
 		canvas.drawPicture(pictureDrawable.getPicture());
 	}
@@ -278,10 +278,10 @@ public class MainActivity extends ActionBarActivity {
 		
 		
 		//imageView.onSizechanged(); 
-		mapVisiblePhisicalWidth = 500;//imageView.getWidth();
-		mapVisiblePhisicalHeight = 500;//imageView.getHeight();
-		mapMaxWidth = 500;
-		mapMaxHeight = 500;
+	//	mapVisiblePhisicalWidth = 500;//imageView.getWidth();
+	//	mapVisiblePhisicalHeight = 500;//imageView.getHeight();
+	//	mapMaxWidth = 500;
+	//	mapMaxHeight = 500;
 		//loadSpotsFromDatabase();
 
 		
