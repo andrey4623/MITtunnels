@@ -38,12 +38,14 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -58,8 +60,8 @@ public class MainActivity extends ActionBarActivity {
 	private static final int SWIPE_THRESHOLD = 5;
 	private static final int SWIPE_VELOCITY_THRESHOLD = 5;
 	private static final int SWIPE_VELOCITY_MAPMOVE = 30;
-	private static int CURRENT_VIEW_WIDTH = 400;
-	private static int CURRENT_VIEW_HEIGHT = 400;
+	private  int CURRENT_VIEW_WIDTH = 300;
+	private  int CURRENT_VIEW_HEIGHT = 300;
 
 	private float currentx, currenty;
 	private Button btnSaveLocation;
@@ -75,8 +77,8 @@ public class MainActivity extends ActionBarActivity {
 	private Point pointCurrent;
 	//private TextView textViewDevelopers;
 
-	private int mapMaxWidth = 575;
-	private int mapMaxHeight = 745;
+	private int mapMaxWidth;
+	private int mapMaxHeight;
 	
 	private int mapVisiblePhisicalWidth=-1;
 	private int mapVisiblePhisicalHeight=-1;
@@ -157,8 +159,8 @@ public class MainActivity extends ActionBarActivity {
 
 	private void drawMap() {
 
-		if (pictureDrawable == null)
-			return;
+		//if (pictureDrawable == null)
+		//	return;
 
 		// crop the bitmap
 		// we are at x1,y1
@@ -181,8 +183,16 @@ public class MainActivity extends ActionBarActivity {
 		String str = Integer.toString(x1) + " " + Integer.toString(y1) + " "
 				+ Integer.toString(x2) + " " + Integer.toString(y2) + " ";
 		//textViewDevelopers.setText(str);
-		Bitmap yourBitmap = Bitmap.createBitmap(bitmap, x1, y1, x2 - x1, y2
+		Bitmap yourBitmap=null;
+		try
+		{
+		 yourBitmap = Bitmap.createBitmap(bitmap, x1, y1, x2 - x1, y2
 				- y1);
+		}
+		catch (Exception ex)
+		{
+			Log.d("d", ex.getMessage());
+		}
 		//Bitmap tempBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
 			//	CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
 
@@ -242,12 +252,20 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	private void loadMap() {
-		SVG svg = SVGParser.getSVGFromString(readMapFromFile());
-		pictureDrawable = svg.createPictureDrawable();
-		bitmap = Bitmap.createBitmap(mapMaxWidth, mapMaxHeight, Config.ARGB_8888);
-		//bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fivefloorplanproject);
-		canvas = new Canvas(bitmap);
-		canvas.drawPicture(pictureDrawable.getPicture());
+		//SVG svg = SVGParser.getSVGFromString(readMapFromFile());
+		//pictureDrawable = svg.createPictureDrawable();
+		//bitmap = Bitmap.createBitmap(mapMaxWidth, mapMaxHeight, Config.ARGB_8888);
+		
+		//Drawable myIcon = getResources().getDrawable( R.drawable.mit );
+		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mit);
+		
+		 mapMaxWidth = bitmap.getWidth();
+		mapMaxHeight = bitmap.getHeight();
+		
+	    canvas = new Canvas(bitmap.copy(Bitmap.Config.ARGB_8888, true));
+		//canvas = new Canvas(bitmap);
+		//canvas.drawBitmap(bitmap_temp, 0, 0, new Paint());
+		//canvas.drawPicture(pictureDrawable.getPicture());
 	}
 
 	@Override
@@ -273,8 +291,9 @@ public class MainActivity extends ActionBarActivity {
 		//textViewDevelopers = (TextView) findViewById(R.id.txtViewInstructions);
 		loadMap();// load the svg file
 
-		
-		
+		//TODO: change this values dynamic
+		CURRENT_VIEW_WIDTH = 555;
+		CURRENT_VIEW_HEIGHT = 705;
 		
 		
 		

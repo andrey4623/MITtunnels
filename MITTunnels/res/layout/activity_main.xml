@@ -47,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/button1"
+        android:paddingTop="20dp"
         android:layout_below="@+id/btnSaveLocation"
         android:src="@drawable/ic_launcher" />
 
