@@ -12,6 +12,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.security.auth.callback.Callback;
 
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
@@ -45,6 +49,8 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -90,6 +96,11 @@ public class MainActivity extends ActionBarActivity {
 	private int x = 250;
 	private int y = 250;
 	private ArrayList<Point> _spots;
+	private ArrayList<AccessPoint> _scannedAccessPoints;
+	private WifiManager wifiManager;
+	private BroadcastReceiver broadcastReceiver;
+	
+	
 	
 	private void getPointsFromDatabase() {
 
@@ -313,7 +324,7 @@ public class MainActivity extends ActionBarActivity {
 		
 		pointCurrent = new Point();
 		_spots = new ArrayList<Point>();
-		
+		_scannedAccessPoints = new ArrayList<AccessPoint>();
 		
 		
 		//textViewDevelopers = (TextView) findViewById(R.id.txtViewInstructions);
@@ -322,7 +333,8 @@ public class MainActivity extends ActionBarActivity {
 		//TODO: change this values dynamic
 		CURRENT_VIEW_WIDTH = 555;
 		CURRENT_VIEW_HEIGHT = 705;
-		
+
+	    
 		
 		getPointsFromDatabase();
 		
@@ -362,6 +374,10 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				// get list of network
 				
+            if (btnSaveLocation.getText().equals("Scan this location"))
+            {
+            	
+
 				if ((spotX == -1) || (spotY == -1)) {
 					AlertDialog alertDialogNoLocation = new AlertDialog.Builder(
 							MainActivity.this).create();
@@ -382,22 +398,34 @@ public class MainActivity extends ActionBarActivity {
 				
 				
 				
-				final WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-				registerReceiver(new BroadcastReceiver() {
+				wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+				_scannedAccessPoints.clear();
+				
+				
+				broadcastReceiver = new BroadcastReceiver() {
 					
 					
 					@Override
 					public void onReceive(Context c, Intent intent) {
 						List<ScanResult> results = wifiManager.getScanResults();
-						final int size = results.size();
-						if (size <= 0) {
-							
-						}else
-						{
-							final String str="";
-							
+						
+						
+					
 						for (ScanResult ap : results) {
 
+							
+							AccessPoint accessPoint = new AccessPoint();
+							accessPoint.LEVEL = ap.level;
+							accessPoint.MAC = ap.BSSID;
+							accessPoint.SSID = ap.SSID;
+							accessPoint.X = spotX;
+							accessPoint.Y = spotY;
+							
+							_scannedAccessPoints.add(accessPoint);
+							
+							btnSaveLocation.setText("Found: "+_scannedAccessPoints.size()+" AP(s). Press again to save");
+							/*
+							
 							ParseObject testObject = new ParseObject(
 									"ScanResult");
 							testObject.put("x", Integer.toString(spotX));
@@ -406,17 +434,17 @@ public class MainActivity extends ActionBarActivity {
 							testObject.put("MAC", ap.BSSID);
 							testObject.put("LEVEL", ap.level);
 							
-							//str+=ap.SSID+" ";
+							
 
 							testObject.saveInBackground(new SaveCallback() {
 								public void done(ParseException e) {
 									if (e == null) {
-										// myObjectSavedSuccessfully();
+										
 										AlertDialog myAlertDialog = new AlertDialog.Builder(MainActivity.this).create();
 										myAlertDialog.setMessage("New location has been saved.");
 										myAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 										    public void onClick(DialogInterface dialog, int which) {
-										       // System.exit(0);
+										       
 										    }
 										});
 
@@ -430,14 +458,79 @@ public class MainActivity extends ActionBarActivity {
 							// testObject.saveInBackground();
 							Log.d("", "SSID=" + ap.SSID + " MAC=" + ap.BSSID
 									+ " LEVEL=" + ap.level);
-
-						}
+*/
+						//}
 						}
 					}
 
-				}, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+				};
+				
+				
+				
+				
+				registerReceiver(broadcastReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION) );
 				wifiManager.startScan();
 
+				
+				
+			}else
+			{
+				//save to database
+				unregisterReceiver(broadcastReceiver);
+				btnSaveLocation.setText("Saving...");
+				btnSaveLocation.setEnabled(false);
+				
+				for (int i=0; i<_scannedAccessPoints.size(); i++)
+				{
+					AccessPoint accessPoint = _scannedAccessPoints.get(i);
+					
+					
+					
+					ParseObject testObject = new ParseObject(
+							"ScanResult");
+					testObject.put("x", Integer.toString(accessPoint.X));
+					testObject.put("y", Integer.toString(accessPoint.Y));
+					testObject.put("SSID", accessPoint.SSID);
+					testObject.put("MAC", accessPoint.MAC);
+					testObject.put("LEVEL", accessPoint.LEVEL);
+					
+					
+
+					testObject.saveInBackground(new SaveCallback() {
+						public void done(ParseException e) {
+							if (e == null) {
+								
+								btnSaveLocation.setText("Scan this location");
+								btnSaveLocation.setEnabled(true);
+								_scannedAccessPoints.clear();
+								
+								
+								spotX=-1;
+								spotY=-1;
+								
+								
+							} else {
+								AlertDialog myAlertDialog = new AlertDialog.Builder(MainActivity.this).create();
+								myAlertDialog.setMessage("Saving error"+e.getMessage());
+								myAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+								    public void onClick(DialogInterface dialog, int which) {
+								       
+								    }
+								});
+
+								myAlertDialog.show();
+								btnSaveLocation.setText("Scan this location");
+								btnSaveLocation.setEnabled(true);
+								_scannedAccessPoints.clear();
+								spotX=-1;
+								spotY=-1;
+							}
+						}
+					});
+					
+					
+				}
+			}
 			}
 		});
 
@@ -653,9 +746,14 @@ public class MainActivity extends ActionBarActivity {
 		//show the map 
 		x = (int)mapMaxWidth/2;
 		y = (int)mapMaxHeight/2;
+		
+	
+		
+		
 		drawMap();
 		
 	}
+	
 	
 	
 
@@ -703,6 +801,10 @@ public class MainActivity extends ActionBarActivity {
 
 		imageView.setImageBitmap(bmp);
 	}
+	
+	//timer
+	
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -716,3 +818,5 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 }
+
+
