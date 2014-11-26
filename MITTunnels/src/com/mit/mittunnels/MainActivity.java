@@ -99,13 +99,92 @@ public class MainActivity extends ActionBarActivity {
 	private ArrayList<AccessPoint> _scannedAccessPoints;
 	private WifiManager wifiManager;
 	private BroadcastReceiver broadcastReceiver;
+	private static List<ParseObject>allObjects = new ArrayList<ParseObject>();
+	
 	
 	
 	
 	private void getPointsFromDatabase() {
 
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
+		
+		
+	/*	final FindCallback getAllObjects = new FindCallback(){
+		    
+		    
 
+				
+
+				@Override
+				public void done(List objects, ParseException e) {
+					// TODO Auto-generated method stub
+					if (e == null) {
+						
+						allObjects.addAll(objects);
+						int skip=0; int limit =1000;
+						if (objects.size() == limit){
+		                    skip = skip + limit;
+		                    ParseQuery query = new ParseQuery("Objects");
+		                    query.setSkip(skip);
+		                    query.setLimit(limit);
+		                    query.findInBackground(getAllObjects);
+		                }
+						//We have a full PokeDex
+		                else {
+		                    //USE FULL DATA AS INTENDED
+		                	
+		                	
+		                	
+		                	
+		                	drawMap();
+		                }
+					}
+					}
+				};
+		    
+		*/
+		
+		
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
+		query.setLimit(1000);
+		query.findInBackground(new FindCallback<ParseObject>() {
+			   public void done(List<ParseObject> objects, ParseException e) {
+				     if (e == null) {
+				    	 allObjects.addAll(objects);
+				    	 int skip=0;  int limit =1000;
+							if (objects.size() == limit){
+			                    skip = skip + limit;
+			                    ParseQuery query = new ParseQuery("ScanResult");
+			                    query.setSkip(skip);
+			                    query.setLimit(limit);
+			                    query.findInBackground(this);
+			                }
+							//We have a full PokeDex
+			                else {
+			                    //USE FULL DATA AS INTENDED
+			                	
+			                	for (int i=0; i<allObjects.size(); i++)
+			                	{
+			                		String x = allObjects.get(i).getString("x");
+									String y = allObjects.get(i).getString("y");
+
+									int fl_x = Integer.parseInt(x);
+									int fl_y = Integer.parseInt(y);
+									Point point = new Point(fl_x, fl_y);
+									_spots.add(point);
+			                	}
+			                	
+			                	
+			                	
+			                	drawMap();
+			                }
+				     } else {
+				      
+				     }
+				   }
+				 });
+		
+		
+		/*
 		query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> scoreList, ParseException e) {
 				if (e == null) {
@@ -124,7 +203,7 @@ public class MainActivity extends ActionBarActivity {
 					Log.d("score", "Error: " + e.getMessage());
 				}
 			}
-		});
+		});*/
 
 	}
 
@@ -819,4 +898,4 @@ public class MainActivity extends ActionBarActivity {
 	}
 }
 
-
+		
