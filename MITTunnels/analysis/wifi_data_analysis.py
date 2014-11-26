@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 print('start')
 
-json_data = open('ScanResult_G5.json')
+json_data = open('ScanResult.json')
 data = json.load(json_data)
 
 print(type(data))
@@ -22,10 +22,11 @@ for x in locations:
 
 distances_loc = []
 distances_signal = []
-color_list = ["Black", "Green", "Red", "DimGray", "SkyBlue", "Orange", "DeepPink", "BlueViolet", "Yellow", "Green", "IndianRed",  "SpringGreen", "DarkOliveGreen", "LightSteelBlue", "Ivory", "Gray", "MistyRose", "Goldenrod", "Orchid"]
+#color_list = ["Black", "Green", "Red", "DimGray", "SkyBlue", "Orange", "DeepPink", "BlueViolet", "Yellow", "Green", "IndianRed",  "SpringGreen", "DarkOliveGreen", "LightSteelBlue", "Ivory", "Gray", "MistyRose", "Goldenrod", "Orchid"]
 colors = []
 color_count = 0 
 
+"""
 for a, i in locations.items():
     color_count += 1
     for b, j in locations.items():
@@ -49,8 +50,8 @@ for a, i in locations.items():
 
             distances_loc.append(loc_dist)
             distances_signal.append(dist_sum**.5)
-	    colors.append(color_list[color_count-1])
-
+#	    colors.append(color_list[color_count-1])
+"""
  
 #plt.figure(1)           
 #plt.subplot(111)
@@ -59,7 +60,8 @@ for a, i in locations.items():
 #plt.ylabel('Signal Euclidian Distance')
 #plt.xlabel('Physical Distance')
 
-"""
+perfect_match = []
+
 for a, i in locations.items():
     color_count += 1
     for b, j in locations.items():
@@ -91,11 +93,12 @@ for a, i in locations.items():
                         else:
                             current_dist -= 1
                 dist_sum += abs(current_dist)
-
+            if dist_sum == 0:
+		perfect_match.append([a,b])
 	    distances_loc.append(loc_dist)
             distances_signal.append(dist_sum)
-            colors.append(color_list[color_count-1])
-"""
+#            colors.append(color_list[color_count-1])
+print(perfect_match)
 #            
 #
 #plt.scatter(distances_loc, distances_signal)
@@ -126,7 +129,7 @@ for a, i in locations.items():
 
 #print(distances)
 
-plt.scatter(distances_loc, distances_signal, c = colors)
+plt.scatter(distances_loc, distances_signal)
 plt.title('Signal Distance from One Point Using Bit Vector Metric')
 plt.ylabel('Signal Distance in # APs')
 plt.xlabel('Physical Distance')
