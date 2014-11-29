@@ -46,9 +46,10 @@
         android:id="@+id/imgMap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
-        android:paddingTop="20dp"
+      android:layout_alignLeft="@+id/btnSaveLocation"
+        android:layout_alignRight="@+id/btnSaveLocation"
         android:layout_below="@+id/btnSaveLocation"
+        android:paddingTop="20dp"
         android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>

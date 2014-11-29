@@ -27,6 +27,7 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import android.support.v7.app.ActionBarActivity;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.PendingIntent.OnFinished;
 import android.content.BroadcastReceiver;
@@ -49,6 +50,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -84,8 +86,8 @@ public class MainActivity extends ActionBarActivity {
 	private Point pointStartStart;
 	private Point pointCurrent;
 
-	private int mapMaxWidth;
-	private int mapMaxHeight;
+	private int mapWidth;
+	private int mapHeight;
 	
 	private int mapVisiblePhisicalWidth=-1;
 	private int mapVisiblePhisicalHeight=-1;
@@ -149,12 +151,12 @@ public class MainActivity extends ActionBarActivity {
 	public void checkBorders() {
 		if (x < (int) CURRENT_VIEW_WIDTH / 2)
 			x = (int) CURRENT_VIEW_WIDTH / 2;
-		if (x > mapMaxWidth - (int) CURRENT_VIEW_WIDTH / 2)
-			x = mapMaxWidth - (int) CURRENT_VIEW_WIDTH / 2;
+		if (x > mapWidth - (int) CURRENT_VIEW_WIDTH / 2)
+			x = mapWidth - (int) CURRENT_VIEW_WIDTH / 2;
 		if (y < (int) CURRENT_VIEW_HEIGHT / 2)
 			y = (int) CURRENT_VIEW_HEIGHT / 2;
-		if (y > mapMaxHeight - (int) CURRENT_VIEW_HEIGHT / 2)
-			y = mapMaxHeight - (int) CURRENT_VIEW_HEIGHT / 2;
+		if (y > mapHeight - (int) CURRENT_VIEW_HEIGHT / 2)
+			y = mapHeight - (int) CURRENT_VIEW_HEIGHT / 2;
 	}
 
 	private void zoomIn() {
@@ -168,7 +170,7 @@ public class MainActivity extends ActionBarActivity {
 	private void zoomOut() {
 		if (CURRENT_VIEW_WIDTH >= 600)
 			return;
-		if (CURRENT_VIEW_WIDTH >= mapMaxWidth)
+		if (CURRENT_VIEW_WIDTH >= mapWidth)
 			return;
 		CURRENT_VIEW_WIDTH += 100;
 		CURRENT_VIEW_HEIGHT += 100;
@@ -219,20 +221,23 @@ public class MainActivity extends ActionBarActivity {
 
 		if (x1 < 0)
 			x1 = 0;
-		if (x1 > mapMaxWidth)
-			x1 = mapMaxWidth - 1;
+		if (x2 > CURRENT_VIEW_WIDTH )
+			x2 = CURRENT_VIEW_WIDTH - 1;
 		if (y1 < 0)
 			y1 = 0;
-		if (y1 > mapMaxHeight)
-			y1 = mapMaxHeight - 1;
+		if (y2 > CURRENT_VIEW_HEIGHT)
+			y2 = CURRENT_VIEW_HEIGHT - 1;
 
 		String str = Integer.toString(x1) + " " + Integer.toString(y1) + " "
 				+ Integer.toString(x2) + " " + Integer.toString(y2) + " ";
 		Bitmap yourBitmap=null;
+		Bitmap yourBitmapFinal=null;
 		try
 		{
-		 yourBitmap = Bitmap.createBitmap(bitmap, x1, y1, x2 - x1, y2
-				- y1);
+			//yourBitmapFinal = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,CURRENT_VIEW_HEIGHT,Bitmap.Config.ARGB_8888);
+			
+			yourBitmap = Bitmap.createBitmap(bitmap, x1, y1, Math.min(x2 - x1, mapWidth-x1), Math.min(y2
+				- y1, mapHeight-y1));
 		}
 		catch (Exception ex)
 		{
@@ -264,8 +269,20 @@ public class MainActivity extends ActionBarActivity {
 						yourcanvas.drawCircle(point.x-x1, point.y-y1, 10, p);
 					}
 				}
+				
+				if ((spotX != -1) && (spotY != -1)) {
+				//draw current point
+				Paint p = new Paint(); 
+				int color = Color.WHITE;
+				p.setColor(color);
+
+				color = Color.BLUE;
+				p.setColor(color);
+				yourcanvas.drawCircle(spotX, spotY, 10, p);
+				}
 
 		imageView.setImageBitmap(largeWhiteBitmap);
+		
 	}
 	
 	private void loadSpotsFromDatabase(){
@@ -299,8 +316,8 @@ public class MainActivity extends ActionBarActivity {
 		//Drawable myIcon = getResources().getDrawable( R.drawable.mit );
 		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.gfinal);
 		
-		 mapMaxWidth = bitmap.getWidth();
-		mapMaxHeight = bitmap.getHeight();
+		 mapWidth = bitmap.getWidth();
+		mapHeight = bitmap.getHeight();
 		
 	    canvas = new Canvas(bitmap.copy(Bitmap.Config.ARGB_8888, true));
 		//canvas = new Canvas(bitmap);
@@ -308,6 +325,7 @@ public class MainActivity extends ActionBarActivity {
 		//canvas.drawPicture(pictureDrawable.getPicture());
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -354,6 +372,19 @@ public class MainActivity extends ActionBarActivity {
 
 	    
 		
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		
+		CURRENT_VIEW_WIDTH = 960;
+		CURRENT_VIEW_HEIGHT = 1060;
+		
+		
+		int width = size.x;
+		int height = size.y;
+		
+		
+		
 		getPointsFromDatabase();
 		
 
@@ -396,6 +427,8 @@ public class MainActivity extends ActionBarActivity {
 					return;
 				}
 				
+				
+				
 				wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 				_scannedAccessPoints.clear();
 				
@@ -431,6 +464,9 @@ public class MainActivity extends ActionBarActivity {
 				unregisterReceiver(broadcastReceiver);
 				btnSaveLocation.setText("Saving...");
 				btnSaveLocation.setEnabled(false);
+				
+				Point point = new Point(spotX,spotY);
+				_spots.add(point);
 				
 				for (int i=0; i<_scannedAccessPoints.size(); i++)
 				{
@@ -565,12 +601,12 @@ public class MainActivity extends ActionBarActivity {
 						
 						int x1 = x - (int) CURRENT_VIEW_WIDTH / 2;
 						int y1 = y - (int) CURRENT_VIEW_HEIGHT / 2;
-						
-						spotX = imageX+x1;
-						spotY = imageY+y1;
+						int top=imageView.getPaddingTop();
+						spotX = imageX-imageView.getPaddingLeft();
+						spotY = imageY-top;
 						
 						Point point = new Point(spotX,spotY);
-						_spots.add(point);
+						//_spots.add(point);
 						drawMap();
 					}
 					break;
@@ -582,12 +618,23 @@ public class MainActivity extends ActionBarActivity {
 
 		
 		//show the map 
-		x = (int)mapMaxWidth/2;
-		y = (int)mapMaxHeight/2;
+		x = (int)mapWidth/2;
+		y = (int)mapHeight/2;
 		
 		drawMap();
 	}
 	
+	
+	@Override
+	 public void onWindowFocusChanged(boolean hasFocus) {
+	  // TODO Auto-generated method stub
+	  super.onWindowFocusChanged(hasFocus);
+	  //Here you can get the size!
+	  
+	  //CURRENT_VIEW_WIDTH = btnSaveLocation.getWidth();
+		//CURRENT_VIEW_HEIGHT = 1060;
+	 // drawMap();
+	 }
 
 	public String readMapFromFile() {
 		StringBuffer datax = new StringBuffer("");
