@@ -45,6 +45,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -72,7 +74,6 @@ public class MainActivity extends ActionBarActivity {
 
 	private float currentx, currenty;
 	private Button btnSaveLocation;
-	//private Button btnGetLocation;
 	private Button btnMoveRight;
 	private Button btnZoomIn;
 	private Button btnZoomOut;
@@ -82,7 +83,6 @@ public class MainActivity extends ActionBarActivity {
 	private Point pointStart;
 	private Point pointStartStart;
 	private Point pointCurrent;
-	//private TextView textViewDevelopers;
 
 	private int mapMaxWidth;
 	private int mapMaxHeight;
@@ -106,43 +106,6 @@ public class MainActivity extends ActionBarActivity {
 	
 	private void getPointsFromDatabase() {
 
-		
-		
-	/*	final FindCallback getAllObjects = new FindCallback(){
-		    
-		    
-
-				
-
-				@Override
-				public void done(List objects, ParseException e) {
-					// TODO Auto-generated method stub
-					if (e == null) {
-						
-						allObjects.addAll(objects);
-						int skip=0; int limit =1000;
-						if (objects.size() == limit){
-		                    skip = skip + limit;
-		                    ParseQuery query = new ParseQuery("Objects");
-		                    query.setSkip(skip);
-		                    query.setLimit(limit);
-		                    query.findInBackground(getAllObjects);
-		                }
-						//We have a full PokeDex
-		                else {
-		                    //USE FULL DATA AS INTENDED
-		                	
-		                	
-		                	
-		                	
-		                	drawMap();
-		                }
-					}
-					}
-				};
-		    
-		*/
-		
 		
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
 		query.setLimit(1000);
@@ -181,40 +144,7 @@ public class MainActivity extends ActionBarActivity {
 				      
 				     }
 				   }
-				 });
-		
-		
-		/*
-		query.findInBackground(new FindCallback<ParseObject>() {
-			public void done(List<ParseObject> scoreList, ParseException e) {
-				if (e == null) {
-					for (int i = 0; i < scoreList.size(); i++) {
-						String x = scoreList.get(i).getString("x");
-						String y = scoreList.get(i).getString("y");
-
-						int fl_x = Integer.parseInt(x);
-						int fl_y = Integer.parseInt(y);
-						Point point = new Point(fl_x, fl_y);
-						_spots.add(point);
-
-					}
-					drawMap();
-				} else {
-					Log.d("score", "Error: " + e.getMessage());
-				}
-			}
-		});*/
-
-	}
-
-	/** Called when the user touches the button */
-	public void moveMapRight(View view) {
-		// Do something in response to button click
-
-		// if (leftPos+310<500)
-
-		onSwipeTop();
-	}
+				 });}
 
 	public void checkBorders() {
 		if (x < (int) CURRENT_VIEW_WIDTH / 2)
@@ -298,7 +228,6 @@ public class MainActivity extends ActionBarActivity {
 
 		String str = Integer.toString(x1) + " " + Integer.toString(y1) + " "
 				+ Integer.toString(x2) + " " + Integer.toString(y2) + " ";
-		//textViewDevelopers.setText(str);
 		Bitmap yourBitmap=null;
 		try
 		{
@@ -309,8 +238,6 @@ public class MainActivity extends ActionBarActivity {
 		{
 			Log.d("d", ex.getMessage());
 		}
-		//Bitmap tempBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
-			//	CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
 
 		Bitmap largeWhiteBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
 				CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
@@ -334,10 +261,7 @@ public class MainActivity extends ActionBarActivity {
 
 						color = Color.RED;
 						p.setColor(color);
-						// c.drawBitmap(bmp, 300, 300, p);
 						yourcanvas.drawCircle(point.x-x1, point.y-y1, 10, p);
-
-						//imageView.setImageBitmap(bmp);
 					}
 				}
 
@@ -393,7 +317,6 @@ public class MainActivity extends ActionBarActivity {
 				"fSFmvqwVMeuhsuzavaa7KJAMg5XDPhN0CcjTDiFE");
 
 		btnSaveLocation = (Button) findViewById(R.id.btnSaveLocation);
-		//btnGetLocation = (Button) findViewById(R.id.btnGetLocation);
 		btnMoveRight = (Button) findViewById(R.id.btnZoomIn);
 		btnZoomIn = (Button) findViewById(R.id.btnZoomIn);
 		btnZoomOut = (Button) findViewById(R.id.btnZoomOut);
@@ -406,7 +329,23 @@ public class MainActivity extends ActionBarActivity {
 		_scannedAccessPoints = new ArrayList<AccessPoint>();
 		
 		
-		//textViewDevelopers = (TextView) findViewById(R.id.txtViewInstructions);
+		//detect whether the Android device is connected to the Internet
+		if (!isNetworkAvailable())
+		{
+			
+			AlertDialog myAlertDialog = new AlertDialog.Builder(MainActivity.this).create();
+			myAlertDialog.setMessage("No Internet connection.");
+			myAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int which) {
+			    	
+			    }
+			});
+
+			myAlertDialog.show();
+			
+		}
+		
+		
 		loadMap();// load the svg file
 
 		//TODO: change this values dynamic
@@ -417,23 +356,7 @@ public class MainActivity extends ActionBarActivity {
 		
 		getPointsFromDatabase();
 		
-		//imageView.onSizechanged(); 
-	//	mapVisiblePhisicalWidth = 500;//imageView.getWidth();
-	//	mapVisiblePhisicalHeight = 500;//imageView.getHeight();
-	//	mapMaxWidth = 500;
-	//	mapMaxHeight = 500;
-		//loadSpotsFromDatabase();
 
-		
-
-		/*
-		 * btnSaveLocation.setOnClickListener(new View.OnClickListener() {
-		 * public void onClick(View v) { // Do something in response to button
-		 * click
-		 * 
-		 * 
-		 * } });
-		 */
 
 		btnZoomIn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -455,8 +378,6 @@ public class MainActivity extends ActionBarActivity {
 				
             if (btnSaveLocation.getText().equals("Scan this location"))
             {
-            	
-
 				if ((spotX == -1) || (spotY == -1)) {
 					AlertDialog alertDialogNoLocation = new AlertDialog.Builder(
 							MainActivity.this).create();
@@ -475,24 +396,16 @@ public class MainActivity extends ActionBarActivity {
 					return;
 				}
 				
-				
-				
 				wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 				_scannedAccessPoints.clear();
 				
-				
 				broadcastReceiver = new BroadcastReceiver() {
-					
 					
 					@Override
 					public void onReceive(Context c, Intent intent) {
 						List<ScanResult> results = wifiManager.getScanResults();
 						
-						
-					
 						for (ScanResult ap : results) {
-
-							
 							AccessPoint accessPoint = new AccessPoint();
 							accessPoint.LEVEL = ap.level;
 							accessPoint.MAC = ap.BSSID;
@@ -503,54 +416,14 @@ public class MainActivity extends ActionBarActivity {
 							_scannedAccessPoints.add(accessPoint);
 							
 							btnSaveLocation.setText("Found: "+_scannedAccessPoints.size()+" AP(s). Press again to save");
-							/*
-							
-							ParseObject testObject = new ParseObject(
-									"ScanResult");
-							testObject.put("x", Integer.toString(spotX));
-							testObject.put("y", Integer.toString(spotY));
-							testObject.put("SSID", ap.SSID);
-							testObject.put("MAC", ap.BSSID);
-							testObject.put("LEVEL", ap.level);
-							
-							
-
-							testObject.saveInBackground(new SaveCallback() {
-								public void done(ParseException e) {
-									if (e == null) {
-										
-										AlertDialog myAlertDialog = new AlertDialog.Builder(MainActivity.this).create();
-										myAlertDialog.setMessage("New location has been saved.");
-										myAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-										    public void onClick(DialogInterface dialog, int which) {
-										       
-										    }
-										});
-
-										myAlertDialog.show();
-									} else {
-
-									}
-								}
-							});
-
-							// testObject.saveInBackground();
-							Log.d("", "SSID=" + ap.SSID + " MAC=" + ap.BSSID
-									+ " LEVEL=" + ap.level);
-*/
-						//}
 						}
 					}
-
 				};
-				
-				
 				
 				
 				registerReceiver(broadcastReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION) );
 				wifiManager.startScan();
 
-				
 				
 			}else
 			{
@@ -563,8 +436,6 @@ public class MainActivity extends ActionBarActivity {
 				{
 					AccessPoint accessPoint = _scannedAccessPoints.get(i);
 					
-					
-					
 					ParseObject testObject = new ParseObject(
 							"ScanResult");
 					testObject.put("x", Integer.toString(accessPoint.X));
@@ -573,8 +444,6 @@ public class MainActivity extends ActionBarActivity {
 					testObject.put("MAC", accessPoint.MAC);
 					testObject.put("LEVEL", accessPoint.LEVEL);
 					
-					
-
 					testObject.saveInBackground(new SaveCallback() {
 						public void done(ParseException e) {
 							if (e == null) {
@@ -583,10 +452,8 @@ public class MainActivity extends ActionBarActivity {
 								btnSaveLocation.setEnabled(true);
 								_scannedAccessPoints.clear();
 								
-								
 								spotX=-1;
 								spotY=-1;
-								
 								
 							} else {
 								AlertDialog myAlertDialog = new AlertDialog.Builder(MainActivity.this).create();
@@ -606,8 +473,6 @@ public class MainActivity extends ActionBarActivity {
 							}
 						}
 					});
-					
-					
 				}
 			}
 			}
@@ -617,29 +482,6 @@ public class MainActivity extends ActionBarActivity {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-
-				// The following code set pointer
-				
-			/*	Bitmap bmp =
-						Bitmap.createBitmap(imageView.getMeasuredWidth(),
-								imageView.getMeasuredHeight(), Config.ARGB_8888);
-				imageView.setBackgroundResource
-				(R.drawable.fivefloorplanproject); 
-				Canvas c = new				  Canvas(bmp);
-
-				Paint p = new Paint(); 
-				int color = Color.WHITE;
-				p.setColor(color);
-
-				color = Color.RED;
-				p.setColor(color);
-				currentx = event.getX();
-				currenty = event.getY();
-				// c.drawBitmap(bmp, 300, 300, p);
-				c.drawCircle(event.getX(), event.getY(), 10, p);
-
-				imageView.setImageBitmap(bmp);*/
-				 
 
 				int action = event.getAction();
 				switch (action) {
@@ -718,9 +560,8 @@ public class MainActivity extends ActionBarActivity {
 						int touchX = (int) pointStartStart.x;
 						int touchY = (int) pointStartStart.y;
 
-						int imageX = touchX;// - viewCoords[0]; // viewCoords[0] is the X coordinate
-						int imageY = touchY;// - viewCoords[1]; 
-						
+						int imageX = touchX;
+						int imageY = touchY;
 						
 						int x1 = x - (int) CURRENT_VIEW_WIDTH / 2;
 						int y1 = y - (int) CURRENT_VIEW_HEIGHT / 2;
@@ -731,7 +572,6 @@ public class MainActivity extends ActionBarActivity {
 						Point point = new Point(spotX,spotY);
 						_spots.add(point);
 						drawMap();
-
 					}
 					break;
 				}
@@ -740,100 +580,13 @@ public class MainActivity extends ActionBarActivity {
 
 		});
 
-		//btnGetLocation.setOnClickListener(new View.OnClickListener() {
-		//	public void onClick(View v) {
-
-				/*
-				 * 
-				 * final ArrayList<AccessPoint> arrayList = new
-				 * ArrayList<AccessPoint>();
-				 * 
-				 * final WifiManager wifiManager = (WifiManager)
-				 * getSystemService(Context.WIFI_SERVICE); registerReceiver(new
-				 * BroadcastReceiver() {
-				 * 
-				 * @Override public void onReceive(Context c, Intent intent) {
-				 * List<ScanResult> results = wifiManager.getScanResults(); for
-				 * (ScanResult ap : results) {
-				 * 
-				 * 
-				 * AccessPoint app = new AccessPoint(); app.MAC = ap.BSSID;
-				 * app.LEVEL = ap.level; arrayList.add(app);
-				 * 
-				 * 
-				 * 
-				 * }
-				 * 
-				 * 
-				 * //sort list int size = arrayList.size(); for (int i=0; i<
-				 * arrayList.size()-1; i++) for (int j=0; j< arrayList.size()-1;
-				 * j++) {
-				 * 
-				 * AccessPoint app1 = arrayList.get(i); AccessPoint app2 =
-				 * arrayList.get(i+1);
-				 * 
-				 * if (app2.LEVEL<app1.LEVEL) { AccessPoint toMove =
-				 * arrayList.get(i); arrayList.set(i, arrayList.get(i-1));
-				 * arrayList.set(i-1, toMove); }
-				 * 
-				 * }
-				 * 
-				 * //find in the cloud int a=1; a=2; String tempm =
-				 * arrayList.get(0).MAC;
-				 * 
-				 * 
-				 * ParseQuery<ParseObject> query =
-				 * ParseQuery.getQuery("ScanResult"); query.whereEqualTo("MAC",
-				 * tempm);
-				 * 
-				 * query.findInBackground(new FindCallback<ParseObject>() {
-				 * public void done(List<ParseObject> scoreList, ParseException
-				 * e) { if (e == null) { String x =
-				 * scoreList.get(0).getString("x"); String y =
-				 * scoreList.get(0).getString("y");
-				 * 
-				 * float fl_x = Float.parseFloat(x); float fl_y =
-				 * Float.parseFloat(y);
-				 * 
-				 * drawPointOnGivenLocation(fl_x, fl_y);
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * Log.d("score", "Retrieved " +
-				 * scoreList.get(0).getString("x")+
-				 * " "+scoreList.get(0).getString("y")); } else { Log.d("score",
-				 * "Error: " + e.getMessage()); } } });
-				 * 
-				 * 
-				 * }
-				 * 
-				 * 
-				 * }, new
-				 * IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-				 * wifiManager.startScan();
-				 */
-
-			//}
-
-		//});
-
-		
 		
 		//show the map 
 		x = (int)mapMaxWidth/2;
 		y = (int)mapMaxHeight/2;
 		
-	
-		
-		
 		drawMap();
-		
 	}
-	
-	
 	
 
 	public String readMapFromFile() {
@@ -881,10 +634,6 @@ public class MainActivity extends ActionBarActivity {
 		imageView.setImageBitmap(bmp);
 	}
 	
-	//timer
-	
-	
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -896,6 +645,15 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager 
+	          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+	
+	
 }
 
 		
