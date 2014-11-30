@@ -71,6 +71,9 @@ public class MainActivity extends ActionBarActivity {
 	private static final int SWIPE_THRESHOLD = 5;
 	private static final int SWIPE_VELOCITY_THRESHOLD = 5;
 	private static final int SWIPE_VELOCITY_MAPMOVE = 30;
+	private static final int STATA = 1;
+	private static final int TUNNEL = 2;
+			private int currentMap=STATA;
 	private  int CURRENT_VIEW_WIDTH = 300;
 	private  int CURRENT_VIEW_HEIGHT = 300;
 
@@ -78,6 +81,7 @@ public class MainActivity extends ActionBarActivity {
 	private Button btnSaveLocation;
 	private Button btnGetLocation;
 	private Button btnMoveRight;
+	private Button btnChangeMap;
 	private Button btnZoomIn;
 	private Button btnZoomOut;
 	private ImageView imageView;
@@ -182,12 +186,12 @@ public class MainActivity extends ActionBarActivity {
 
 		if (x1 < 0)
 			x1 = 0;
-		if (x2 > CURRENT_VIEW_WIDTH )
-			x2 = CURRENT_VIEW_WIDTH - 1;
+		if (x2 > mapWidth )
+			x2 = mapWidth - 1;
 		if (y1 < 0)
 			y1 = 0;
-		if (y2 > CURRENT_VIEW_HEIGHT)
-			y2 = CURRENT_VIEW_HEIGHT - 1;
+		if (y2 > mapHeight)
+			y2 = mapHeight - 1;
 
 		String str = Integer.toString(x1) + " " + Integer.toString(y1) + " "
 				+ Integer.toString(x2) + " " + Integer.toString(y2) + " ";
@@ -259,10 +263,25 @@ public class MainActivity extends ActionBarActivity {
 		
 	}
 	
-	private void loadSpotsFromDatabase(){
+	/*private void loadSpotsFromDatabase(){
 		ParseQuery<ParseObject> query =
 				ParseQuery.getQuery("ScanResult"); 
-
+		
+		switch (currentMap){
+		case STATA:
+			
+			
+			query.whereEqualTo("Map", "");
+			
+			break;
+		case TUNNEL:
+		
+			query.whereEqualTo("Map", "Tunnel");
+			break;
+		}
+		
+		
+		
 		query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> scoreList, ParseException
 					e) 
@@ -280,7 +299,7 @@ public class MainActivity extends ActionBarActivity {
 				}
 			}
 		});
-	}
+	}*/
 
 	private void loadMap() {
 		//SVG svg = SVGParser.getSVGFromString(readMapFromFile());
@@ -288,7 +307,22 @@ public class MainActivity extends ActionBarActivity {
 		//bitmap = Bitmap.createBitmap(mapMaxWidth, mapMaxHeight, Config.ARGB_8888);
 		
 		//Drawable myIcon = getResources().getDrawable( R.drawable.mit );
-		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.gfinal);
+		
+		switch (currentMap){
+		case STATA:
+			
+			bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.gfinal);
+			
+			
+			break;
+		case TUNNEL:
+			bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tunnelmap);
+			
+			break;
+		}
+		
+		
+//		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tunnelmap);
 		
 		 mapWidth = bitmap.getWidth();
 		mapHeight = bitmap.getHeight();
@@ -297,6 +331,30 @@ public class MainActivity extends ActionBarActivity {
 		//canvas = new Canvas(bitmap);
 		//canvas.drawBitmap(bitmap_temp, 0, 0, new Paint());
 		//canvas.drawPicture(pictureDrawable.getPicture());
+	}
+	
+	
+	
+	public void changeMap(){
+		switch (currentMap){
+		case STATA:
+			
+			
+			
+			currentMap=TUNNEL;
+			btnChangeMap.setText("Stata");
+			
+			break;
+		case TUNNEL:
+			
+			currentMap = STATA;
+			btnChangeMap.setText("Tunnels");
+			break;
+		}
+		loadMap();
+		_spots.clear();
+		getPointsFromDatabase();
+		drawMap();
 	}
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -311,6 +369,7 @@ public class MainActivity extends ActionBarActivity {
 		btnSaveLocation = (Button) findViewById(R.id.btnSaveLocation);
 		btnGetLocation = (Button) findViewById(R.id.btnGetLocation);
 		btnMoveRight = (Button) findViewById(R.id.btnZoomIn);
+		btnChangeMap = (Button) findViewById(R.id.btnChangeMap);
 		btnZoomIn = (Button) findViewById(R.id.btnZoomIn);
 		btnZoomOut = (Button) findViewById(R.id.btnZoomOut);
 		imageView = (ImageView) findViewById(R.id.imgMap);
@@ -342,28 +401,34 @@ public class MainActivity extends ActionBarActivity {
 		loadMap();// load the svg file
 
 		//TODO: change this values dynamic
-		CURRENT_VIEW_WIDTH = 555;
-		CURRENT_VIEW_HEIGHT = 705;
+		//CURRENT_VIEW_WIDTH = 555;
+		//CURRENT_VIEW_HEIGHT = 705;
 
 	    
 		
-		Display display = getWindowManager().getDefaultDisplay();
+		/*Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
+		*/
+	//	CURRENT_VIEW_WIDTH = 960;
+	//	CURRENT_VIEW_HEIGHT = 1060;
 		
-		CURRENT_VIEW_WIDTH = 960;
-		CURRENT_VIEW_HEIGHT = 1060;
-		
-		
+		/*
 		int width = size.x;
 		int height = size.y;
 		
-		
+		*/
 		
 		getPointsFromDatabase();
 		
 
 
+		btnChangeMap.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				// Do something in response to button click
+				changeMap();
+			}
+		});
 		
 		btnZoomIn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -419,8 +484,8 @@ public class MainActivity extends ActionBarActivity {
 							accessPoint.LEVEL = ap.level;
 							accessPoint.MAC = ap.BSSID;
 							accessPoint.SSID = ap.SSID;
-							accessPoint.X = spotX;
-							accessPoint.Y = spotY;
+							accessPoint.X = spotX+x-CURRENT_VIEW_WIDTH/2;
+							accessPoint.Y = spotY+y-CURRENT_VIEW_HEIGHT/2;
 							
 							_scannedAccessPoints.add(accessPoint);
 							
@@ -441,7 +506,7 @@ public class MainActivity extends ActionBarActivity {
 				btnSaveLocation.setText("Saving...");
 				btnSaveLocation.setEnabled(false);
 				
-				Point point = new Point(spotX,spotY);
+				Point point = new Point(spotX+x-CURRENT_VIEW_WIDTH/2,spotY+y-CURRENT_VIEW_HEIGHT/2);
 				_spots.add(point);
 				
 				for (int i=0; i<_scannedAccessPoints.size(); i++)
@@ -455,6 +520,21 @@ public class MainActivity extends ActionBarActivity {
 					testObject.put("SSID", accessPoint.SSID);
 					testObject.put("MAC", accessPoint.MAC);
 					testObject.put("LEVEL", accessPoint.LEVEL);
+					
+					switch (currentMap){
+					case STATA:
+						
+						
+						testObject.put("Map", "");
+						
+						break;
+					case TUNNEL:
+						
+						testObject.put("Map", "Tunnel");
+						break;
+					}
+					
+					
 					
 					testObject.saveInBackground(new SaveCallback() {
 						public void done(ParseException e) {
@@ -613,16 +693,33 @@ public class MainActivity extends ActionBarActivity {
 						int touchX = (int) pointStartStart.x;
 						int touchY = (int) pointStartStart.y;
 
-						int imageX = touchX;
-						int imageY = touchY;
 						
-						int x1 = x - (int) CURRENT_VIEW_WIDTH / 2;
+						float ww = imageView.getWidth();
+						float hh = imageView.getHeight();
+						
+						ww = touchX/ww;
+						hh = touchY/hh;
+						
+						touchX = Math.round(CURRENT_VIEW_WIDTH * ww);
+						touchY = Math.round(CURRENT_VIEW_HEIGHT * hh);
+						
+						
+						//int imageX = touchX;
+						//int imageY = touchY;
+						
+						/*int x1 = x - (int) CURRENT_VIEW_WIDTH / 2;
 						int y1 = y - (int) CURRENT_VIEW_HEIGHT / 2;
 						int top=imageView.getPaddingTop();
 						spotX = imageX-imageView.getPaddingLeft()+x1;
 						spotY = imageY-top+y1;
 						
-						Point point = new Point(spotX,spotY);
+						*/
+						
+						spotX=touchX;
+						spotY = touchY;
+						
+						
+						//Point point = new Point(touchX,touchY);
 						//_spots.add(point);
 						drawMap();
 					}
@@ -723,6 +820,18 @@ public void getPointsFromDatabase() {
 		
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
 		query.setLimit(1000);
+		switch (currentMap){
+		case STATA:
+			
+			
+			query.whereEqualTo("Map", "");
+			
+			break;
+		case TUNNEL:
+		
+			query.whereEqualTo("Map", "Tunnel");
+			break;
+		}
 		query.findInBackground(new FindCallback<ParseObject>() {
 			   public void done(List<ParseObject> objects, ParseException e) {
 				     if (e == null) {
@@ -731,6 +840,18 @@ public void getPointsFromDatabase() {
 							if (objects.size() == limit){
 			                    skip = skip + limit;
 			                    ParseQuery query = new ParseQuery("ScanResult");
+			                    switch (currentMap){
+			            		case STATA:
+			            			
+			            			
+			            			query.whereEqualTo("Map", "");
+			            			
+			            			break;
+			            		case TUNNEL:
+			            		
+			            			query.whereEqualTo("Map", "Tunnel");
+			            			break;
+			            		}
 			                    query.setSkip(skip);
 			                    query.setLimit(limit);
 			                    query.findInBackground(this);

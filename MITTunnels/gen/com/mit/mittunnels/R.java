@@ -1635,8 +1635,10 @@ containing a value of this type.
         public static final int abc_textfield_search_material=0x7f020032;
         public static final int gfinal=0x7f020033;
         public static final int ic_launcher=0x7f020034;
+        public static final int tunnelmap=0x7f020035;
     }
     public static final class id {
+        public static final int LinearLayout02=0x7f050041;
         public static final int action_bar=0x7f050033;
         public static final int action_bar_activity_content=0x7f05001a;
         public static final int action_bar_container=0x7f050032;
@@ -1650,13 +1652,14 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f050030;
         public static final int action_mode_bar_stub=0x7f05002f;
         public static final int action_mode_close_button=0x7f050022;
-        public static final int action_settings=0x7f050047;
+        public static final int action_settings=0x7f050048;
         public static final int activity_chooser_view_content=0x7f050023;
         public static final int always=0x7f05000d;
         public static final int beginning=0x7f050012;
         public static final int bottom=0x7f050016;
-        public static final int btnGetLocation=0x7f050045;
-        public static final int btnSaveLocation=0x7f050044;
+        public static final int btnChangeMap=0x7f050044;
+        public static final int btnGetLocation=0x7f050046;
+        public static final int btnSaveLocation=0x7f050045;
         public static final int btnZoomIn=0x7f050042;
         public static final int btnZoomOut=0x7f050043;
         public static final int checkbox=0x7f05002b;
@@ -1670,13 +1673,12 @@ containing a value of this type.
         public static final int end=0x7f050014;
         public static final int expand_activities_button=0x7f050024;
         public static final int expanded_menu=0x7f05002a;
-        public static final int fakeView=0x7f050041;
         public static final int home=0x7f050017;
         public static final int homeAsUp=0x7f050007;
         public static final int icon=0x7f050028;
         public static final int ifRoom=0x7f05000c;
         public static final int image=0x7f050025;
-        public static final int imgMap=0x7f050046;
+        public static final int imgMap=0x7f050047;
         public static final int listMode=0x7f050002;
         public static final int list_item=0x7f050027;
         public static final int middle=0x7f050013;
