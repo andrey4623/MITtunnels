@@ -528,11 +528,48 @@ public class MainActivity extends ActionBarActivity {
 							_scannedAccessPoints.add(accessPoint);
 						}
 						unregisterReceiver(broadcastReceiver);
-
+                        boolean pointAdded = false;
 						// we have two lists: _scannedAccessPoints and _spots
+                        ArrayList<ArrayList<AccessPoint>> _locations = null;
+                        for (int i = 0; i < _spots.size(); i++) {
+                            pointAdded = false;
+                            for(int j=0; j<_locations.size();j++){
+                                if(pointAdded == false
+                                        && _spots.get(i).X == _locations.get(j).get(0).X
+                                        && _spots.get(i).Y == _locations.get(j).get(0).Y){
+                                    _locations.get(j).add(_spots.get(i));
+                                    pointAdded = true;
+                                }
 
-						determinedCurrentLocation.x = 50;
-						determinedCurrentLocation.y = 50;
+                            }
+                            if(pointAdded == false){
+                                ArrayList<AccessPoint> new_list = null;
+                                new_list.add(_spots.get(i));
+                                _locations.add(new_list);
+                            }
+
+                        }
+                        AccessPoint closest_point = _locations.get(0).get(0);
+                        double closest_distance = 10^10;
+
+                        for (int i=0; i < _locations.size(); i++){
+                            double distance_sum = 0;
+                            for(int j = 0; j < _scannedAccessPoints.size(); j++){
+                                for(int k = 0; k < _locations.get(i).size(); k++){
+                                    if(_locations.get(i).get(k).MAC == _scannedAccessPoints.get(j).MAC){
+                                        distance_sum += (_locations.get(i).get(k).LEVEL - _scannedAccessPoints.get(j).LEVEL)^2;
+                                    }
+                                }
+                            }
+                            if(distance_sum < closest_distance){
+                                closest_distance = distance_sum;
+                                closest_point = _locations.get(i).get(0);
+                            }
+                        }
+
+
+						determinedCurrentLocation.x = closest_point.X;
+						determinedCurrentLocation.y = closest_point.Y;
 
 						drawMap();
 					}
