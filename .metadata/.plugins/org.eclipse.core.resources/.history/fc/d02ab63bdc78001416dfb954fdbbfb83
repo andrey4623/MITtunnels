@@ -341,7 +341,22 @@ public class MainActivity extends ActionBarActivity {
 
 		}
 
-		loadMap();
+		loadMap();// load the svg file
+
+		// TODO: change this values dynamic
+		// CURRENT_VIEW_WIDTH = 555;
+		// CURRENT_VIEW_HEIGHT = 705;
+
+		/*
+		 * Display display = getWindowManager().getDefaultDisplay(); Point size
+		 * = new Point(); display.getSize(size);
+		 */
+		// CURRENT_VIEW_WIDTH = 960;
+		// CURRENT_VIEW_HEIGHT = 1060;
+
+		/*
+		 * int width = size.x; int height = size.y;
+		 */
 
 		getPointsFromDatabase();
 
