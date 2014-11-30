@@ -636,7 +636,7 @@ public class MainActivity extends ActionBarActivity {
 	 // drawMap();
 	 }
 
-	/*public String readMapFromFile() {
+	public String readMapFromFile() {
 		StringBuffer datax = new StringBuffer("");
 		try {
 			InputStream is = this.getResources().openRawResource(R.raw.map);
@@ -655,7 +655,7 @@ public class MainActivity extends ActionBarActivity {
 			ioe.printStackTrace();
 		}
 		return datax.toString();
-	}*/
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -664,7 +664,7 @@ public class MainActivity extends ActionBarActivity {
 		return true;
 	}
 
-	/*private void drawPointOnGivenLocation(float x, float y) {
+	private void drawPointOnGivenLocation(float x, float y) {
 		Bitmap bmp = Bitmap.createBitmap(imageView.getMeasuredWidth(),
 				imageView.getMeasuredHeight(), Config.ARGB_8888);
 		imageView.setBackgroundResource(R.drawable.fivefloorplanproject);
@@ -679,7 +679,7 @@ public class MainActivity extends ActionBarActivity {
 		c.drawCircle(x, y, 10, p);
 
 		imageView.setImageBitmap(bmp);
-	}*/
+	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
