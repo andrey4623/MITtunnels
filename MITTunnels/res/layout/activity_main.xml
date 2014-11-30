@@ -10,8 +10,8 @@
 
  
 <LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="match_parent">
-     <Button android:id="@+id/btnZoomIn" android:enabled="false" android:text="+" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"></Button>
-        <Button android:id="@+id/btnZoomOut" android:enabled="false" android:text="-" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"></Button>
+     <Button android:id="@+id/btnZoomIn" android:enabled="true" android:text="+" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"></Button>
+        <Button android:id="@+id/btnZoomOut" android:enabled="true" android:text="-" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"></Button>
         <Button android:id="@+id/btnChangeMap" android:text="Tunnels" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"></Button>
  
     

@@ -74,9 +74,9 @@ public class MainActivity extends ActionBarActivity {
 	private static final int SWIPE_VELOCITY_MAPMOVE = 30;
 	private static final int STATA = 1;
 	private static final int TUNNEL = 2;
-			private int currentMap=STATA;
-	private  int CURRENT_VIEW_WIDTH = 300;
-	private  int CURRENT_VIEW_HEIGHT = 300;
+			private int currentMap=TUNNEL;
+	private  int CURRENT_VIEW_WIDTH = 600;
+	private  int CURRENT_VIEW_HEIGHT = 600;
 
 	private float currentx, currenty;
 	private Button btnSaveLocation;
@@ -94,6 +94,7 @@ public class MainActivity extends ActionBarActivity {
 
 	private int mapWidth;
 	private int mapHeight;
+	private int currentSavingNumber;
 	
 	private int mapVisiblePhisicalWidth=-1;
 	private int mapVisiblePhisicalHeight=-1;
@@ -111,8 +112,7 @@ public class MainActivity extends ActionBarActivity {
 	
 	
 	private Point determinedCurrentLocation=new Point(-1,-1);
-	
-	
+	ProgressDialog progressSaving;
 
 	public void checkBorders() {
 		if (x < (int) CURRENT_VIEW_WIDTH / 2)
@@ -352,8 +352,10 @@ public class MainActivity extends ActionBarActivity {
 			btnChangeMap.setText("Tunnels");
 			break;
 		}
-		loadMap();
 		_spots.clear();
+		while (_spots.size()>0)_spots.clear();
+		loadMap();
+		
 		getPointsFromDatabase();
 		drawMap();
 	}
@@ -381,6 +383,11 @@ public class MainActivity extends ActionBarActivity {
 		_spots = new ArrayList<Point>();
 		_scannedAccessPoints = new ArrayList<AccessPoint>();
 		
+		
+	 progressSaving = new ProgressDialog(this);
+	 progressSaving.setTitle("Saving");
+	 progressSaving.setMessage("Wait while saving...");
+	 
 		
 		//detect whether the Android device is connected to the Internet
 		if (!isNetworkAvailable())
@@ -503,13 +510,16 @@ public class MainActivity extends ActionBarActivity {
 			}else
 			{
 				//save to database
+				progressSaving.show();
 				unregisterReceiver(broadcastReceiver);
 				btnSaveLocation.setText("Saving...");
 				btnSaveLocation.setEnabled(false);
 				
+				
+				
 				Point point = new Point(spotX+x-CURRENT_VIEW_WIDTH/2,spotY+y-CURRENT_VIEW_HEIGHT/2);
 				_spots.add(point);
-				
+				currentSavingNumber=0;
 				for (int i=0; i<_scannedAccessPoints.size(); i++)
 				{
 					AccessPoint accessPoint = _scannedAccessPoints.get(i);
@@ -526,7 +536,7 @@ public class MainActivity extends ActionBarActivity {
 					case STATA:
 						
 						
-						testObject.put("Map", "");
+						testObject.put("Map", "Stata");
 						
 						break;
 					case TUNNEL:
@@ -540,6 +550,9 @@ public class MainActivity extends ActionBarActivity {
 					testObject.saveInBackground(new SaveCallback() {
 						public void done(ParseException e) {
 							if (e == null) {
+								currentSavingNumber++;
+								if (currentSavingNumber>=_scannedAccessPoints.size())
+								{
 								
 								btnSaveLocation.setText("Scan this location");
 								btnSaveLocation.setEnabled(true);
@@ -547,8 +560,11 @@ public class MainActivity extends ActionBarActivity {
 								
 								spotX=-1;
 								spotY=-1;
+								progressSaving.dismiss();
+								}
 								
 							} else {
+								progressSaving.dismiss();
 								AlertDialog myAlertDialog = new AlertDialog.Builder(MainActivity.this).create();
 								myAlertDialog.setMessage("Saving error"+e.getMessage());
 								myAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
@@ -817,7 +833,7 @@ public class MainActivity extends ActionBarActivity {
 	
 	
 public void getPointsFromDatabase() {
-
+	_spots.clear();
 	final ProgressDialog progress = new ProgressDialog(this);
 	progress.setTitle("Loading");
 	progress.setMessage("Wait while loading...");
@@ -830,7 +846,7 @@ public void getPointsFromDatabase() {
 		case STATA:
 			
 			
-			query.whereEqualTo("Map", "");
+			query.whereEqualTo("Map", "Stata");
 			
 			break;
 		case TUNNEL:
@@ -852,7 +868,7 @@ public void getPointsFromDatabase() {
 			            		case STATA:
 			            			
 			            			
-			            			query.whereEqualTo("Map", "");
+			            			query.whereEqualTo("Map", "Stata");
 			            			
 			            			break;
 			            		case TUNNEL:
@@ -876,7 +892,26 @@ public void getPointsFromDatabase() {
 									int fl_x = Integer.parseInt(x);
 									int fl_y = Integer.parseInt(y);
 									Point point = new Point(fl_x, fl_y);
-									_spots.add(point);
+									
+									
+									switch (currentMap){
+									case STATA:
+										
+										if (allObjects.get(i).getString("Map").equals("Stata"))
+										_spots.add(point);
+									
+										
+										break;
+									case TUNNEL:
+									
+										//query.whereEqualTo("Map", "Tunnel");
+										if (allObjects.get(i).getString("Map").equals("Tunnel"))
+											_spots.add(point);
+										break;
+									}
+									
+									
+									
 			                	}
 			                	
 			                	
