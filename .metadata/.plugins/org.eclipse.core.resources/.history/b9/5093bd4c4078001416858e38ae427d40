@@ -1,0 +1,14 @@
+package com.mit.mittunnels;
+
+import java.util.ArrayList;
+
+import android.graphics.Point;
+
+public class MITTunnelsLogic {
+	private ArrayList<Point> _spots;
+	private ArrayList<AccessPoint> _scannedAccessPoints;
+	
+	public MITTunnelsLogic(ArrayList<AccessPoint> spots, ArrayList<AccessPoint> scannedAccessPoints){
+		
+	}
+}

@@ -35,4 +35,5 @@
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="android.net.ConnectivityManager"/>
 <fullyQualifiedTypeName name="android.net.NetworkInfo"/>
+<fullyQualifiedTypeName name="com.mit.mittunnels.MITTunnelsLogic"/>
 </qualifiedTypeNameHistroy>

@@ -76,6 +76,7 @@ public class MainActivity extends ActionBarActivity {
 
 	private float currentx, currenty;
 	private Button btnSaveLocation;
+	private Button btnGetLocation;
 	private Button btnMoveRight;
 	private Button btnZoomIn;
 	private Button btnZoomOut;
@@ -104,49 +105,9 @@ public class MainActivity extends ActionBarActivity {
 	private static List<ParseObject>allObjects = new ArrayList<ParseObject>();
 	
 	
+	private Point determinedCurrentLocation=new Point(-1,-1);
 	
 	
-	private void getPointsFromDatabase() {
-
-		
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
-		query.setLimit(1000);
-		query.findInBackground(new FindCallback<ParseObject>() {
-			   public void done(List<ParseObject> objects, ParseException e) {
-				     if (e == null) {
-				    	 allObjects.addAll(objects);
-				    	 int skip=0;  int limit =1000;
-							if (objects.size() == limit){
-			                    skip = skip + limit;
-			                    ParseQuery query = new ParseQuery("ScanResult");
-			                    query.setSkip(skip);
-			                    query.setLimit(limit);
-			                    query.findInBackground(this);
-			                }
-							//We have a full PokeDex
-			                else {
-			                    //USE FULL DATA AS INTENDED
-			                	
-			                	for (int i=0; i<allObjects.size(); i++)
-			                	{
-			                		String x = allObjects.get(i).getString("x");
-									String y = allObjects.get(i).getString("y");
-
-									int fl_x = Integer.parseInt(x);
-									int fl_y = Integer.parseInt(y);
-									Point point = new Point(fl_x, fl_y);
-									_spots.add(point);
-			                	}
-			                	
-			                	
-			                	
-			                	drawMap();
-			                }
-				     } else {
-				      
-				     }
-				   }
-				 });}
 
 	public void checkBorders() {
 		if (x < (int) CURRENT_VIEW_WIDTH / 2)
@@ -281,6 +242,19 @@ public class MainActivity extends ActionBarActivity {
 				yourcanvas.drawCircle(spotX, spotY, 10, p);
 				}
 
+				
+				if ((determinedCurrentLocation.x != -1) && (determinedCurrentLocation.y != -1)) {
+					//draw current point
+					Paint p = new Paint(); 
+					int color = Color.WHITE;
+					p.setColor(color);
+
+					color = Color.GREEN;
+					p.setColor(color);
+					yourcanvas.drawCircle(determinedCurrentLocation.x, determinedCurrentLocation.y, 10, p);
+					}
+				
+				
 		imageView.setImageBitmap(largeWhiteBitmap);
 		
 	}
@@ -335,6 +309,7 @@ public class MainActivity extends ActionBarActivity {
 				"fSFmvqwVMeuhsuzavaa7KJAMg5XDPhN0CcjTDiFE");
 
 		btnSaveLocation = (Button) findViewById(R.id.btnSaveLocation);
+		btnGetLocation = (Button) findViewById(R.id.btnGetLocation);
 		btnMoveRight = (Button) findViewById(R.id.btnZoomIn);
 		btnZoomIn = (Button) findViewById(R.id.btnZoomIn);
 		btnZoomOut = (Button) findViewById(R.id.btnZoomOut);
@@ -389,6 +364,7 @@ public class MainActivity extends ActionBarActivity {
 		
 
 
+		
 		btnZoomIn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// Do something in response to button click
@@ -513,6 +489,47 @@ public class MainActivity extends ActionBarActivity {
 			}
 			}
 		});
+		
+		btnGetLocation.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				// get list of network
+				
+          
+				wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+				_scannedAccessPoints.clear();
+				
+				broadcastReceiver = new BroadcastReceiver() {
+					
+					@Override
+					public void onReceive(Context c, Intent intent) {
+						List<ScanResult> results = wifiManager.getScanResults();
+						
+						for (ScanResult ap : results) {
+							AccessPoint accessPoint = new AccessPoint();
+							accessPoint.LEVEL = ap.level;
+							accessPoint.MAC = ap.BSSID;
+							accessPoint.SSID = ap.SSID;
+							
+							_scannedAccessPoints.add(accessPoint);
+						}
+							unregisterReceiver(broadcastReceiver);
+							
+							//we have two lists: _scannedAccessPoints and _spots
+							
+							determinedCurrentLocation.x = 50;
+							determinedCurrentLocation.y = 50;
+							
+							drawMap();
+					}
+				};
+				
+				
+				registerReceiver(broadcastReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION) );
+				wifiManager.startScan();
+
+			}
+			
+		});
 
 		imageView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -602,8 +619,8 @@ public class MainActivity extends ActionBarActivity {
 						int x1 = x - (int) CURRENT_VIEW_WIDTH / 2;
 						int y1 = y - (int) CURRENT_VIEW_HEIGHT / 2;
 						int top=imageView.getPaddingTop();
-						spotX = imageX-imageView.getPaddingLeft();
-						spotY = imageY-top;
+						spotX = imageX-imageView.getPaddingLeft()+x1;
+						spotY = imageY-top+y1;
 						
 						Point point = new Point(spotX,spotY);
 						//_spots.add(point);
@@ -632,7 +649,7 @@ public class MainActivity extends ActionBarActivity {
 	  //Here you can get the size!
 	  
 	  //CURRENT_VIEW_WIDTH = btnSaveLocation.getWidth();
-		//CURRENT_VIEW_HEIGHT = 1060;
+		//CURRENT_VIEW_HEIGHT = imageView.getHeight();
 	 // drawMap();
 	 }
 
@@ -700,6 +717,49 @@ public class MainActivity extends ActionBarActivity {
 	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 	
+	
+public void getPointsFromDatabase() {
+
+		
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
+		query.setLimit(1000);
+		query.findInBackground(new FindCallback<ParseObject>() {
+			   public void done(List<ParseObject> objects, ParseException e) {
+				     if (e == null) {
+				    	 allObjects.addAll(objects);
+				    	 int skip=0;  int limit =1000;
+							if (objects.size() == limit){
+			                    skip = skip + limit;
+			                    ParseQuery query = new ParseQuery("ScanResult");
+			                    query.setSkip(skip);
+			                    query.setLimit(limit);
+			                    query.findInBackground(this);
+			                }
+							//We have a full PokeDex
+			                else {
+			                    //USE FULL DATA AS INTENDED
+			                	
+			                	for (int i=0; i<allObjects.size(); i++)
+			                	{
+			                		String x = allObjects.get(i).getString("x");
+									String y = allObjects.get(i).getString("y");
+
+									int fl_x = Integer.parseInt(x);
+									int fl_y = Integer.parseInt(y);
+									Point point = new Point(fl_x, fl_y);
+									_spots.add(point);
+			                	}
+			                	
+			                	
+			                	
+			                	drawMap();
+			                }
+				     } else {
+				      
+				     }
+				   }
+				 });}
+
 	
 }
 

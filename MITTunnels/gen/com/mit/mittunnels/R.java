@@ -1650,11 +1650,12 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f050030;
         public static final int action_mode_bar_stub=0x7f05002f;
         public static final int action_mode_close_button=0x7f050022;
-        public static final int action_settings=0x7f050046;
+        public static final int action_settings=0x7f050047;
         public static final int activity_chooser_view_content=0x7f050023;
         public static final int always=0x7f05000d;
         public static final int beginning=0x7f050012;
         public static final int bottom=0x7f050016;
+        public static final int btnGetLocation=0x7f050045;
         public static final int btnSaveLocation=0x7f050044;
         public static final int btnZoomIn=0x7f050042;
         public static final int btnZoomOut=0x7f050043;
@@ -1675,7 +1676,7 @@ containing a value of this type.
         public static final int icon=0x7f050028;
         public static final int ifRoom=0x7f05000c;
         public static final int image=0x7f050025;
-        public static final int imgMap=0x7f050045;
+        public static final int imgMap=0x7f050046;
         public static final int listMode=0x7f050002;
         public static final int list_item=0x7f050027;
         public static final int middle=0x7f050013;

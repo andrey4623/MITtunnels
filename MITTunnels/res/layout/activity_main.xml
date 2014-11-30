@@ -41,15 +41,24 @@
         android:layout_below="@id/btnZoomOut"
         android:text="Scan this location"
          />
+    
+     <Button
+        android:id="@+id/btnGetLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnSaveLocation"
+        android:text="My location"
+         />
 
     <ImageView
         android:id="@+id/imgMap"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-      android:layout_alignLeft="@+id/btnSaveLocation"
-        android:layout_alignRight="@+id/btnSaveLocation"
-        android:layout_below="@+id/btnSaveLocation"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@+id/btnGetLocation"
+        android:layout_alignRight="@+id/btnGetLocation"
+        android:layout_below="@+id/btnGetLocation"
         android:paddingTop="20dp"
+        android:scaleType="fitStart"
         android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>
