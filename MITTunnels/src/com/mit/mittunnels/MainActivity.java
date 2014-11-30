@@ -30,6 +30,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.PendingIntent.OnFinished;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -817,6 +818,11 @@ public class MainActivity extends ActionBarActivity {
 	
 public void getPointsFromDatabase() {
 
+	final ProgressDialog progress = new ProgressDialog(this);
+	progress.setTitle("Loading");
+	progress.setMessage("Wait while loading...");
+	
+	
 		
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
 		query.setLimit(1000);
@@ -832,6 +838,8 @@ public void getPointsFromDatabase() {
 			query.whereEqualTo("Map", "Tunnel");
 			break;
 		}
+		
+		progress.show();
 		query.findInBackground(new FindCallback<ParseObject>() {
 			   public void done(List<ParseObject> objects, ParseException e) {
 				     if (e == null) {
@@ -872,7 +880,7 @@ public void getPointsFromDatabase() {
 			                	}
 			                	
 			                	
-			                	
+			                	progress.dismiss();
 			                	drawMap();
 			                }
 				     } else {

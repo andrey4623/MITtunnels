@@ -36,4 +36,5 @@
 <fullyQualifiedTypeName name="android.net.ConnectivityManager"/>
 <fullyQualifiedTypeName name="android.net.NetworkInfo"/>
 <fullyQualifiedTypeName name="com.mit.mittunnels.MITTunnelsLogic"/>
+<fullyQualifiedTypeName name="android.app.ProgressDialog"/>
 </qualifiedTypeNameHistroy>
