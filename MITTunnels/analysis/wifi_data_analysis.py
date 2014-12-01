@@ -31,7 +31,7 @@ closest_list = []
 
 closest_average_list = []
 acount = -1
-"""
+
 for a, i in locations.items():
     color_count += 1
     closest = a
@@ -63,10 +63,10 @@ for a, i in locations.items():
             distances_loc.append(loc_dist)
             distances_signal.append(dist_sum**.5)
             if dist_sum < closest_dist:
-		closest = j
-		closest_dist = dist_sum
-		closest_loc_dist = loc_dist
-#	    colors.append(color_list[color_count-1])
+                closest = j
+                closest_dist = dist_sum
+                closest_loc_dist = loc_dist
+#       colors.append(color_list[color_count-1])
     closest_list.append([[i[0]['x'], i[0]['y']],[closest[0]['x'], closest[0]['y']], closest_dist, closest_loc_dist])
 
     for b, j in locations.items():
@@ -101,7 +101,7 @@ for a, i in locations.items():
 
 
     closest_average_list.append([[i[0]['x'], i[0]['y']],[x_ave/matches, y_ave/matches]])
-"""
+
 
 
 #plt.figure(1)           
@@ -110,7 +110,7 @@ for a, i in locations.items():
 #plt.title('Signal Distances Using Euclidian Metric')
 #plt.ylabel('Signal Euclidian Distance')
 #plt.xlabel('Physical Distance')
-
+"""
 perfect_match = []
 closest_average_list = []
 acount = -1
@@ -150,8 +150,8 @@ for a, i in locations.items():
                             current_dist -= 1
                 dist_sum += abs(current_dist)
             if dist_sum == 0:
-		perfect_match.append([a,b])
-	    distances_loc.append(loc_dist)
+                perfect_match.append([a,b])
+                distances_loc.append(loc_dist)
             if dist_sum < closest_dist:
                 closest = j
                 closest_dist = dist_sum
@@ -193,11 +193,11 @@ for a, i in locations.items():
                 perfect_match.append([a,b])
             distances_loc.append(loc_dist)
             if dist_sum == closest_list[acount][2]:
-		matches += 1
-		x_ave += float(j[0]['x'])
-		y_ave += float(j[0]['y'])
-		
-    closest_average_list.append([[i[0]['x'], i[0]['y']],[x_ave/matches, y_ave/matches]])
+                matches += 1
+                x_ave += float(j[0]['x'])
+                y_ave += float(j[0]['y'])
+        """
+#    closest_average_list.append([[i[0]['x'], i[0]['y']],[x_ave/matches, y_ave/matches]])
 #           colors.append(color_list[color_count-1])
 #            colors.append(color_list[color_count-1])
 #print(perfect_match)
@@ -234,7 +234,9 @@ print(len(locations))
 
 fig, ax = plt.subplots()
 for i in closest_average_list:
-	ax.add_line(Line2D([i[0][0], i[1][0]], [i[0][1], i[1][1]]))
+    ax.add_line(Line2D([i[0][0], i[1][0]], [-float(i[0][1]), -float(i[1][1])]))
+#for i in closest_list:
+#    ax.add_line(Line2D([i[0][0], i[1][0]], [-float(i[0][1]), -float(i[1][1])]))
 plt.title('pairs of closest points')
 plt.ylabel('y coordinate')
 plt.xlabel('x coordinate')

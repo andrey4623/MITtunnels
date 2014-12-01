@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_mittunnels" default="compile.module.mittunnels">
+  <dirname property="module.mittunnels.basedir" file="${ant.file.module_mittunnels}"/>
+  
+  <property name="module.jdk.home.mittunnels" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.mittunnels" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.mittunnels" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.mittunnels" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="mittunnels.output.dir" value="${module.mittunnels.basedir}/../out/production/MITTunnels"/>
+  <property name="mittunnels.testoutput.dir" value="${module.mittunnels.basedir}/../out/test/MITTunnels"/>
+  
+  <path id="mittunnels.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="mittunnels.module.production.classpath">
+    <path refid="${module.jdk.classpath.mittunnels}"/>
+    <path refid="library.libs.classpath"/>
+    <path refid="library.libs1.classpath"/>
+    <pathelement location="${appcompat_v7.output.dir}"/>
+  </path>
+  
+  <path id="mittunnels.runtime.production.module.classpath">
+    <pathelement location="${mittunnels.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+    <path refid="library.libs1.classpath"/>
+    <path refid="appcompat_v7.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="mittunnels.module.classpath">
+    <path refid="${module.jdk.classpath.mittunnels}"/>
+    <pathelement location="${mittunnels.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+    <path refid="library.libs1.classpath"/>
+    <pathelement location="${appcompat_v7.testoutput.dir}"/>
+    <pathelement location="${appcompat_v7.output.dir}"/>
+  </path>
+  
+  <path id="mittunnels.runtime.module.classpath">
+    <pathelement location="${mittunnels.testoutput.dir}"/>
+    <pathelement location="${mittunnels.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+    <path refid="library.libs1.classpath"/>
+    <path refid="appcompat_v7.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.mittunnels">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.mittunnels">
+    <patternset refid="excluded.from.module.mittunnels"/>
+  </patternset>
+  
+  <path id="mittunnels.module.sourcepath">
+    <dirset dir="${module.mittunnels.basedir}">
+      <include name="src"/>
+      <include name="gen"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.mittunnels" depends="compile.module.mittunnels.production,compile.module.mittunnels.tests" description="Compile module MITTunnels"/>
+  
+  <target name="compile.module.mittunnels.production" depends="register.custom.compilers,compile.module.appcompat_v7" description="Compile module MITTunnels; production classes">
+    <mkdir dir="${mittunnels.output.dir}"/>
+    <javac2 destdir="${mittunnels.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.mittunnels}/javac">
+      <compilerarg line="${compiler.args.mittunnels}"/>
+      <bootclasspath refid="mittunnels.module.bootclasspath"/>
+      <classpath refid="mittunnels.module.production.classpath"/>
+      <src refid="mittunnels.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.mittunnels"/>
+    </javac2>
+    
+    <copy todir="${mittunnels.output.dir}">
+      <fileset dir="${module.mittunnels.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mittunnels.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.mittunnels.tests" depends="register.custom.compilers,compile.module.mittunnels.production" description="compile module MITTunnels; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.mittunnels" description="cleanup module">
+    <delete dir="${mittunnels.output.dir}"/>
+    <delete dir="${mittunnels.testoutput.dir}"/>
+  </target>
+</project>

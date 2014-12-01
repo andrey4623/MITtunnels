@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="libs1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/MITTunnels/libs/svg-android.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MITTunnels/libs/bolts-android-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MITTunnels/libs/android-support-v4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/MITTunnels/libs/Parse-1.7.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
