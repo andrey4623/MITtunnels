@@ -443,7 +443,6 @@ public class MainActivity extends ActionBarActivity {
 						testObject.put("SSID", accessPoint.SSID);
 						testObject.put("MAC", accessPoint.MAC);
 						testObject.put("LEVEL", accessPoint.LEVEL);
-						testObject.put("deviceName", getDeviceName());
 
 						switch (currentMap) {
 						case STATA:

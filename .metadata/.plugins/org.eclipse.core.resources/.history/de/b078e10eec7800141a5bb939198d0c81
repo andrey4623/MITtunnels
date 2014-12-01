@@ -74,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
 	private static final int SWIPE_VELOCITY_MAPMOVE = 30;
 	private static final int STATA = 1;
 	private static final int TUNNEL = 2;
-	private int currentMap = STATA;
+	private int currentMap = TUNNEL;
 	private int CURRENT_VIEW_WIDTH = 600;
 	private int CURRENT_VIEW_HEIGHT = 600;
 
@@ -443,7 +443,6 @@ public class MainActivity extends ActionBarActivity {
 						testObject.put("SSID", accessPoint.SSID);
 						testObject.put("MAC", accessPoint.MAC);
 						testObject.put("LEVEL", accessPoint.LEVEL);
-						testObject.put("deviceName", getDeviceName());
 
 						switch (currentMap) {
 						case STATA:
@@ -559,15 +558,15 @@ public class MainActivity extends ActionBarActivity {
 	                            for (int k = 0; k < _locations.get(i).size(); k++){
 	                            	distance_sum += _locations.get(i).get(k).LEVEL^2;
 	                            }
-	                            //distance_sum=10^10;
+	                            distance_sum=0;
 	                            for(int j = 0; j < _scannedAccessPoints.size(); j++){
-	                                distance_sum += _scannedAccessPoints.get(j).LEVEL^2;
+	                                //distance_sum += _scannedAccessPoints.get(j).LEVEL^2;
 	                            	
 	                            	for(int k = 0; k < _locations.get(i).size(); k++){
 	                                    if(_locations.get(i).get(k).MAC.equals(_scannedAccessPoints.get(j).MAC)){
 	                                    	//distance_sum -= _locations.get(i).get(k).LEVEL^2 + _scannedAccessPoints.get(j).LEVEL^2;
-	                                        distance_sum -= 2*_locations.get(i).get(k).LEVEL * _scannedAccessPoints.get(j).LEVEL;
-	                                    	//distance_sum--;
+	                                        //distance_sum += (_locations.get(i).get(k).LEVEL - _scannedAccessPoints.get(j).LEVEL)^2;
+	                                    	distance_sum--;
 	                                    }
 	                                }
 	                            }
@@ -811,27 +810,4 @@ public class MainActivity extends ActionBarActivity {
 			}
 		});
 	}
-	
-	public String getDeviceName() {
-		  String manufacturer = Build.MANUFACTURER;
-		  String model = Build.MODEL;
-		  if (model.startsWith(manufacturer)) {
-		    return capitalize(model);
-		  } else {
-		    return capitalize(manufacturer) + " " + model;
-		  }
-		}
-
-
-		private String capitalize(String s) {
-		  if (s == null || s.length() == 0) {
-		    return "";
-		  }
-		  char first = s.charAt(0);
-		  if (Character.isUpperCase(first)) {
-		    return s;
-		  } else {
-		    return Character.toUpperCase(first) + s.substring(1);
-		  }
-		} 
 }
