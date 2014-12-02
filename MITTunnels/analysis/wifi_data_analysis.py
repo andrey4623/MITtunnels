@@ -4,7 +4,7 @@ from pylab import figure, gca, Line2D
 
 print('start')
 
-json_data = open('ScanResult.json')
+json_data = open('ScanResultTunnles.json')
 data = json.load(json_data)
 
 print(type(data))
@@ -12,14 +12,28 @@ locations = {}
 macs = {}
 
 for x in data['results']:
-    locations[x['x'] + ", " + x['y']] = []#.append({x['MAC'] : x['LEVEL']})
+    locations[x['x'] + ", " + x['y'] + ", " + x['Map']] = []#.append({x['MAC'] : x['LEVEL']})
     macs[x['MAC']] = x['MAC'] 
 
 for x in data['results']:
-    locations[x['x'] + ", " + x['y']].append({'MAC':x['MAC'], 'LEVEL': x['LEVEL'], 'x':x['x'], 'y':x['y']})
+    locations[x['x'] + ", " + x['y'] + ", " + x['Map']].append({'MAC':x['MAC'], 'LEVEL': x['LEVEL'], 'x':x['x'], 'y':x['y'], 'ave_count':1})
 
-for x in locations:
-    print(x)
+ave_locations = {}
+for x, i in locations.items():
+    if ave_locations == {}:
+        ave_locations[x].append(i)
+    for y, j in ave_locations.items():
+        if x == y:
+            for k in j:
+                for l in i:
+                    if k['MAC'] == l['MAC']:
+                        k['MAC'] += l['MAC'] * (k['ave_count'] / (k['ave_count'] + 1))
+                        k['ave_count'] += 1
+        else:
+            ave_locations[x].append(i)
+
+print('locations computed')
+print(ave_locations)
 
 distances_loc = []
 distances_signal = []
@@ -32,7 +46,7 @@ closest_list = []
 closest_average_list = []
 acount = -1
 
-for a, i in locations.items():
+for a, i in ave_locations.items():
     color_count += 1
     closest = a
     closest_dist = 10**10
@@ -41,7 +55,7 @@ for a, i in locations.items():
     x_ave = 0
     y_ave = 0
 
-    for b, j in locations.items():
+    for b, j in ave_locations.items():
         if i != j:
             loc_dist = ((float(i[0]['x']) - float(j[0]['x']))**2 + (float(i[0]['y']) - float(j[0]['y']))**2)**.5
             dist_sum = 0
@@ -103,7 +117,7 @@ for a, i in locations.items():
     closest_average_list.append([[i[0]['x'], i[0]['y']],[x_ave/matches, y_ave/matches]])
 
 
-
+print('analysis run')
 #plt.figure(1)           
 #plt.subplot(111)
 #plt.scatter(distances_loc, distances_signal)
@@ -200,9 +214,7 @@ for a, i in locations.items():
 #    closest_average_list.append([[i[0]['x'], i[0]['y']],[x_ave/matches, y_ave/matches]])
 #           colors.append(color_list[color_count-1])
 #            colors.append(color_list[color_count-1])
-#print(perfect_match)
-print(len(perfect_match))
-print(len(locations))
+
 
 #plt.scatter(distances_loc, distances_signal)
 #plt.title('Signal Distances Using Bit Vector Metric')
