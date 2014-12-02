@@ -18,6 +18,7 @@ import java.util.TimerTask;
 
 import javax.security.auth.callback.Callback;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.larvalabs.svgandroid.SVG;
@@ -76,11 +77,11 @@ public class MainActivity extends ActionBarActivity {
 	private static final int SWIPE_VELOCITY_THRESHOLD = 5;
 	private static final int SWIPE_VELOCITY_MAPMOVE = 30;
 	private static final int SCAN_TIMES_NUMBER = 5;
-	private static final int STATA = 1;
-	private static final int TUNNEL = 2;
-	private int currentMap = TUNNEL;
-	private int CURRENT_VIEW_WIDTH = 600;
-	private int CURRENT_VIEW_HEIGHT = 600;
+	private static final int MAP_STATA = 1;
+	private static final int MAP_TUNNEL = 2;
+	private int currentMap = MAP_TUNNEL;
+	private int currentLogicalWidth = 600;
+	private int currentLogicalHeight = 600;
 
 	private Button btnSaveLocation;
 	private Button btnGetLocation;
@@ -107,37 +108,38 @@ public class MainActivity extends ActionBarActivity {
 	private ArrayList<AccessPoint> _scannedAccessPoints;
 	private WifiManager wifiManager;
 	private BroadcastReceiver broadcastReceiver;
-	private static List<ParseObject> allObjects = new ArrayList<ParseObject>();
+	// private static List<ParseObject> allObjects = new
+	// ArrayList<ParseObject>();
 
-	private Point determinedCurrentLocation = new Point(-1, -1);
-	ProgressDialog progressSaving;
+	private Point determinedLocation = new Point(-1, -1);
+	private ProgressDialog progressSaving;
 
 	public void checkBorders() {
-		if (x < (int) CURRENT_VIEW_WIDTH / 2)
-			x = (int) CURRENT_VIEW_WIDTH / 2;
-		if (x > mapWidth - (int) CURRENT_VIEW_WIDTH / 2)
-			x = mapWidth - (int) CURRENT_VIEW_WIDTH / 2;
-		if (y < (int) CURRENT_VIEW_HEIGHT / 2)
-			y = (int) CURRENT_VIEW_HEIGHT / 2;
-		if (y > mapHeight - (int) CURRENT_VIEW_HEIGHT / 2)
-			y = mapHeight - (int) CURRENT_VIEW_HEIGHT / 2;
+		if (x < (int) currentLogicalWidth / 2)
+			x = (int) currentLogicalWidth / 2;
+		if (x > mapWidth - (int) currentLogicalWidth / 2)
+			x = mapWidth - (int) currentLogicalWidth / 2;
+		if (y < (int) currentLogicalHeight / 2)
+			y = (int) currentLogicalHeight / 2;
+		if (y > mapHeight - (int) currentLogicalHeight / 2)
+			y = mapHeight - (int) currentLogicalHeight / 2;
 	}
 
 	private void zoomIn() {
-		if (CURRENT_VIEW_WIDTH <= 100)
+		if (currentLogicalWidth <= 100)
 			return;
-		CURRENT_VIEW_WIDTH -= 100;
-		CURRENT_VIEW_HEIGHT -= 100;
+		currentLogicalWidth -= 100;
+		currentLogicalHeight -= 100;
 		drawMap();
 	}
 
 	private void zoomOut() {
-		if (CURRENT_VIEW_WIDTH >= 600)
+		if (currentLogicalWidth >= 600)
 			return;
-		if (CURRENT_VIEW_WIDTH >= mapWidth)
+		if (currentLogicalWidth >= mapWidth)
 			return;
-		CURRENT_VIEW_WIDTH += 100;
-		CURRENT_VIEW_HEIGHT += 100;
+		currentLogicalWidth += 100;
+		currentLogicalHeight += 100;
 		drawMap();
 	}
 
@@ -176,10 +178,10 @@ public class MainActivity extends ActionBarActivity {
 
 		// crop the bitmap
 		// we are at x1,y1
-		int x1 = x - (int) CURRENT_VIEW_WIDTH / 2;
-		int y1 = y - (int) CURRENT_VIEW_HEIGHT / 2;
-		int x2 = x + (int) CURRENT_VIEW_WIDTH / 2;
-		int y2 = y + (int) CURRENT_VIEW_HEIGHT / 2;
+		int x1 = x - (int) currentLogicalWidth / 2;
+		int y1 = y - (int) currentLogicalHeight / 2;
+		int x2 = x + (int) currentLogicalWidth / 2;
+		int y2 = y + (int) currentLogicalHeight / 2;
 
 		// exit from the map
 
@@ -205,8 +207,8 @@ public class MainActivity extends ActionBarActivity {
 			Log.d("d", ex.getMessage());
 		}
 
-		Bitmap largeWhiteBitmap = Bitmap.createBitmap(CURRENT_VIEW_WIDTH,
-				CURRENT_VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
+		Bitmap largeWhiteBitmap = Bitmap.createBitmap(currentLogicalWidth,
+				currentLogicalHeight, Bitmap.Config.ARGB_8888);
 		Canvas yourcanvas = new Canvas(largeWhiteBitmap);
 		yourcanvas.drawColor(0xffffffff);
 
@@ -241,8 +243,7 @@ public class MainActivity extends ActionBarActivity {
 			yourcanvas.drawCircle(spotX, spotY, 10, p);
 		}
 
-		if ((determinedCurrentLocation.x != -1)
-				&& (determinedCurrentLocation.y != -1)) {
+		if ((determinedLocation.x != -1) && (determinedLocation.y != -1)) {
 			// draw current point
 			Paint p = new Paint();
 			int color = Color.WHITE;
@@ -250,8 +251,8 @@ public class MainActivity extends ActionBarActivity {
 
 			color = Color.GREEN;
 			p.setColor(color);
-			yourcanvas.drawCircle(determinedCurrentLocation.x - x1,
-					determinedCurrentLocation.y - y1, 10, p);
+			yourcanvas.drawCircle(determinedLocation.x - x1,
+					determinedLocation.y - y1, 10, p);
 		}
 
 		imageView.setImageBitmap(largeWhiteBitmap);
@@ -261,13 +262,13 @@ public class MainActivity extends ActionBarActivity {
 	private void loadMap() {
 
 		switch (currentMap) {
-		case STATA:
+		case MAP_STATA:
 
 			bitmap = BitmapFactory.decodeResource(getResources(),
 					R.drawable.gfinal);
 
 			break;
-		case TUNNEL:
+		case MAP_TUNNEL:
 			bitmap = BitmapFactory.decodeResource(getResources(),
 					R.drawable.tunnelmap);
 
@@ -282,15 +283,15 @@ public class MainActivity extends ActionBarActivity {
 
 	public void changeMap() {
 		switch (currentMap) {
-		case STATA:
+		case MAP_STATA:
 
-			currentMap = TUNNEL;
+			currentMap = MAP_TUNNEL;
 			btnChangeMap.setText("Stata");
 
 			break;
-		case TUNNEL:
+		case MAP_TUNNEL:
 
-			currentMap = STATA;
+			currentMap = MAP_STATA;
 			btnChangeMap.setText("Tunnels");
 			break;
 		}
@@ -482,8 +483,8 @@ public class MainActivity extends ActionBarActivity {
 							}
 						}
 
-						determinedCurrentLocation.x = closest_point.X;
-						determinedCurrentLocation.y = closest_point.Y;
+						determinedLocation.x = closest_point.X;
+						determinedLocation.y = closest_point.Y;
 						btnGetLocation.setText("My location");
 						btnGetLocation.setEnabled(true);
 						/*
@@ -620,8 +621,8 @@ public class MainActivity extends ActionBarActivity {
 						ww = touchX / ww;
 						hh = touchY / hh;
 
-						touchX = Math.round(CURRENT_VIEW_WIDTH * ww);
-						touchY = Math.round(CURRENT_VIEW_HEIGHT * hh);
+						touchX = Math.round(currentLogicalWidth * ww);
+						touchY = Math.round(currentLogicalHeight * hh);
 
 						spotX = touchX;
 						spotY = touchY;
@@ -671,23 +672,23 @@ public class MainActivity extends ActionBarActivity {
 				.getActiveNetworkInfo();
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
-	
+
 	public String readTextFile(InputStream inputStream) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        byte buf[] = new byte[1024];
-        int len;
-        try {
-            while ((len = inputStream.read(buf)) != -1) {
-                outputStream.write(buf, 0, len);
-            }
-            outputStream.close();
-            inputStream.close();
-        } catch (IOException e) {
+		byte buf[] = new byte[1024];
+		int len;
+		try {
+			while ((len = inputStream.read(buf)) != -1) {
+				outputStream.write(buf, 0, len);
+			}
+			outputStream.close();
+			inputStream.close();
+		} catch (IOException e) {
 
-        }
-        return outputStream.toString();
-    }
+		}
+		return outputStream.toString();
+	}
 
 	public void getPointsFromDatabase() {
 		_spots.clear();
@@ -695,135 +696,95 @@ public class MainActivity extends ActionBarActivity {
 		progress.setTitle("Loading");
 		progress.setMessage("Wait while loading...");
 
-		//read from a file 
 		/*
-		 try {
-		
-		
-
-        InputStream is = this.getResources().openRawResource(R.raw.scanresult);
-        
-        String result = readTextFile(is);
-        
-        JSONObject obj = new JSONObject(result);
-        
-        
-        while (result.length()>0)
-        {
-        	String x = allObjects.get(i).getString("x");
-			String y = allObjects.get(i).getString("y");
-			int fl_x = Integer.parseInt(x);
-			int fl_y = Integer.parseInt(y);
-			AccessPoint point = new AccessPoint();
-			point.X = fl_x;
-			point.Y = fl_y;
-			point.LEVEL = allObjects.get(i).getInt("LEVEL");
-			point.MAC = allObjects.get(i).getString("MAC");
-			point.SSID = allObjects.get(i).getString("SSID");
-
-			switch (currentMap) {
-			case STATA:
-				if (allObjects.get(i).getString("Map")
-						.equals("Stata"))
-					_spots.add(point);
-
-				break;
-			case TUNNEL:
-
-				if (allObjects.get(i).getString("Map")
-						.equals("Tunnel"))
-					_spots.add(point);
-				break;
-			}
-		
-	
-        }
-        
-		 } catch (Exception ex) {
-	            ex.printStackTrace();
-	            return ;
-	        }
-	progress.dismiss();
-	drawMap();
-
-    
-		
-		*/
-		/*
-		 * Get data from Parse 
+		 * Reading data from the file R.raw.scanresult. To add more data, add
+		 * lines to the file
 		 */
-		
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
-		query.setLimit(1000);
-		switch (currentMap) {
-		case STATA:
-			query.whereEqualTo("Map", "Stata");
-			break;
-		case TUNNEL:
-			query.whereEqualTo("Map", "Tunnel");
-			break;
-		}
 
-		progress.show();
-		query.findInBackground(new FindCallback<ParseObject>() {
-			public void done(List<ParseObject> objects, ParseException e) {
-				if (e == null) {
-					allObjects.addAll(objects);
-					int skip = 0;
-					int limit = 1000;
-					if (objects.size() == limit) {
-						skip = skip + limit;
-						ParseQuery query = new ParseQuery("ScanResult");
-						switch (currentMap) {
-						case STATA:
-							query.whereEqualTo("Map", "Stata");
-							break;
-						case TUNNEL:
-							query.whereEqualTo("Map", "Tunnel");
-							break;
-						}
-						query.setSkip(skip);
-						query.setLimit(limit);
-						query.findInBackground(this);
-					}
-					// We have a full PokeDex
-					else {
-						// USE FULL DATA AS INTENDED
+		try {
 
-						for (int i = 0; i < allObjects.size(); i++) {
-							String x = allObjects.get(i).getString("x");
-							String y = allObjects.get(i).getString("y");
-							int fl_x = Integer.parseInt(x);
-							int fl_y = Integer.parseInt(y);
-							AccessPoint point = new AccessPoint();
-							point.X = fl_x;
-							point.Y = fl_y;
-							point.LEVEL = allObjects.get(i).getInt("LEVEL");
-							point.MAC = allObjects.get(i).getString("MAC");
-							point.SSID = allObjects.get(i).getString("SSID");
+			InputStream is = this.getResources().openRawResource(
+					R.raw.scanresult);
 
-							switch (currentMap) {
-							case STATA:
-								if (allObjects.get(i).getString("Map")
-										.equals("Stata"))
-									_spots.add(point);
+			JSONObject jsonData = new JSONObject(readTextFile(is));
+			JSONArray jArrData = jsonData.getJSONArray("results");
 
-								break;
-							case TUNNEL:
+			for (int i = 0; i < jArrData.length(); i++) {
 
-								if (allObjects.get(i).getString("Map")
-										.equals("Tunnel"))
-									_spots.add(point);
-								break;
-							}
-						}
-						progress.dismiss();
-						drawMap();
-					}
-				} else {
+				JSONObject jsonCurrentAP = jArrData.getJSONObject(i);
+
+				String x = jsonCurrentAP.getString("x");
+				String y = jsonCurrentAP.getString("y");
+				int fl_x = Integer.parseInt(x);
+				int fl_y = Integer.parseInt(y);
+				AccessPoint point = new AccessPoint();
+				point.X = fl_x;
+				point.Y = fl_y;
+				point.LEVEL = Integer
+						.parseInt(jsonCurrentAP.getString("LEVEL"));
+				point.MAC = jsonCurrentAP.getString("MAC");
+				point.SSID = jsonCurrentAP.getString("SSID");
+
+				switch (currentMap) {
+				case MAP_STATA:
+					if (jsonCurrentAP.getString("Map").equals("Stata"))
+						_spots.add(point);
+					break;
+				case MAP_TUNNEL:
+
+					if (jsonCurrentAP.getString("Map").equals("Tunnel"))
+						_spots.add(point);
+					break;
 				}
 			}
-		});
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return;
+		}
+		progress.dismiss();
+		drawMap();
+
+		/*
+		 * Get data from Parse. This block should be deleted in the final
+		 * version
+		 */
+
+		/*
+		 * ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
+		 * query.setLimit(1000); switch (currentMap) { case STATA:
+		 * query.whereEqualTo("Map", "Stata"); break; case TUNNEL:
+		 * query.whereEqualTo("Map", "Tunnel"); break; }
+		 * 
+		 * progress.show(); query.findInBackground(new
+		 * FindCallback<ParseObject>() { public void done(List<ParseObject>
+		 * objects, ParseException e) { if (e == null) {
+		 * allObjects.addAll(objects); int skip = 0; int limit = 1000; if
+		 * (objects.size() == limit) { skip = skip + limit; ParseQuery query =
+		 * new ParseQuery("ScanResult"); switch (currentMap) { case STATA:
+		 * query.whereEqualTo("Map", "Stata"); break; case TUNNEL:
+		 * query.whereEqualTo("Map", "Tunnel"); break; } query.setSkip(skip);
+		 * query.setLimit(limit); query.findInBackground(this); } // We have a
+		 * full PokeDex else { // USE FULL DATA AS INTENDED
+		 * 
+		 * for (int i = 0; i < allObjects.size(); i++) { String x =
+		 * allObjects.get(i).getString("x"); String y =
+		 * allObjects.get(i).getString("y"); int fl_x = Integer.parseInt(x); int
+		 * fl_y = Integer.parseInt(y); AccessPoint point = new AccessPoint();
+		 * point.X = fl_x; point.Y = fl_y; point.LEVEL =
+		 * allObjects.get(i).getInt("LEVEL"); point.MAC =
+		 * allObjects.get(i).getString("MAC"); point.SSID =
+		 * allObjects.get(i).getString("SSID");
+		 * 
+		 * switch (currentMap) { case STATA: if
+		 * (allObjects.get(i).getString("Map") .equals("Stata"))
+		 * _spots.add(point);
+		 * 
+		 * break; case TUNNEL:
+		 * 
+		 * if (allObjects.get(i).getString("Map") .equals("Tunnel"))
+		 * _spots.add(point); break; } } progress.dismiss(); drawMap(); } } else
+		 * { } } });
+		 */
 	}
 
 	public String getDeviceName() {
@@ -866,8 +827,8 @@ public class MainActivity extends ActionBarActivity {
 					accessPoint.LEVEL = ap.level;
 					accessPoint.MAC = ap.BSSID;
 					accessPoint.SSID = ap.SSID;
-					accessPoint.X = spotX + x - CURRENT_VIEW_WIDTH / 2;
-					accessPoint.Y = spotY + y - CURRENT_VIEW_HEIGHT / 2;
+					accessPoint.X = spotX + x - currentLogicalWidth / 2;
+					accessPoint.Y = spotY + y - currentLogicalHeight / 2;
 
 					_scannedAccessPoints.add(accessPoint);
 
@@ -896,8 +857,8 @@ public class MainActivity extends ActionBarActivity {
 		btnSaveLocation.setEnabled(false);
 
 		AccessPoint point = new AccessPoint();
-		point.X = spotX + x - CURRENT_VIEW_WIDTH / 2;
-		point.Y = spotY + y - CURRENT_VIEW_HEIGHT / 2;
+		point.X = spotX + x - currentLogicalWidth / 2;
+		point.Y = spotY + y - currentLogicalHeight / 2;
 		_spots.add(point);
 		currentSavingNumber = 0;
 		for (int i = 0; i < _scannedAccessPoints.size(); i++) {
@@ -912,12 +873,12 @@ public class MainActivity extends ActionBarActivity {
 			testObject.put("deviceName", getDeviceName());
 
 			switch (currentMap) {
-			case STATA:
+			case MAP_STATA:
 
 				testObject.put("Map", "Stata");
 
 				break;
-			case TUNNEL:
+			case MAP_TUNNEL:
 
 				testObject.put("Map", "Tunnel");
 				break;
