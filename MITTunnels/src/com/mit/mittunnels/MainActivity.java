@@ -1,6 +1,7 @@
 package com.mit.mittunnels;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,6 +17,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.security.auth.callback.Callback;
+
+import org.json.JSONObject;
 
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
@@ -372,30 +375,30 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				// get list of network
 
-				 if (btnSaveLocation.getText().equals("Press again")) {
-				if ((spotX == -1) || (spotY == -1)) {
-					AlertDialog alertDialogNoLocation = new AlertDialog.Builder(
-							MainActivity.this).create();
-					alertDialogNoLocation
-							.setMessage("Please select a location first");
-					alertDialogNoLocation.setButton(
-							DialogInterface.BUTTON_POSITIVE, "OK",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int which) {
-									// System.exit(0);
-								}
-							});
+				if (btnSaveLocation.getText().equals("Press again")) {
+					if ((spotX == -1) || (spotY == -1)) {
+						AlertDialog alertDialogNoLocation = new AlertDialog.Builder(
+								MainActivity.this).create();
+						alertDialogNoLocation
+								.setMessage("Please select a location first");
+						alertDialogNoLocation.setButton(
+								DialogInterface.BUTTON_POSITIVE, "OK",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int which) {
+										// System.exit(0);
+									}
+								});
 
-					alertDialogNoLocation.show();
-					return;
+						alertDialogNoLocation.show();
+						return;
+					}
+					currentScanNumber = 0;
+					scanAndSaveStart();
+
+				} else {
+					btnSaveLocation.setText("Press again");
 				}
-				currentScanNumber = 0;
-				scanAndSaveStart();
-
-				 } else {
-				 btnSaveLocation.setText("Press again");
-				 }
 			}
 		});
 
@@ -668,6 +671,23 @@ public class MainActivity extends ActionBarActivity {
 				.getActiveNetworkInfo();
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
+	
+	public String readTextFile(InputStream inputStream) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        byte buf[] = new byte[1024];
+        int len;
+        try {
+            while ((len = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+            outputStream.close();
+            inputStream.close();
+        } catch (IOException e) {
+
+        }
+        return outputStream.toString();
+    }
 
 	public void getPointsFromDatabase() {
 		_spots.clear();
@@ -675,6 +695,64 @@ public class MainActivity extends ActionBarActivity {
 		progress.setTitle("Loading");
 		progress.setMessage("Wait while loading...");
 
+		//read from a file 
+		/*
+		 try {
+		
+		
+
+        InputStream is = this.getResources().openRawResource(R.raw.scanresult);
+        
+        String result = readTextFile(is);
+        
+        JSONObject obj = new JSONObject(result);
+        
+        
+        while (result.length()>0)
+        {
+        	String x = allObjects.get(i).getString("x");
+			String y = allObjects.get(i).getString("y");
+			int fl_x = Integer.parseInt(x);
+			int fl_y = Integer.parseInt(y);
+			AccessPoint point = new AccessPoint();
+			point.X = fl_x;
+			point.Y = fl_y;
+			point.LEVEL = allObjects.get(i).getInt("LEVEL");
+			point.MAC = allObjects.get(i).getString("MAC");
+			point.SSID = allObjects.get(i).getString("SSID");
+
+			switch (currentMap) {
+			case STATA:
+				if (allObjects.get(i).getString("Map")
+						.equals("Stata"))
+					_spots.add(point);
+
+				break;
+			case TUNNEL:
+
+				if (allObjects.get(i).getString("Map")
+						.equals("Tunnel"))
+					_spots.add(point);
+				break;
+			}
+		
+	
+        }
+        
+		 } catch (Exception ex) {
+	            ex.printStackTrace();
+	            return ;
+	        }
+	progress.dismiss();
+	drawMap();
+
+    
+		
+		*/
+		/*
+		 * Get data from Parse 
+		 */
+		
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("ScanResult");
 		query.setLimit(1000);
 		switch (currentMap) {
