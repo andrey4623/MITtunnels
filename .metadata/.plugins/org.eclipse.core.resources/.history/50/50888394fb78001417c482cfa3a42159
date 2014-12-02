@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
 	private static final int SCAN_TIMES_NUMBER = 5;
 	private static final int STATA = 1;
 	private static final int TUNNEL = 2;
-	private int currentMap = TUNNEL;
+	private int currentMap = STATA;
 	private int CURRENT_VIEW_WIDTH = 600;
 	private int CURRENT_VIEW_HEIGHT = 600;
 
@@ -372,7 +372,7 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				// get list of network
 
-				 if (btnSaveLocation.getText().equals("Press again")) {
+				// if (btnSaveLocation.getText().equals("Scan this location")) {
 				if ((spotX == -1) || (spotY == -1)) {
 					AlertDialog alertDialogNoLocation = new AlertDialog.Builder(
 							MainActivity.this).create();
@@ -393,9 +393,9 @@ public class MainActivity extends ActionBarActivity {
 				currentScanNumber = 0;
 				scanAndSaveStart();
 
-				 } else {
-				 btnSaveLocation.setText("Press again");
-				 }
+				// } else {
+				// scanAndSaveFinish();
+				// }
 			}
 		});
 
