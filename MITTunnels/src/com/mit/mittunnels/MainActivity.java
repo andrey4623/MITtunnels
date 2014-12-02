@@ -431,6 +431,7 @@ public class MainActivity extends ActionBarActivity {
 						// we have two lists: _scannedAccessPoints and _spots
 
 						boolean pointAdded = false;
+						ArrayList<AccessPoint> nearestAPs = new ArrayList<AccessPoint>();
 						ArrayList<ArrayList<AccessPoint>> _locations = new ArrayList<ArrayList<AccessPoint>>();
 						for (int i = 0; i < _spots.size(); i++) {
 							pointAdded = false;
@@ -478,13 +479,34 @@ public class MainActivity extends ActionBarActivity {
 								}
 							}
 							if (distance_sum < closest_distance) {
+								nearestAPs.clear();
 								closest_distance = distance_sum;
+								nearestAPs.add(_spots.get(i));
 								closest_point = _locations.get(i).get(0);
-							}
+							}else
+								if (distance_sum == closest_distance) {
+									//nearestAPs.clear();
+									//closest_distance = distance_sum;
+									nearestAPs.add(_spots.get(i));
+									//closest_point = _locations.get(i).get(0);
+								}	
 						}
 
-						determinedLocation.x = closest_point.X;
-						determinedLocation.y = closest_point.Y;
+						
+						//approximate
+						int detX=0;
+						int detY=0;
+						for (int i=0; i<nearestAPs.size(); i++)
+						{
+							detX += nearestAPs.get(i).X;
+							detY += nearestAPs.get(i).Y;
+						}
+						
+						detX = Math.round(detX/nearestAPs.size());
+						detY = Math.round(detY/nearestAPs.size());
+						
+						determinedLocation.x = detX;
+						determinedLocation.y = detY;
 						btnGetLocation.setText("My location");
 						btnGetLocation.setEnabled(true);
 						/*
