@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
 	private static final int SCAN_TIMES_NUMBER = 5;
 	private static final int STATA = 1;
 	private static final int TUNNEL = 2;
-	private int currentMap = TUNNEL;
+	private int currentMap = STATA;
 	private int CURRENT_VIEW_WIDTH = 600;
 	private int CURRENT_VIEW_HEIGHT = 600;
 
