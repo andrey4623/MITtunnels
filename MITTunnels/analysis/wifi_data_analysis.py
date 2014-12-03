@@ -4,19 +4,31 @@ from pylab import figure, gca, Line2D
 
 print('start')
 
-json_data = open('ScanResultTunnles.json')
-data = json.load(json_data)
+data_sets = []
+json_data = open('ScanResultTunnel0.json')
+data_sets.append(json.load(json_data))
+json_data = open('ScanResultTunnel1.json')
+data_sets.append(json.load(json_data))
+json_data = open('ScanResultTunnel2.json')
+data_sets.append(json.load(json_data))
 
-print(type(data))
 locations = {}
 macs = {}
 
-for x in data['results']:
-    locations[x['x'] + ", " + x['y'] + ", " + x['Map']] = []#.append({x['MAC'] : x['LEVEL']})
-    macs[x['MAC']] = x['MAC'] 
+print('parsing started')
+print(len(data_sets[0]['results']))
+print(len(data_sets[0]['results']))
+print(len(data_sets[0]['results']))
 
-for x in data['results']:
-    locations[x['x'] + ", " + x['y'] + ", " + x['Map']].append({'MAC':x['MAC'], 'LEVEL': x['LEVEL'], 'x':x['x'], 'y':x['y'], 'ave_count':1})
+for data in data_sets:
+    for x in data['results']:
+        locations[x['x'] + ", " + x['y'] + ", " + x['Map']] = []#.append({x['MAC'] : x['LEVEL']})
+        macs[x['MAC']] = x['MAC'] 
+    
+    for x in data['results']:
+        locations[x['x'] + ", " + x['y'] + ", " + x['Map']].append({'MAC':x['MAC'], 'LEVEL': x['LEVEL'], 'x':x['x'], 'y':x['y'], 'ave_count':0, 'std_dev':0})
+
+print(len(locations))
 
 ave_locations = {}
 for x, i in locations.items():
@@ -27,22 +39,31 @@ for x, i in locations.items():
         if x != y:
             ave_locations[x] = []
             ave_locations[x].append(i[0])
-            
+
+total_count = 0            
 for x, i in locations.items():
     for y, j in ave_locations.copy().items():
         if x == y:
             for k in j:
                 for l in i:
                     if k['MAC'] == l['MAC']:
-                        k['LEVEL'] += l['LEVEL'] / k['ave_count']
-                        k['LEVEL'] *= (k['ave_count'] / (k['ave_count'] + 1))
                         k['ave_count'] += 1
+                        delta = l['LEVEL'] - k['LEVEL']
+                        k['LEVEL'] += delta / k['ave_count']
+                        k['std_dev'] += delta*(l['LEVEL'] - k['LEVEL'])
+                        total_count += 1
         else:
             ave_locations[x] = []
             ave_locations[x].append(i[0])
 
 print('locations computed')
+print(len(ave_locations))
+print(total_count)
 print(ave_locations)
+
+parse_format_data = {"results":ave_locations}
+with open('averaged_data.txt', 'w') as outfile:
+  json.dump(parse_format_data, outfile)
 
 distances_loc = []
 distances_signal = []
