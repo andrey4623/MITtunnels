@@ -16,19 +16,21 @@
  
     
 </LinearLayout>
-    <Button
-        android:id="@+id/btnSaveLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/LinearLayout02"
-        android:text="Scan this location"
-         />
+
+ 
+<LinearLayout android:id="@+id/LinearLayout03" android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_below="@id/LinearLayout02" >
+     <Button android:id="@+id/btnSaveLocation" android:enabled="true" android:text="Scan" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"></Button>
+        <Button android:id="@+id/btnSaveToFile" android:enabled="true" android:text="Save to file" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"></Button>
+
+    
+</LinearLayout>
+
     
      <Button
         android:id="@+id/btnGetLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnSaveLocation"
+        android:layout_below="@id/LinearLayout03"
         android:text="My location"
          />
 

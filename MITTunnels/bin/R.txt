@@ -337,6 +337,7 @@ int drawable gfinal 0x7f020033
 int drawable ic_launcher 0x7f020034
 int drawable tunnelmap 0x7f020035
 int id LinearLayout02 0x7f060041
+int id LinearLayout03 0x7f060045
 int id action_bar 0x7f060033
 int id action_bar_activity_content 0x7f06001a
 int id action_bar_container 0x7f060032
@@ -350,14 +351,15 @@ int id action_menu_presenter 0x7f06001d
 int id action_mode_bar 0x7f060030
 int id action_mode_bar_stub 0x7f06002f
 int id action_mode_close_button 0x7f060022
-int id action_settings 0x7f060048
+int id action_settings 0x7f06004a
 int id activity_chooser_view_content 0x7f060023
 int id always 0x7f06000d
 int id beginning 0x7f060012
 int id bottom 0x7f060016
 int id btnChangeMap 0x7f060044
-int id btnGetLocation 0x7f060046
-int id btnSaveLocation 0x7f060045
+int id btnGetLocation 0x7f060048
+int id btnSaveLocation 0x7f060046
+int id btnSaveToFile 0x7f060047
 int id btnZoomIn 0x7f060042
 int id btnZoomOut 0x7f060043
 int id checkbox 0x7f06002b
@@ -376,7 +378,7 @@ int id homeAsUp 0x7f060007
 int id icon 0x7f060028
 int id ifRoom 0x7f06000c
 int id image 0x7f060025
-int id imgMap 0x7f060047
+int id imgMap 0x7f060049
 int id listMode 0x7f060002
 int id list_item 0x7f060027
 int id middle 0x7f060013

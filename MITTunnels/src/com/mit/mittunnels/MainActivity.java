@@ -85,6 +85,7 @@ public class MainActivity extends ActionBarActivity {
 
 	private Button btnSaveLocation;
 	private Button btnGetLocation;
+	private Button btnSaveToFile;
 	private Button btnChangeMap;
 	private Button btnZoomIn;
 	private Button btnZoomOut;
@@ -106,6 +107,7 @@ public class MainActivity extends ActionBarActivity {
 	private int y = 250;
 	private ArrayList<AccessPoint> _spots;
 	private ArrayList<AccessPoint> _scannedAccessPoints;
+
 	private WifiManager wifiManager;
 	private BroadcastReceiver broadcastReceiver;
 	// private static List<ParseObject> allObjects = new
@@ -314,6 +316,7 @@ public class MainActivity extends ActionBarActivity {
 				"fSFmvqwVMeuhsuzavaa7KJAMg5XDPhN0CcjTDiFE");
 
 		btnSaveLocation = (Button) findViewById(R.id.btnSaveLocation);
+		btnSaveToFile = (Button) findViewById(R.id.btnSaveToFile);
 		btnGetLocation = (Button) findViewById(R.id.btnGetLocation);
 		btnChangeMap = (Button) findViewById(R.id.btnChangeMap);
 		btnZoomIn = (Button) findViewById(R.id.btnZoomIn);
@@ -371,6 +374,14 @@ public class MainActivity extends ActionBarActivity {
 				zoomOut();
 			}
 		});
+		
+		btnSaveToFile.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				// Do something in response to button click
+				saveDatabaseToFile();
+			}
+		});
+
 
 		btnSaveLocation.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -395,6 +406,7 @@ public class MainActivity extends ActionBarActivity {
 						return;
 					}
 					currentScanNumber = 0;
+					_scannedAccessPoints.clear();
 					scanAndSaveStart();
 
 				} else {
@@ -483,28 +495,25 @@ public class MainActivity extends ActionBarActivity {
 								closest_distance = distance_sum;
 								nearestAPs.add(_locations.get(i).get(0));
 								closest_point = _locations.get(i).get(0);
-							}else
-								if (distance_sum == closest_distance) {
-									//nearestAPs.clear();
-									//closest_distance = distance_sum;
-									nearestAPs.add(_locations.get(i).get(0));
-									//closest_point = _locations.get(i).get(0);
-								}	
+							} else if (distance_sum == closest_distance) {
+								// nearestAPs.clear();
+								// closest_distance = distance_sum;
+								nearestAPs.add(_locations.get(i).get(0));
+								// closest_point = _locations.get(i).get(0);
+							}
 						}
 
-						
-						//approximate
-						int detX=0;
-						int detY=0;
-						for (int i=0; i<nearestAPs.size(); i++)
-						{
+						// approximate
+						int detX = 0;
+						int detY = 0;
+						for (int i = 0; i < nearestAPs.size(); i++) {
 							detX += nearestAPs.get(i).X;
 							detY += nearestAPs.get(i).Y;
 						}
-						
-						detX = Math.round(detX/nearestAPs.size());
-						detY = Math.round(detY/nearestAPs.size());
-						
+
+						detX = Math.round(detX / nearestAPs.size());
+						detY = Math.round(detY / nearestAPs.size());
+
 						determinedLocation.x = detX;
 						determinedLocation.y = detY;
 						btnGetLocation.setText("My location");
@@ -833,7 +842,7 @@ public class MainActivity extends ActionBarActivity {
 
 	private void scanAndSaveStart() {
 		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-		_scannedAccessPoints.clear();
+
 		btnSaveLocation.setEnabled(false);
 		btnSaveLocation.setText("Scanning "
 				+ Integer.toString(currentScanNumber + 1) + " of "
@@ -878,86 +887,97 @@ public class MainActivity extends ActionBarActivity {
 		currentScanNumber++;
 		btnSaveLocation.setEnabled(false);
 
-		AccessPoint point = new AccessPoint();
-		point.X = spotX + x - currentLogicalWidth / 2;
-		point.Y = spotY + y - currentLogicalHeight / 2;
-		_spots.add(point);
+		/*
+		 * AccessPoint point = new AccessPoint(); point.X = spotX + x -
+		 * currentLogicalWidth / 2; point.Y = spotY + y - currentLogicalHeight /
+		 * 2; _spots.add(point);
+		 */
 		currentSavingNumber = 0;
-		for (int i = 0; i < _scannedAccessPoints.size(); i++) {
-			AccessPoint accessPoint = _scannedAccessPoints.get(i);
 
-			ParseObject testObject = new ParseObject("ScanResult");
-			testObject.put("x", Integer.toString(accessPoint.X));
-			testObject.put("y", Integer.toString(accessPoint.Y));
-			testObject.put("SSID", accessPoint.SSID);
-			testObject.put("MAC", accessPoint.MAC);
-			testObject.put("LEVEL", accessPoint.LEVEL);
-			testObject.put("deviceName", getDeviceName());
+		// if (currentSavingNumber >= _scannedAccessPoints.size()) {
 
-			switch (currentMap) {
-			case MAP_STATA:
+		if (currentScanNumber >= SCAN_TIMES_NUMBER) {
 
-				testObject.put("Map", "Stata");
+			// make average calculation
 
-				break;
-			case MAP_TUNNEL:
+			for (int i = 0; i < _scannedAccessPoints.size(); i++) {
+				AccessPoint accessPoint = _scannedAccessPoints.get(i);
 
-				testObject.put("Map", "Tunnel");
-				break;
+				_spots.add(accessPoint);
 			}
 
-			testObject.saveInBackground(new SaveCallback() {
-				public void done(ParseException e) {
-					if (e == null) {
-						currentSavingNumber++;
-						progressSaving.dismiss();
-						if (currentSavingNumber >= _scannedAccessPoints.size()) {
+			btnSaveLocation.setText("Scan this location");
+			btnSaveLocation.setEnabled(true);
+			_scannedAccessPoints.clear();
+			progressSaving.dismiss();
+			spotX = -1;
+			spotY = -1;
 
-							if (currentScanNumber >= SCAN_TIMES_NUMBER) {
-								btnSaveLocation.setText("Scan this location");
-								btnSaveLocation.setEnabled(true);
-								_scannedAccessPoints.clear();
-
-								spotX = -1;
-								spotY = -1;
-
-							} else {
-								scanAndSaveStart();
-							}
-
-						}
-
-					} else {
-						progressSaving.dismiss();
-						if (currentScanNumber >= SCAN_TIMES_NUMBER) {
-
-							AlertDialog myAlertDialog = new AlertDialog.Builder(
-									MainActivity.this).create();
-							myAlertDialog.setMessage("Saving error"
-									+ e.getMessage());
-							myAlertDialog.setButton(
-									DialogInterface.BUTTON_POSITIVE, "OK",
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog,
-												int which) {
-
-										}
-									});
-
-							myAlertDialog.show();
-							btnSaveLocation.setText("Scan this location");
-							btnSaveLocation.setEnabled(true);
-							_scannedAccessPoints.clear();
-							spotX = -1;
-							spotY = -1;
-						} else {
-							// TODO
-							scanAndSaveStart();
-						}
-					}
-				}
-			});
+		} else {
+			progressSaving.dismiss();
+			scanAndSaveStart();
 		}
+
+		// }
+
+		/*
+		 * for (int i = 0; i < _scannedAccessPoints.size(); i++) { AccessPoint
+		 * accessPoint = _scannedAccessPoints.get(i);
+		 * 
+		 * ParseObject testObject = new ParseObject("ScanResult");
+		 * testObject.put("x", Integer.toString(accessPoint.X));
+		 * testObject.put("y", Integer.toString(accessPoint.Y));
+		 * testObject.put("SSID", accessPoint.SSID); testObject.put("MAC",
+		 * accessPoint.MAC); testObject.put("LEVEL", accessPoint.LEVEL);
+		 * testObject.put("deviceName", getDeviceName());
+		 * 
+		 * switch (currentMap) { case MAP_STATA:
+		 * 
+		 * testObject.put("Map", "Stata");
+		 * 
+		 * break; case MAP_TUNNEL:
+		 * 
+		 * testObject.put("Map", "Tunnel"); break; } //NEW CODE: SAVING LOCAL
+		 * INSTEAD OF PARSE _spots.add(accessPoint); currentSavingNumber++;
+		 * progressSaving.dismiss();
+		 */
+		// OLD CODE - DELETE IT
+		/*
+		 * testObject.saveInBackground(new SaveCallback() { public void
+		 * done(ParseException e) { if (e == null) { currentSavingNumber++;
+		 * progressSaving.dismiss(); if (currentSavingNumber >=
+		 * _scannedAccessPoints.size()) {
+		 * 
+		 * if (currentScanNumber >= SCAN_TIMES_NUMBER) {
+		 * btnSaveLocation.setText("Scan this location");
+		 * btnSaveLocation.setEnabled(true); _scannedAccessPoints.clear();
+		 * 
+		 * spotX = -1; spotY = -1;
+		 * 
+		 * } else { scanAndSaveStart(); }
+		 * 
+		 * }
+		 * 
+		 * } else { progressSaving.dismiss(); if (currentScanNumber >=
+		 * SCAN_TIMES_NUMBER) {
+		 * 
+		 * AlertDialog myAlertDialog = new AlertDialog.Builder(
+		 * MainActivity.this).create(); myAlertDialog.setMessage("Saving error"
+		 * + e.getMessage()); myAlertDialog.setButton(
+		 * DialogInterface.BUTTON_POSITIVE, "OK", new
+		 * DialogInterface.OnClickListener() { public void onClick(
+		 * DialogInterface dialog, int which) {
+		 * 
+		 * } });
+		 * 
+		 * myAlertDialog.show(); btnSaveLocation.setText("Scan this location");
+		 * btnSaveLocation.setEnabled(true); _scannedAccessPoints.clear(); spotX
+		 * = -1; spotY = -1; } else { // TODO scanAndSaveStart(); } } } });
+		 */
+		// }
+	}
+
+	private void saveDatabaseToFile() {
+		JSONArray jsArray = new JSONArray(_spots);
 	}
 }

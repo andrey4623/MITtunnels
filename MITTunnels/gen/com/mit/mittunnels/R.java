@@ -1639,6 +1639,7 @@ containing a value of this type.
     }
     public static final class id {
         public static final int LinearLayout02=0x7f060041;
+        public static final int LinearLayout03=0x7f060045;
         public static final int action_bar=0x7f060033;
         public static final int action_bar_activity_content=0x7f06001a;
         public static final int action_bar_container=0x7f060032;
@@ -1652,14 +1653,15 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f060030;
         public static final int action_mode_bar_stub=0x7f06002f;
         public static final int action_mode_close_button=0x7f060022;
-        public static final int action_settings=0x7f060048;
+        public static final int action_settings=0x7f06004a;
         public static final int activity_chooser_view_content=0x7f060023;
         public static final int always=0x7f06000d;
         public static final int beginning=0x7f060012;
         public static final int bottom=0x7f060016;
         public static final int btnChangeMap=0x7f060044;
-        public static final int btnGetLocation=0x7f060046;
-        public static final int btnSaveLocation=0x7f060045;
+        public static final int btnGetLocation=0x7f060048;
+        public static final int btnSaveLocation=0x7f060046;
+        public static final int btnSaveToFile=0x7f060047;
         public static final int btnZoomIn=0x7f060042;
         public static final int btnZoomOut=0x7f060043;
         public static final int checkbox=0x7f06002b;
@@ -1678,7 +1680,7 @@ containing a value of this type.
         public static final int icon=0x7f060028;
         public static final int ifRoom=0x7f06000c;
         public static final int image=0x7f060025;
-        public static final int imgMap=0x7f060047;
+        public static final int imgMap=0x7f060049;
         public static final int listMode=0x7f060002;
         public static final int list_item=0x7f060027;
         public static final int middle=0x7f060013;
