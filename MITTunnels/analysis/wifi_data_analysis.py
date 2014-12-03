@@ -61,8 +61,8 @@ print(len(ave_locations))
 print(total_count)
 print(ave_locations)
 
-parse_format_data = {"results":ave_locations}
-with open('averaged_data.txt', 'w') as outfile:
+parse_format_data = {"results":[ave_locations]}
+with open('averaged_data.json', 'w') as outfile:
   json.dump(parse_format_data, outfile)
 
 distances_loc = []
