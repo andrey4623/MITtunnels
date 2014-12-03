@@ -481,13 +481,13 @@ public class MainActivity extends ActionBarActivity {
 							if (distance_sum < closest_distance) {
 								nearestAPs.clear();
 								closest_distance = distance_sum;
-								nearestAPs.add(_spots.get(i));
+								nearestAPs.add(_locations.get(i).get(0));
 								closest_point = _locations.get(i).get(0);
 							}else
 								if (distance_sum == closest_distance) {
 									//nearestAPs.clear();
 									//closest_distance = distance_sum;
-									nearestAPs.add(_spots.get(i));
+									nearestAPs.add(_locations.get(i).get(0));
 									//closest_point = _locations.get(i).get(0);
 								}	
 						}
