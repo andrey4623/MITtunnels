@@ -21,16 +21,25 @@ for x in data['results']:
 ave_locations = {}
 for x, i in locations.items():
     if ave_locations == {}:
-        ave_locations[x].append(i)
-    for y, j in ave_locations.items():
+        ave_locations[x] = []
+        ave_locations[x].append(i[0])
+    for y, j in ave_locations.copy().items():
+        if x != y:
+            ave_locations[x] = []
+            ave_locations[x].append(i[0])
+            
+for x, i in locations.items():
+    for y, j in ave_locations.copy().items():
         if x == y:
             for k in j:
                 for l in i:
                     if k['MAC'] == l['MAC']:
-                        k['MAC'] += l['MAC'] * (k['ave_count'] / (k['ave_count'] + 1))
+                        k['LEVEL'] += l['LEVEL'] / k['ave_count']
+                        k['LEVEL'] *= (k['ave_count'] / (k['ave_count'] + 1))
                         k['ave_count'] += 1
         else:
-            ave_locations[x].append(i)
+            ave_locations[x] = []
+            ave_locations[x].append(i[0])
 
 print('locations computed')
 print(ave_locations)
@@ -81,9 +90,10 @@ for a, i in ave_locations.items():
                 closest_dist = dist_sum
                 closest_loc_dist = loc_dist
 #       colors.append(color_list[color_count-1])
-    closest_list.append([[i[0]['x'], i[0]['y']],[closest[0]['x'], closest[0]['y']], closest_dist, closest_loc_dist])
+    closest_list.append([[i[0]['x'], i[0]['y']],[closest[0]['x'], 
+                          closest[0]['y']], closest_dist, closest_loc_dist])
 
-    for b, j in locations.items():
+    for b, j in ave_locations.items():
         if i != j:
             dist_sum = 0
             for k in i:
@@ -114,7 +124,7 @@ for a, i in ave_locations.items():
                 y_ave += float(j[0]['y'])
 
 
-    closest_average_list.append([[i[0]['x'], i[0]['y']],[x_ave/matches, y_ave/matches]])
+    closest_average_list.append([[i[0]['x'], i[0]['y']],[x_ave/(1+matches), y_ave/(1+matches)]])
 
 
 print('analysis run')
@@ -128,13 +138,13 @@ print('analysis run')
 perfect_match = []
 closest_average_list = []
 acount = -1
-for a, i in locations.items():
+for a, i in ave_locations.items():
     acount += 1
     color_count += 1
     closest = a
     closest_dist = 10**10
     colsest_loc_dsit = 10**10
-    for b, j in locations.items():
+    for b, j in ave_locations.items():
         if i != j:
             
             loc_dist = ((float(i[0]['x']) - float(j[0]['x']))**2 + (float(i[0]['y']) - float(j[0]['y']))**2)**.5
@@ -174,7 +184,7 @@ for a, i in locations.items():
     matches = 0
     x_ave = 0
     y_ave = 0
-    for b, j in locations.items():
+    for b, j in ave_locations.items():
         if i != j:
 
             loc_dist = ((float(i[0]['x']) - float(j[0]['x']))**2 + (float(i[0]['y']) - float(j[0]['y']))**2)**.5
@@ -222,10 +232,10 @@ for a, i in locations.items():
 #plt.xlabel('Physical Distance')
 #            
 #first_location = 0
-#for a, i in locations.items():
+#for a, i in ave_locations.items():
 #    first_location = i
     
-#for b, j in locations.items():
+#for b, j in ave_locations.items():
 #    if i != j:
 #        loc_dist = ((float(first_location[0]['x']) - float(j[0]['x']))**2 + (float(first_location[0]['y']) - float(j[0]['y']))**2)**.5
 #        dist_sum = 0
