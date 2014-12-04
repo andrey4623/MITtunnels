@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -374,14 +376,13 @@ public class MainActivity extends ActionBarActivity {
 				zoomOut();
 			}
 		});
-		
+
 		btnSaveToFile.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// Do something in response to button click
 				saveDatabaseToFile();
 			}
 		});
-
 
 		btnSaveLocation.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -978,6 +979,188 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	private void saveDatabaseToFile() {
+		progressSaving.show();
+		currentSavingNumber=0;
+		for (int i = 0; i < _spots.size(); i++) {
+
+			AccessPoint accessPoint = _spots.get(i);
+
+			ParseObject testObject = new ParseObject("ScanResult");
+			testObject.put("x", Integer.toString(accessPoint.X));
+			testObject.put("y", Integer.toString(accessPoint.Y));
+			testObject.put("SSID", accessPoint.SSID);
+			testObject.put("MAC", accessPoint.MAC);
+			testObject.put("LEVEL", accessPoint.LEVEL);
+			testObject.put("deviceName", getDeviceName());
+
+			switch (currentMap) {
+			case MAP_STATA:
+
+				testObject.put("Map", "Stata");
+
+				break;
+			case MAP_TUNNEL:
+
+				testObject.put("Map", "Tunnel");
+				break;
+			}
+			
+			
+			
+			testObject.saveInBackground(new SaveCallback() { 
+				public void	done(ParseException e) { 
+					if (e == null) { 
+
+						currentSavingNumber++;
+						if (currentSavingNumber>=_spots.size()-1){
+							progressSaving.dismiss();
+						}
+					}
+
+				}
+			});
+
+		}
+
+	}
+
+	private void saveDatabaseToFile1() {
+
 		JSONArray jsArray = new JSONArray(_spots);
+
+		File root = android.os.Environment.getExternalStorageDirectory();
+		File file = new File(root, "myData.txt");
+		// File dir = new File (root.getAbsolutePath() + "/download");
+
+		try {
+			FileOutputStream f = new FileOutputStream(file);
+
+			String str = "{ \"results\": [";
+
+			f.write(str.getBytes());
+			f.flush();
+
+			for (int i = 0; i < _spots.size(); i++) {
+
+				str = " { ";
+
+				AccessPoint ap = _spots.get(i);
+				str += "\"LEVEL\": " + Integer.toString(ap.LEVEL) + ",";
+				str += "\"MAC\": \"" + ap.MAC + "\",";
+
+				switch (currentMap) {
+				case MAP_STATA:
+					str += "\"Map\": \"Stata\",";
+					break;
+				case MAP_TUNNEL:
+
+					str += "\"Map\": \"Tunnel\",";
+					break;
+				}
+
+				str += "\"SSID\": \"" + ap.SSID + "\",";
+				str += "\"deviceName\": \"" + getDeviceName() + "\",";
+				str += "\"x\": \"" + ap.X + "\",";
+				str += "\"y\": \"" + ap.Y + "\"";
+
+				str += " } ";
+
+				if (i != _spots.size() - 1)
+					str += ",";
+				f.write(str.getBytes());
+				f.flush();
+			}
+
+			str = "] }";
+			f.write(str.getBytes());
+			f.flush();
+			// String str = jsArray.toString();
+
+			/*
+			 * PrintWriter pw = new PrintWriter(f);
+			 * pw.println("Hi , How are you"); pw.println("Hello"); pw.flush();
+			 * pw.close();
+			 */
+			f.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			Log.i("MEDIA",
+					"******* File not found. Did you"
+							+ " add a WRITE_EXTERNAL_STORAGE permission to the   manifest?");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// root = android.os.Environment.getExternalStorageDirectory();
+		// file = new File(root, "myData.txt");
+		Intent i = new Intent(Intent.ACTION_SEND);
+		i.putExtra(Intent.EXTRA_SUBJECT, "Title");
+		i.putExtra(Intent.EXTRA_TEXT, "Content");
+		i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+		i.setType("text/plain");
+		startActivity(Intent.createChooser(i, "andreyka4623@gmail.com"));
+
+		/*
+		 * File file = getFileStreamPath("myfile.json");
+		 * 
+		 * if (!file.exists()) { file.createNewFile(); }
+		 */
+
+		// FileOutputStream writer = openFileOutput(file.getName(),
+		// Context.MODE_PRIVATE);
+
+		// for (String string: str){
+		// writer.write(str.getBytes());
+		// writer.flush();
+		// }
+
+		// writer.close();
+
+		// String pathname=
+		// Environment.getExternalStorageDirectory().getAbsolutePath();
+		// String filename="/MyFiles/mysdfile.txt";
+
+		/*
+		 * file = getFileStreamPath("myfile.json"); Intent i = new
+		 * Intent(Intent.ACTION_SEND); i.putExtra(Intent.EXTRA_SUBJECT,
+		 * "Title"); i.putExtra(Intent.EXTRA_TEXT, "Content");
+		 * i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+		 * i.setType("text/plain"); startActivity(Intent.createChooser(i,
+		 * "andreyka4623@gmail.com"));
+		 */
+
+		/*
+		 * } catch (Exception ex) {
+		 * 
+		 * }
+		 */
+
+	}
+
+	/**
+	 * Method to check whether external media available and writable. This is
+	 * adapted from
+	 * http://developer.android.com/guide/topics/data/data-storage.html
+	 * #filesExternal
+	 */
+
+	private void checkExternalMedia() {
+		boolean mExternalStorageAvailable = false;
+		boolean mExternalStorageWriteable = false;
+		String state = Environment.getExternalStorageState();
+
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			// Can read and write the media
+			mExternalStorageAvailable = mExternalStorageWriteable = true;
+		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+			// Can only read the media
+			mExternalStorageAvailable = true;
+			mExternalStorageWriteable = false;
+		} else {
+			// Can't read or write
+			mExternalStorageAvailable = mExternalStorageWriteable = false;
+		}
+		// tv.append("\n\nExternal Media: readable=" + mExternalStorageAvailable
+		// + " writable=" + mExternalStorageWriteable);
 	}
 }
