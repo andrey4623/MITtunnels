@@ -31,7 +31,6 @@
 <fullyQualifiedTypeName name="android.os.Message"/>
 <fullyQualifiedTypeName name="java.util.TimerTask"/>
 <fullyQualifiedTypeName name="java.util.Timer"/>
-<fullyQualifiedTypeName name="com.mit.mittunnels.AccessPoint"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="android.net.ConnectivityManager"/>
 <fullyQualifiedTypeName name="android.net.NetworkInfo"/>
@@ -42,4 +41,7 @@
 <fullyQualifiedTypeName name="org.json.JSONArray"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.lang.Math"/>
+<fullyQualifiedTypeName name="android.net.Uri"/>
+<fullyQualifiedTypeName name="java.io.PrintWriter"/>
+<fullyQualifiedTypeName name="com.mit.mittunnels.AccessPoint"/>
 </qualifiedTypeNameHistroy>
