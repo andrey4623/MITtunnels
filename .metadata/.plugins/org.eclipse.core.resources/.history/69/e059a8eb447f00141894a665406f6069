@@ -253,7 +253,7 @@ public class MainActivity extends ActionBarActivity {
 			}
 		}*/
 
-		/*if ((spotX != -1) && (spotY != -1)) {
+		if ((spotX != -1) && (spotY != -1)) {
 			// draw current point
 			Paint p = new Paint();
 			int color = Color.WHITE;
@@ -262,7 +262,7 @@ public class MainActivity extends ActionBarActivity {
 			color = Color.BLUE;
 			p.setColor(color);
 			yourcanvas.drawCircle(spotX, spotY, 10, p);
-		}*/
+		}
 
 		if ((determinedLocation.x != -1) && (determinedLocation.y != -1)) {
 			// draw current point

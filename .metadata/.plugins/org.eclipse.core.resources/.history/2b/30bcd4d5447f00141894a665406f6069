@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -156,29 +157,25 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	public void onSwipeRight() {
-		x -= (int) SWIPE_VELOCITY_MAPMOVE
-				* ((float) currentLogicalHeight / 600);
+		x -= (int)SWIPE_VELOCITY_MAPMOVE*((float)currentLogicalHeight/600);
 		checkBorders();
 		drawMap();
 	}
 
 	public void onSwipeLeft() {
-		x += (int) SWIPE_VELOCITY_MAPMOVE
-				* ((float) currentLogicalHeight / 600);
+		x += (int)SWIPE_VELOCITY_MAPMOVE*((float)currentLogicalHeight/600);
 		checkBorders();
 		drawMap();
 	}
 
 	public void onSwipeTop() {
-		y += (int) SWIPE_VELOCITY_MAPMOVE
-				* ((float) currentLogicalHeight / 600);
+		y += (int)SWIPE_VELOCITY_MAPMOVE*((float)currentLogicalHeight/600);
 		checkBorders();
 		drawMap();
 	}
 
 	public void onSwipeBottom() {
-		y -= (int) SWIPE_VELOCITY_MAPMOVE
-				* ((float) currentLogicalHeight / 600);
+		y -= (int)SWIPE_VELOCITY_MAPMOVE*((float)currentLogicalHeight/600);
 		checkBorders();
 		drawMap();
 	}
@@ -232,28 +229,34 @@ public class MainActivity extends ActionBarActivity {
 
 		// draw spots
 
-		/*for (int i = 0; i < _spots.size(); i++) {
+		for (int i = 0; i < _spots.size(); i++) {
 			AccessPoint point = _spots.get(i);
 			if ((point.X >= x1) && (point.X <= x2) && (point.Y >= y1)
 					&& (point.Y <= y2)) {
 				// draw it
 
+				
+				
+				
 				Paint p = new Paint();
 				int color = Color.WHITE;
 				p.setColor(color);
 
 				color = Color.RED;
 				p.setColor(color);
-
-				if (((point.MapName.equals("Stata")) && (currentMap == MAP_STATA))
+				
+				
+				
+				if (((point.MapName.equals("Stata"))&&(currentMap==MAP_STATA))
 						||
-
-						((point.MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL)))
-					yourcanvas.drawCircle(point.X - x1, point.Y - y1, 10, p);
+						
+						((point.MapName.equals("Tunnel"))&&(currentMap==MAP_TUNNEL))
+				)
+								yourcanvas.drawCircle(point.X - x1, point.Y - y1, 10, p);
 			}
-		}*/
+		}
 
-		/*if ((spotX != -1) && (spotY != -1)) {
+		if ((spotX != -1) && (spotY != -1)) {
 			// draw current point
 			Paint p = new Paint();
 			int color = Color.WHITE;
@@ -262,7 +265,7 @@ public class MainActivity extends ActionBarActivity {
 			color = Color.BLUE;
 			p.setColor(color);
 			yourcanvas.drawCircle(spotX, spotY, 10, p);
-		}*/
+		}
 
 		if ((determinedLocation.x != -1) && (determinedLocation.y != -1)) {
 			// draw current point
@@ -316,9 +319,12 @@ public class MainActivity extends ActionBarActivity {
 			btnChangeMap.setText("Tunnel");
 			break;
 		}
-		
+		//_spots.clear();
+		/*while (_spots.size() > 0)
+			_spots.clear();*/
 		loadMap();
 
+		//getPointsFromDatabase();
 		drawMap();
 	}
 
@@ -462,12 +468,18 @@ public class MainActivity extends ActionBarActivity {
 						ArrayList<AccessPoint> nearestAPs = new ArrayList<AccessPoint>();
 						ArrayList<ArrayList<AccessPoint>> _locations = new ArrayList<ArrayList<AccessPoint>>();
 						for (int i = 0; i < _spots.size(); i++) {
-
-							if (!(((_spots.get(i).MapName.equals("Stata")) && (currentMap == MAP_STATA)) ||
-
-							((_spots.get(i).MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL))))
-								continue;
-
+							
+							
+							
+							if (!(((_spots.get(i).MapName.equals("Stata"))&&(currentMap==MAP_STATA))
+									||
+									
+									((_spots.get(i).MapName.equals("Tunnel"))&&(currentMap==MAP_TUNNEL))
+							)) continue;
+							
+							
+							
+							
 							pointAdded = false;
 							for (int j = 0; j < _locations.size(); j++) {
 								if (pointAdded == false
@@ -679,7 +691,8 @@ public class MainActivity extends ActionBarActivity {
 
 						spotX = touchX;
 						spotY = touchY;
-
+						
+						
 						drawMap();
 					}
 					break;
@@ -704,7 +717,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		// getMenuInflater().inflate(R.menu.main, menu);
+		//getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
@@ -750,7 +763,11 @@ public class MainActivity extends ActionBarActivity {
 		progress.setTitle("Please wait");
 		progress.setMessage("Loading data from server");
 		progress.show();
-
+		
+		
+		
+		
+		
 		try {
 
 			InputStream is = this.getResources().openRawResource(
@@ -775,7 +792,8 @@ public class MainActivity extends ActionBarActivity {
 				point.MAC = jsonCurrentAP.getString("MAC");
 				point.SSID = jsonCurrentAP.getString("SSID");
 				point.MapName = jsonCurrentAP.getString("Map");
-				// point. = jsonCurrentAP.getString("DeviceName");
+				//point. = jsonCurrentAP.getString("DeviceName");
+				
 
 				switch (currentMap) {
 				case MAP_STATA:
@@ -795,56 +813,95 @@ public class MainActivity extends ActionBarActivity {
 		}
 		progress.dismiss();
 		drawMap();
-
-		// old code - to download data from Parse
-
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		/*
-		 * 
-		 * 
-		 * ParseQuery<ParseObject> query = ParseQuery.getQuery("InputData");
-		 * query.getInBackground("antOm8G6Ct", new GetCallback<ParseObject>() {
-		 * public void done(ParseObject object, ParseException e) { if (e ==
-		 * null) {
-		 * 
-		 * try {
-		 * 
-		 * ParseFile applicantResume = (ParseFile) object .get("scannedPoints");
-		 * applicantResume.getDataInBackground(new GetDataCallback() { public
-		 * void done(byte[] data, ParseException e) { if (e == null) { // data
-		 * has the bytes for the resume
-		 * 
-		 * try { String str = new String(data, "UTF-8");
-		 * 
-		 * JSONObject jsonData = new JSONObject(str); JSONArray jArrData =
-		 * jsonData .getJSONArray("results");
-		 * 
-		 * for (int i = 0; i < jArrData.length(); i++) {
-		 * 
-		 * JSONObject jsonCurrentAP = jArrData .getJSONObject(i);
-		 * 
-		 * String x = jsonCurrentAP.getString("x"); String y =
-		 * jsonCurrentAP.getString("y"); int fl_x = Integer.parseInt(x); int
-		 * fl_y = Integer.parseInt(y); AccessPoint point = new AccessPoint();
-		 * point.X = fl_x; point.Y = fl_y; point.LEVEL = Integer
-		 * .parseInt(jsonCurrentAP .getString("LEVEL")); point.MAC =
-		 * jsonCurrentAP .getString("MAC"); point.SSID = jsonCurrentAP
-		 * .getString("SSID");
-		 * 
-		 * point.MapName = jsonCurrentAP.getString("Map");
-		 * 
-		 * _spots.add(point); int l=1; l=123;
-		 * 
-		 * 
-		 * } } catch (Exception ex) { ex.printStackTrace(); return; }
-		 * progress.dismiss(); drawMap();
-		 * 
-		 * } else { // something went wrong
-		 * 
-		 * } } }); } catch (Exception ex) { progress.dismiss(); drawMap(); }
-		 * 
-		 * 
-		 * } else { // something went wrong } } });
-		 */
+		
+
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("InputData");
+		query.getInBackground("antOm8G6Ct", new GetCallback<ParseObject>() {
+			public void done(ParseObject object, ParseException e) {
+				if (e == null) {
+
+					try
+					{
+					
+					ParseFile applicantResume = (ParseFile) object
+							.get("scannedPoints");
+					applicantResume.getDataInBackground(new GetDataCallback() {
+						public void done(byte[] data, ParseException e) {
+							if (e == null) {
+								// data has the bytes for the resume
+
+								try {
+									String str = new String(data, "UTF-8");
+
+									JSONObject jsonData = new JSONObject(str);
+									JSONArray jArrData = jsonData
+											.getJSONArray("results");
+
+									for (int i = 0; i < jArrData.length(); i++) {
+
+										JSONObject jsonCurrentAP = jArrData
+												.getJSONObject(i);
+
+										String x = jsonCurrentAP.getString("x");
+										String y = jsonCurrentAP.getString("y");
+										int fl_x = Integer.parseInt(x);
+										int fl_y = Integer.parseInt(y);
+										AccessPoint point = new AccessPoint();
+										point.X = fl_x;
+										point.Y = fl_y;
+										point.LEVEL = Integer
+												.parseInt(jsonCurrentAP
+														.getString("LEVEL"));
+										point.MAC = jsonCurrentAP
+												.getString("MAC");
+										point.SSID = jsonCurrentAP
+												.getString("SSID");
+										
+										point.MapName = jsonCurrentAP.getString("Map");
+										
+										_spots.add(point);
+											int l=1;
+											l=123;
+
+										
+									}
+								} catch (Exception ex) {
+									ex.printStackTrace();
+									return;
+								}
+								progress.dismiss();
+								drawMap();
+
+							} else {
+								// something went wrong
+
+							}
+						}
+					});
+					}
+					catch (Exception ex)
+					{
+						progress.dismiss();
+						drawMap();
+					}
+					
+
+				} else {
+					// something went wrong
+				}
+			}
+		});*/
 	}
 
 	public String getDeviceName() {
@@ -891,12 +948,12 @@ public class MainActivity extends ActionBarActivity {
 					accessPoint.Y = spotY + y - currentLogicalHeight / 2;
 					switch (currentMap) {
 					case MAP_STATA:
-						accessPoint.MapName = "Stata";
+						accessPoint.MapName="Stata";
 
 						break;
 					case MAP_TUNNEL:
 
-						accessPoint.MapName = "Tunnel";
+						accessPoint.MapName="Tunnel";
 						break;
 					}
 					_scannedAccessPoints.add(accessPoint);
@@ -1015,6 +1072,7 @@ public class MainActivity extends ActionBarActivity {
 		// }
 	}
 
+
 	private void saveDatabaseToFile() {
 
 		progressSaving.show();
@@ -1039,6 +1097,7 @@ public class MainActivity extends ActionBarActivity {
 				str += "\"LEVEL\": " + Integer.toString(ap.LEVEL) + ",";
 				str += "\"MAC\": \"" + ap.MAC + "\",";
 				str += "\"Map\": \"" + ap.MapName + "\",";
+				
 
 				str += "\"SSID\": \"" + ap.SSID + "\",";
 				str += "\"deviceName\": \"" + getDeviceName() + "\",";
