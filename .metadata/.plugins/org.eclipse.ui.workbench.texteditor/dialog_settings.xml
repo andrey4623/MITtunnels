@@ -2,16 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="draw" key="selection"/>
+		<item value="GetL" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="draw"/>
-			<item value="loadMap"/>
+			<item value="getL"/>
+			<item value="No inter"/>
 			<item value="load"/>
-			<item value="get"/>
+			<item value="btnGetLocation"/>
+			<item value="getlo"/>
+			<item value="nexus"/>
+			<item value="nenus"/>
+			<item value="draw"/>
 		</list>
 		<list key="replacehistory">
 		</list>
@@ -20,7 +24,7 @@
 		<item value="257" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="381" key="DIALOG_HEIGHT"/>
-		<item value="563" key="DIALOG_X_ORIGIN"/>
-		<item value="118" key="DIALOG_Y_ORIGIN"/>
+		<item value="777" key="DIALOG_X_ORIGIN"/>
+		<item value="263" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

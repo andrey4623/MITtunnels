@@ -363,7 +363,7 @@ public class MainActivity extends ActionBarActivity {
 						}
 					});
 
-			myAlertDialog.show();
+			//myAlertDialog.show();
 
 		}
 
@@ -463,10 +463,10 @@ public class MainActivity extends ActionBarActivity {
 						ArrayList<ArrayList<AccessPoint>> _locations = new ArrayList<ArrayList<AccessPoint>>();
 						for (int i = 0; i < _spots.size(); i++) {
 
-							if (!(((_spots.get(i).MapName.equals("Stata")) && (currentMap == MAP_STATA)) ||
+							/*if (!(((_spots.get(i).MapName.equals("Stata")) && (currentMap == MAP_STATA)) ||
 
 							((_spots.get(i).MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL))))
-								continue;
+								continue;*/
 
 							pointAdded = false;
 							for (int j = 0; j < _locations.size(); j++) {
@@ -754,7 +754,7 @@ public class MainActivity extends ActionBarActivity {
 		try {
 
 			InputStream is = this.getResources().openRawResource(
-					R.raw.tunnels_nexus5);
+					R.raw.tunnels_nexus5_full);
 
 			JSONObject jsonData = new JSONObject(readTextFile(is));
 			JSONArray jArrData = jsonData.getJSONArray("results");
@@ -773,11 +773,11 @@ public class MainActivity extends ActionBarActivity {
 				point.LEVEL = Integer
 						.parseInt(jsonCurrentAP.getString("LEVEL"));
 				point.MAC = jsonCurrentAP.getString("MAC");
-				point.SSID = jsonCurrentAP.getString("SSID");
-				point.MapName = jsonCurrentAP.getString("Map");
-				// point. = jsonCurrentAP.getString("DeviceName");
+				point.SSID = jsonCurrentAP.getString("MAC");
+				//point.MapName = jsonCurrentAP.getString("Map");
+				_spots.add(point);
 
-				switch (currentMap) {
+				/*switch (currentMap) {
 				case MAP_STATA:
 					if (jsonCurrentAP.getString("Map").equals("Stata"))
 						_spots.add(point);
@@ -787,7 +787,7 @@ public class MainActivity extends ActionBarActivity {
 					if (jsonCurrentAP.getString("Map").equals("Tunnel"))
 						_spots.add(point);
 					break;
-				}
+				}*/
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
