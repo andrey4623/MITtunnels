@@ -1,0 +1,18 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: MITTunnelsFinalReport.aux
+The style file: plain.bst
+Database file #1: MITTunnelsBib.bib
+Warning--entry type for "CNNGoogle" isn't style-file defined
+--line 60 of file MITTunnelsBib.bib
+Warning--entry type for "Skyhook" isn't style-file defined
+--line 68 of file MITTunnelsBib.bib
+Warning--entry type for "Microsoft" isn't style-file defined
+--line 75 of file MITTunnelsBib.bib
+Warning--entry type for "iBeacons" isn't style-file defined
+--line 82 of file MITTunnelsBib.bib
+A bad cross reference---entry "RSSI1"
+refers to entry "DBLP:conf/icc/2002", which doesn't exist
+Warning--I didn't find a database entry for "DBLP:conf/icc/2002"
+Warning--to sort, need author or key in Skyhook
+Warning--to sort, need author or key in Microsoft
+Warning--empty year in Push2012
+(There was 1 error message)

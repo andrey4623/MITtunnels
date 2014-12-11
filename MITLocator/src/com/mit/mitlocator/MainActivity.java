@@ -455,6 +455,7 @@ public class MainActivity extends ActionBarActivity {
 
 						for (int i = 0; i < _spots.size(); i++) {
 
+<<<<<<< HEAD
 							/*
 							 * if (!(((_spots.get(i).MapName.equals("Stata")) &&
 							 * (currentMap == MAP_STATA)) ||
@@ -463,6 +464,12 @@ public class MainActivity extends ActionBarActivity {
 							 * (currentMap == MAP_TUNNEL)))) continue;
 							 */
 
+=======
+							((_spots.get(i).MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL))))
+								continue;*/
+//MADALINA CHANGE: only add a point in _locations if its MAC is not null.
+// the condition should be of the form _spots.get(i).MAC != "00:00:00:00:00:00"
+>>>>>>> origin/master
 							pointAdded = false;
 							for (int j = 0; j < _locations.size(); j++) {
 								if (pointAdded == false
@@ -490,6 +497,7 @@ public class MainActivity extends ActionBarActivity {
 						double closest_distance = 10 ^ 10;
 
 						for (int i = 0; i < _locations.size(); i++) {
+<<<<<<< HEAD
 
 							boolean hasCommon = false;
 
@@ -519,27 +527,35 @@ public class MainActivity extends ActionBarActivity {
 								continue;
 //							AccessPoint accessPoint = _locations.get(i);
 
+=======
+						//MADALINA matchedMAC = False -> boolean variable that needs defined before;
+>>>>>>> origin/master
 							double distance_sum = 0;
 							for (int k = 0; k < _locations.get(i).size(); k++) {
 								distance_sum += _locations.get(i).get(k).LEVEL ^ 2;
+                    
 							}
-							// distance_sum=10^10;
+						
 							for (int j = 0; j < _scannedAccessPoints.size(); j++) {
+								
 								distance_sum += _scannedAccessPoints.get(j).LEVEL ^ 2;
-
+								// MADALINA change above to:
+								// MADALINA if _scannedAccessPoints.get(j).MAC != "00:00:00:00:00:00"
+								// MADALINA distance_sum +=_scannedAccessPoints.get(j).Level^2
 								for (int k = 0; k < _locations.get(i).size(); k++) {
 									if (_locations.get(i).get(k).MAC
 											.equals(_scannedAccessPoints.get(j).MAC)) {
-										// distance_sum -=
-										// _locations.get(i).get(k).LEVEL^2 +
-										// _scannedAccessPoints.get(j).LEVEL^2;
-										distance_sum -= 2
+										//MADALINA update matchedMAC: matchedMAC = True;
+											distance_sum -= 2
 												* _locations.get(i).get(k).LEVEL
 												* _scannedAccessPoints.get(j).LEVEL;
-										// distance_sum--;
+										
 									}
 								}
 							}
+							//MADALINA put new condition: if matchedMAC==True
+							//MADALINA the following if/else statement should execute only if matchedMAC==True
+							//MADALINA this means the current point j and database point i had some AP in common
 							if (distance_sum < closest_distance) {
 								nearestAPs.clear();
 								closest_distance = distance_sum;

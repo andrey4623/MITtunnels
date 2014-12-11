@@ -1,0 +1,43 @@
+\begin{thebibliography}{1}
+
+\bibitem{Microsoft}
+Microsoft indoor locolization competition - ispn 2014, 2014.
+
+\bibitem{Skyhook}
+Skyhook patents, 2014.
+
+\bibitem{iBeacons}
+Dave Addey.
+\newblock ibeacons, 2013.
+
+\bibitem{RFID}
+Paramvir Bahl and Venkata~N. Padmanabhan.
+\newblock Radar: An in-building rf-based user location and tracking system.
+\newblock In {\em INFOCOM}, pages 775--784, 2000.
+
+\bibitem{RSSI1}
+Yongguang Chen and Hisashi Kobayashi.
+\newblock Signal strength based indoor geolocation.
+\newblock In {\em {IEEE} International Conference on Communications, {ICC}
+  2002, April 28 - May 2, 2002, New York City, NY, {USA}}, pages 436--439,
+  2002.
+
+\bibitem{RSSI2}
+Krishna Chintalapudi, Anand Padmanabha~Iyer, and Venkata~N. Padmanabhan.
+\newblock Indoor localization without the pain.
+\newblock In {\em Proceedings of the Sixteenth Annual International Conference
+  on Mobile Computing and Networking}, MobiCom '10, pages 173--184, New York,
+  NY, USA, 2010. ACM.
+
+\bibitem{CNNGoogle}
+Mike Isaac.
+\newblock New version of google maps brings indoor floor plans to your phone,
+  2011.
+
+\bibitem{Push2012}
+Hongbo Liu, Yu~Gan, Jie Yang, Simon Sidhom, Yan Wang, Yingying Chen, and Fan
+  Ye.
+\newblock Push the limit of wifi based localization for smartphones.
+\newblock In {\em In MobiCom (2012), ACM}, pages 305--316.
+
+\end{thebibliography}
