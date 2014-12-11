@@ -236,6 +236,7 @@ public class MainActivity extends ActionBarActivity {
 
 		// draw spots
 
+
 		for (int i = 0; i < _spots.size(); i++) {
 			AccessPoint point = _spots.get(i);
 			if ((point.X >= x1) && (point.X <= x2) && (point.Y >= y1)
@@ -256,6 +257,22 @@ public class MainActivity extends ActionBarActivity {
 					yourcanvas.drawCircle(point.X - x1, point.Y - y1, 10, p);
 			}
 		}
+
+		/*
+		 * for (int i = 0; i < _spots.size(); i++) { AccessPoint point =
+		 * _spots.get(i); if ((point.X >= x1) && (point.X <= x2) && (point.Y >=
+		 * y1) && (point.Y <= y2)) { // draw it
+		 * 
+		 * Paint p = new Paint(); int color = Color.WHITE; p.setColor(color);
+		 * 
+		 * color = Color.RED; p.setColor(color);
+		 * 
+		 * if (((point.MapName.equals("Stata")) && (currentMap == MAP_STATA)) ||
+		 * 
+		 * ((point.MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL)))
+		 * yourcanvas.drawCircle(point.X - x1, point.Y - y1, 10, p); } }
+		 */
+
 
 		/*
 		 * if ((spotX != -1) && (spotY != -1)) { // draw current point Paint p =
@@ -441,9 +458,8 @@ public class MainActivity extends ActionBarActivity {
 				btnGetLocation.setEnabled(false);
 				wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 				_scannedAccessPoints.clear();
-
+				
 				broadcastReceiver = new BroadcastReceiver() {
-
 					@Override
 					public void onReceive(Context c, Intent intent) {
 						List<ScanResult> results = wifiManager.getScanResults();
@@ -457,165 +473,16 @@ public class MainActivity extends ActionBarActivity {
 							_scannedAccessPoints.add(accessPoint);
 						}
 						unregisterReceiver(broadcastReceiver);
-
-						// we have two lists: _scannedAccessPoints and _spots
-
-						boolean pointAdded = false;
-						ArrayList<AccessPoint> nearestAPs = new ArrayList<AccessPoint>();
-						ArrayList<ArrayList<AccessPoint>> _locations = new ArrayList<ArrayList<AccessPoint>>();
-						for (int i = 0; i < _spots.size(); i++) {
-
-							if (!(((_spots.get(i).MapName.equals("Stata")) && (currentMap == MAP_STATA)) ||
-
-							((_spots.get(i).MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL))))
-								continue;
-
-							pointAdded = false;
-							for (int j = 0; j < _locations.size(); j++) {
-								if (pointAdded == false
-										&& _spots.get(i).X == _locations.get(j)
-												.get(0).X
-										&& _spots.get(i).Y == _locations.get(j)
-												.get(0).Y
-								// && (!_spots.get(i).MAC
-								// .equals("00:00:00:00:00:00"))
-								) {
-									_locations.get(j).add(_spots.get(i));
-									pointAdded = true;
-								}
-
-							}
-							if (pointAdded == false) {
-								ArrayList<AccessPoint> new_list = new ArrayList<AccessPoint>();
-								new_list.add(_spots.get(i));
-								_locations.add(new_list);
-							}
-
-						}
-						AccessPoint closest_point = _locations.get(0).get(0);
-						double closest_distance = 10 ^ 10;
-						boolean matchedMACglobal = false;
-						for (int i = 0; i < _locations.size(); i++) {
-							boolean matchedMAC = false;
-							double distance_sum = 0;
-							for (int k = 0; k < _locations.get(i).size(); k++) {
-								distance_sum += _locations.get(i).get(k).LEVEL ^ 2;
-							}
-							// distance_sum=10^10;
-							for (int j = 0; j < _scannedAccessPoints.size(); j++) {
-
-								// if (!_scannedAccessPoints.get(j).MAC
-								// .equals("00:00:00:00:00:00"))
-								distance_sum += _scannedAccessPoints.get(j).LEVEL ^ 2;
-
-								for (int k = 0; k < _locations.get(i).size(); k++) {
-									if (_locations.get(i).get(k).MAC
-											.equals(_scannedAccessPoints.get(j).MAC)) {
-										// distance_sum -=
-										// _locations.get(i).get(k).LEVEL^2 +
-										// _scannedAccessPoints.get(j).LEVEL^2;
-										distance_sum -= 2
-												* _locations.get(i).get(k).LEVEL
-												* _scannedAccessPoints.get(j).LEVEL;
-										matchedMAC = true;
-										matchedMACglobal = true;
-										// distance_sum--;
-									}
-								}
-							}
-							if (matchedMAC)
-								if (distance_sum < closest_distance) {
-									nearestAPs.clear();
-									closest_distance = distance_sum;
-									nearestAPs.add(_locations.get(i).get(0));
-									closest_point = _locations.get(i).get(0);
-								} else if (distance_sum == closest_distance) {
-									// nearestAPs.clear();
-									// closest_distance = distance_sum;
-									nearestAPs.add(_locations.get(i).get(0));
-									// closest_point = _locations.get(i).get(0);
-								}
-						}
-
-						if (!matchedMACglobal) {
-							// we are far away
-							determinedLocation.x = -1;
-							determinedLocation.y = -1;
-							AlertDialog myAlertDialog = new AlertDialog.Builder(
-									MainActivity.this).create();
-							myAlertDialog.setMessage("You are far away.");
-							myAlertDialog.setTitle("Unknown location");
-							myAlertDialog.setButton(
-									DialogInterface.BUTTON_POSITIVE, "OK",
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog,
-												int which) {
-
-										}
-									});
-							myAlertDialog.show();
-
-						} else {
-
-							// approximate
-							int detX = 0;
-							int detY = 0;
-							for (int i = 0; i < nearestAPs.size(); i++) {
-								detX += nearestAPs.get(i).X;
-								detY += nearestAPs.get(i).Y;
-							}
-
-							detX = Math.round(detX / nearestAPs.size());
-							detY = Math.round(detY / nearestAPs.size());
-
-							determinedLocation.x = detX;
-							determinedLocation.y = detY;
-						}
-						btnGetLocation.setText("My location");
-						btnGetLocation.setEnabled(true);
-						/*
-						 * ArrayList<ArrayList<AccessPoint>> _locations = null;
-						 * for (int i = 0; i < _spots.size(); i++) { pointAdded
-						 * = false; for(int j=0; j<_locations.size();j++){
-						 * if(pointAdded == false && _spots.get(i).X ==
-						 * _locations.get(j).get(0).X && _spots.get(i).Y ==
-						 * _locations.get(j).get(0).Y){
-						 * _locations.get(j).add(_spots.get(i)); pointAdded =
-						 * true; }
-						 * 
-						 * } if(pointAdded == false){ ArrayList<AccessPoint>
-						 * new_list = null; new_list.add(_spots.get(i));
-						 * _locations.add(new_list); }
-						 * 
-						 * } AccessPoint closest_point =
-						 * _locations.get(0).get(0); double closest_distance =
-						 * 10^10;
-						 * 
-						 * for (int i=0; i < _locations.size(); i++){ double
-						 * distance_sum = 0; for(int j = 0; j <
-						 * _scannedAccessPoints.size(); j++){ for(int k = 0; k <
-						 * _locations.get(i).size(); k++){
-						 * if(_locations.get(i).get(k).MAC ==
-						 * _scannedAccessPoints.get(j).MAC){ distance_sum +=
-						 * (_locations.get(i).get(k).LEVEL -
-						 * _scannedAccessPoints.get(j).LEVEL)^2; } } }
-						 * if(distance_sum < closest_distance){ closest_distance
-						 * = distance_sum; closest_point =
-						 * _locations.get(i).get(0); } }
-						 * 
-						 * 
-						 * determinedCurrentLocation.x = closest_point.X;
-						 * determinedCurrentLocation.y = closest_point.Y;
-						 */
-						drawMap();
+						
+						
+						
 					}
 				};
 
 				registerReceiver(broadcastReceiver, new IntentFilter(
 						WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 				wifiManager.startScan();
-
+				}
 			}
 
 		});
@@ -810,7 +677,11 @@ public class MainActivity extends ActionBarActivity {
 						.parseInt(jsonCurrentAP.getString("LEVEL"));
 				point.MAC = jsonCurrentAP.getString("MAC");
 				point.SSID = jsonCurrentAP.getString("MAC");
+
 				point.MapName = jsonCurrentAP.getString("Map");
+
+				
+
 				_spots.add(point);
 
 				/*
