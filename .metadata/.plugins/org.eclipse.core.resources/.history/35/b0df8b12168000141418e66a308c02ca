@@ -126,10 +126,6 @@ public class MainActivity extends ActionBarActivity {
 	private Point determinedLocation = new Point(-1, -1);
 	private ProgressDialog progressSaving;
 
-	// measure the exact same
-	private long startnow;
-	private long endnow;
-
 	public void checkBorders() {
 		if (x < (int) currentLogicalWidth / 2)
 			x = (int) currentLogicalWidth / 2;
@@ -236,28 +232,6 @@ public class MainActivity extends ActionBarActivity {
 
 		// draw spots
 
-<<<<<<< HEAD
-		for (int i = 0; i < _spots.size(); i++) {
-			AccessPoint point = _spots.get(i);
-			if ((point.X >= x1) && (point.X <= x2) && (point.Y >= y1)
-					&& (point.Y <= y2)) { // draw it
-
-				Paint p = new Paint();
-				int color = Color.WHITE;
-				p.setColor(color);
-
-				color = Color.RED;
-				p.setColor(color);
-
-				if (((point.MapName.equals("Stata")) && (currentMap == MAP_STATA))
-						||
-
-						((point.MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL)))
-
-					yourcanvas.drawCircle(point.X - x1, point.Y - y1, 10, p);
-			}
-		}
-=======
 		/*
 		 * for (int i = 0; i < _spots.size(); i++) { AccessPoint point =
 		 * _spots.get(i); if ((point.X >= x1) && (point.X <= x2) && (point.Y >=
@@ -272,7 +246,6 @@ public class MainActivity extends ActionBarActivity {
 		 * ((point.MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL)))
 		 * yourcanvas.drawCircle(point.X - x1, point.Y - y1, 10, p); } }
 		 */
->>>>>>> origin/master
 
 		/*
 		 * if ((spotX != -1) && (spotY != -1)) { // draw current point Paint p =
@@ -345,7 +318,6 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 		// Parse initialize
 		Parse.initialize(this, "dqqy2pgILHlRNjtKu5MLi4VyY0LkZJY27FgrufLh",
 				"fSFmvqwVMeuhsuzavaa7KJAMg5XDPhN0CcjTDiFE");
@@ -483,10 +455,6 @@ public class MainActivity extends ActionBarActivity {
 
 						for (int i = 0; i < _spots.size(); i++) {
 
-<<<<<<< HEAD
-							if (!(((_spots.get(i).MapName.equals("Stata")) && (currentMap == MAP_STATA)) ||
-=======
-<<<<<<< HEAD
 							/*
 							 * if (!(((_spots.get(i).MapName.equals("Stata")) &&
 							 * (currentMap == MAP_STATA)) ||
@@ -494,29 +462,14 @@ public class MainActivity extends ActionBarActivity {
 							 * ((_spots.get(i).MapName.equals("Tunnel")) &&
 							 * (currentMap == MAP_TUNNEL)))) continue;
 							 */
->>>>>>> origin/master
 
-=======
-							((_spots.get(i).MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL))))
-<<<<<<< HEAD
-								continue;
-
-=======
-								continue;*/
-//MADALINA CHANGE: only add a point in _locations if its MAC is not null.
-// the condition should be of the form _spots.get(i).MAC != "00:00:00:00:00:00"
->>>>>>> origin/master
->>>>>>> origin/master
 							pointAdded = false;
 							for (int j = 0; j < _locations.size(); j++) {
 								if (pointAdded == false
 										&& _spots.get(i).X == _locations.get(j)
 												.get(0).X
 										&& _spots.get(i).Y == _locations.get(j)
-												.get(0).Y
-								// && (!_spots.get(i).MAC
-								// .equals("00:00:00:00:00:00"))
-								) {
+												.get(0).Y) {
 									_locations.get(j).add(_spots.get(i));
 									pointAdded = true;
 								}
@@ -535,25 +488,19 @@ public class MainActivity extends ActionBarActivity {
 
 						AccessPoint closest_point = _locations.get(0).get(0);
 						double closest_distance = 10 ^ 10;
-						boolean matchedMACglobal = false;
+
 						for (int i = 0; i < _locations.size(); i++) {
-<<<<<<< HEAD
-							boolean matchedMAC = false;
-=======
-<<<<<<< HEAD
 
 							boolean hasCommon = false;
 
 							for (int ii = 0; ii < _locations.size(); ii++) {
-
-								if (hasCommon)
-									break;
+								
+								if (hasCommon) break;
 								for (int jj = 0; jj < _locations.get(ii).size(); jj++)
 
 								{
-									if (hasCommon)
-										break;
-
+if (hasCommon) break;
+									
 									for (int gg = 0; gg < _spots.size(); gg++) {
 										if (_locations.get(ii).get(jj).MAC
 												.equals(_spots.get(gg))) {
@@ -566,66 +513,30 @@ public class MainActivity extends ActionBarActivity {
 
 							}
 
-							if (!hasCommon)
-								continue;
-//							AccessPoint accessPoint = _locations.get(i);
+							if (!hasCommon) continue;
+							AccessPoint accessPoint = _locations.get(i);
 
-=======
-						//MADALINA matchedMAC = False -> boolean variable that needs defined before;
->>>>>>> origin/master
->>>>>>> origin/master
 							double distance_sum = 0;
 							for (int k = 0; k < _locations.get(i).size(); k++) {
 								distance_sum += _locations.get(i).get(k).LEVEL ^ 2;
-                    
 							}
-						
+							// distance_sum=10^10;
 							for (int j = 0; j < _scannedAccessPoints.size(); j++) {
-<<<<<<< HEAD
-
-								// if (!_scannedAccessPoints.get(j).MAC
-								// .equals("00:00:00:00:00:00"))
-=======
-								
->>>>>>> origin/master
 								distance_sum += _scannedAccessPoints.get(j).LEVEL ^ 2;
-								// MADALINA change above to:
-								// MADALINA if _scannedAccessPoints.get(j).MAC != "00:00:00:00:00:00"
-								// MADALINA distance_sum +=_scannedAccessPoints.get(j).Level^2
+
 								for (int k = 0; k < _locations.get(i).size(); k++) {
 									if (_locations.get(i).get(k).MAC
 											.equals(_scannedAccessPoints.get(j).MAC)) {
-										//MADALINA update matchedMAC: matchedMAC = True;
-											distance_sum -= 2
+										// distance_sum -=
+										// _locations.get(i).get(k).LEVEL^2 +
+										// _scannedAccessPoints.get(j).LEVEL^2;
+										distance_sum -= 2
 												* _locations.get(i).get(k).LEVEL
 												* _scannedAccessPoints.get(j).LEVEL;
-<<<<<<< HEAD
-										matchedMAC = true;
-										matchedMACglobal = true;
 										// distance_sum--;
 									}
 								}
 							}
-							if (matchedMAC)
-								if (distance_sum < closest_distance) {
-									nearestAPs.clear();
-									closest_distance = distance_sum;
-									nearestAPs.add(_locations.get(i).get(0));
-									closest_point = _locations.get(i).get(0);
-								} else if (distance_sum == closest_distance) {
-									// nearestAPs.clear();
-									// closest_distance = distance_sum;
-									nearestAPs.add(_locations.get(i).get(0));
-									// closest_point = _locations.get(i).get(0);
-								}
-=======
-										
-									}
-								}
-							}
-							//MADALINA put new condition: if matchedMAC==True
-							//MADALINA the following if/else statement should execute only if matchedMAC==True
-							//MADALINA this means the current point j and database point i had some AP in common
 							if (distance_sum < closest_distance) {
 								nearestAPs.clear();
 								closest_distance = distance_sum;
@@ -637,44 +548,21 @@ public class MainActivity extends ActionBarActivity {
 								nearestAPs.add(_locations.get(i).get(0));
 								// closest_point = _locations.get(i).get(0);
 							}
->>>>>>> origin/master
 						}
 
-						if (!matchedMACglobal) {
-							// we are far away
-							determinedLocation.x = -1;
-							determinedLocation.y = -1;
-							AlertDialog myAlertDialog = new AlertDialog.Builder(
-									MainActivity.this).create();
-							myAlertDialog.setMessage("You are far away.");
-							myAlertDialog.setTitle("Unknown location");
-							myAlertDialog.setButton(
-									DialogInterface.BUTTON_POSITIVE, "OK",
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog,
-												int which) {
-
-										}
-									});
-							myAlertDialog.show();
-
-						} else {
-
-							// approximate
-							int detX = 0;
-							int detY = 0;
-							for (int i = 0; i < nearestAPs.size(); i++) {
-								detX += nearestAPs.get(i).X;
-								detY += nearestAPs.get(i).Y;
-							}
-
-							detX = Math.round(detX / nearestAPs.size());
-							detY = Math.round(detY / nearestAPs.size());
-
-							determinedLocation.x = detX;
-							determinedLocation.y = detY;
+						// approximate
+						int detX = 0;
+						int detY = 0;
+						for (int i = 0; i < nearestAPs.size(); i++) {
+							detX += nearestAPs.get(i).X;
+							detY += nearestAPs.get(i).Y;
 						}
+
+						detX = Math.round(detX / nearestAPs.size());
+						detY = Math.round(detY / nearestAPs.size());
+
+						determinedLocation.x = detX;
+						determinedLocation.y = detY;
 						btnGetLocation.setText("My location");
 						btnGetLocation.setEnabled(true);
 						/*
@@ -831,7 +719,6 @@ public class MainActivity extends ActionBarActivity {
 		y = (int) mapHeight / 2;
 
 		drawMap();
-
 	}
 
 	@Override
@@ -883,7 +770,6 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	public void getPointsFromDatabase() {
-		startnow = android.os.SystemClock.uptimeMillis();
 		_spots.clear();
 		final ProgressDialog progress = new ProgressDialog(this);
 		progress.setTitle("Please wait");
@@ -893,7 +779,7 @@ public class MainActivity extends ActionBarActivity {
 		try {
 
 			InputStream is = this.getResources().openRawResource(
-					R.raw.scanresultnew);
+					R.raw.tunnels_nexus5_full);
 
 			JSONObject jsonData = new JSONObject(readTextFile(is));
 			JSONArray jArrData = jsonData.getJSONArray("results");
@@ -913,11 +799,7 @@ public class MainActivity extends ActionBarActivity {
 						.parseInt(jsonCurrentAP.getString("LEVEL"));
 				point.MAC = jsonCurrentAP.getString("MAC");
 				point.SSID = jsonCurrentAP.getString("MAC");
-<<<<<<< HEAD
-				point.MapName = jsonCurrentAP.getString("Map");
-=======
 				// point.MapName = jsonCurrentAP.getString("Map");
->>>>>>> origin/master
 				_spots.add(point);
 
 				/*
@@ -935,8 +817,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 		progress.dismiss();
 		drawMap();
-		endnow = android.os.SystemClock.uptimeMillis();
-		Log.d("MYTAG", "Excution time: " + (endnow - startnow) + " ms");
+
 		// old code - to download data from Parse
 
 		/*
