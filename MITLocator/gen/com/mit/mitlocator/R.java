@@ -1210,9 +1210,10 @@ containing a value of this type.
         public static final int main=0x7f0d0000;
     }
     public static final class raw {
-        public static final int tunnels_for_tablet_before_averaged=0x7f050000;
-        public static final int tunnels_nexus5=0x7f050001;
-        public static final int tunnels_nexus5_full=0x7f050002;
+        public static final int scanresultnew=0x7f050000;
+        public static final int tunnels_for_tablet_before_averaged=0x7f050001;
+        public static final int tunnels_nexus5=0x7f050002;
+        public static final int tunnels_nexus5_full=0x7f050003;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
