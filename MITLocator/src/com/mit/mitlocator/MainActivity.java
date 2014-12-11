@@ -18,6 +18,7 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -129,6 +130,8 @@ public class MainActivity extends ActionBarActivity {
 	// measure the exact same
 	private long startnow;
 	private long endnow;
+	//Google Analytics
+	//private  HashMap<GoogleAnalyticsTracker, Tracker> mTrackers;
 
 	public void checkBorders() {
 		if (x < (int) currentLogicalWidth / 2)
@@ -192,10 +195,6 @@ public class MainActivity extends ActionBarActivity {
 	Canvas canvas;
 
 	private void drawMap() {
-
-		// if (pictureDrawable == null)
-		// return;
-
 		// crop the bitmap
 		// we are at x1,y1
 		int x1 = x - (int) currentLogicalWidth / 2;
@@ -236,34 +235,26 @@ public class MainActivity extends ActionBarActivity {
 
 		// draw spots
 
-		for (int i = 0; i < _spots.size(); i++) {
-			AccessPoint point = _spots.get(i);
-			if ((point.X >= x1) && (point.X <= x2) && (point.Y >= y1)
-					&& (point.Y <= y2)) { // draw it
-
-				Paint p = new Paint();
-				int color = Color.WHITE;
-				p.setColor(color);
-
-				color = Color.RED;
-				p.setColor(color);
-
-				if (((point.MapName.equals("Stata")) && (currentMap == MAP_STATA))
-						||
-
-						((point.MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL)))
-
-					yourcanvas.drawCircle(point.X - x1, point.Y - y1, 10, p);
-			}
-		}
-
-		/*
-		 * if ((spotX != -1) && (spotY != -1)) { // draw current point Paint p =
-		 * new Paint(); int color = Color.WHITE; p.setColor(color);
-		 * 
-		 * color = Color.BLUE; p.setColor(color); yourcanvas.drawCircle(spotX,
-		 * spotY, 10, p); }
-		 */
+		// for (int i = 0; i < _spots.size(); i++) {
+		// AccessPoint point = _spots.get(i);
+		// if ((point.X >= x1) && (point.X <= x2) && (point.Y >= y1)
+		// && (point.Y <= y2)) { // draw it
+		//
+		// Paint p = new Paint();
+		// int color = Color.WHITE;
+		// p.setColor(color);
+		//
+		// color = Color.RED;
+		// p.setColor(color);
+		//
+		// if (((point.MapName.equals("Stata")) && (currentMap == MAP_STATA))
+		// ||
+		//
+		// ((point.MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL)))
+		//
+		// yourcanvas.drawCircle(point.X - x1, point.Y - y1, 10, p);
+		// }
+		// }
 
 		if ((determinedLocation.x != -1) && (determinedLocation.y != -1)) {
 			// draw current point
@@ -504,8 +495,8 @@ public class MainActivity extends ActionBarActivity {
 							// distance_sum=10^10;
 							for (int j = 0; j < _scannedAccessPoints.size(); j++) {
 
-								// if (!_scannedAccessPoints.get(j).MAC
-								// .equals("00:00:00:00:00:00"))
+								 if (!_scannedAccessPoints.get(j).MAC
+								 .equals("00:00:00:00:00:00"))
 								distance_sum += _scannedAccessPoints.get(j).LEVEL ^ 2;
 
 								for (int k = 0; k < _locations.get(i).size(); k++) {
@@ -786,11 +777,12 @@ public class MainActivity extends ActionBarActivity {
 		progress.setTitle("Please wait");
 		progress.setMessage("Loading data from server");
 		progress.show();
+		
 
 		try {
 
 			InputStream is = this.getResources().openRawResource(
-					R.raw.scanresultnew);
+					R.raw.tunnels_nexus5_fullwithout0);
 
 			JSONObject jsonData = new JSONObject(readTextFile(is));
 			JSONArray jArrData = jsonData.getJSONArray("results");
@@ -812,15 +804,6 @@ public class MainActivity extends ActionBarActivity {
 				point.SSID = jsonCurrentAP.getString("MAC");
 				point.MapName = jsonCurrentAP.getString("Map");
 				_spots.add(point);
-
-				/*
-				 * switch (currentMap) { case MAP_STATA: if
-				 * (jsonCurrentAP.getString("Map").equals("Stata"))
-				 * _spots.add(point); break; case MAP_TUNNEL:
-				 * 
-				 * if (jsonCurrentAP.getString("Map").equals("Tunnel"))
-				 * _spots.add(point); break; }
-				 */
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -1141,3 +1124,4 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 }
+
