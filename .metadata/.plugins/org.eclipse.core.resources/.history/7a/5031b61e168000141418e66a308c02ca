@@ -517,7 +517,7 @@ public class MainActivity extends ActionBarActivity {
 
 							if (!hasCommon)
 								continue;
-//							AccessPoint accessPoint = _locations.get(i);
+							AccessPoint accessPoint = _locations.get(i);
 
 							double distance_sum = 0;
 							for (int k = 0; k < _locations.get(i).size(); k++) {

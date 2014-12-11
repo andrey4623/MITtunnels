@@ -232,28 +232,37 @@ public class MainActivity extends ActionBarActivity {
 
 		// draw spots
 
-		/*
-		 * for (int i = 0; i < _spots.size(); i++) { AccessPoint point =
-		 * _spots.get(i); if ((point.X >= x1) && (point.X <= x2) && (point.Y >=
-		 * y1) && (point.Y <= y2)) { // draw it
-		 * 
-		 * Paint p = new Paint(); int color = Color.WHITE; p.setColor(color);
-		 * 
-		 * color = Color.RED; p.setColor(color);
-		 * 
-		 * if (((point.MapName.equals("Stata")) && (currentMap == MAP_STATA)) ||
-		 * 
-		 * ((point.MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL)))
-		 * yourcanvas.drawCircle(point.X - x1, point.Y - y1, 10, p); } }
-		 */
+		/*for (int i = 0; i < _spots.size(); i++) {
+			AccessPoint point = _spots.get(i);
+			if ((point.X >= x1) && (point.X <= x2) && (point.Y >= y1)
+					&& (point.Y <= y2)) {
+				// draw it
 
-		/*
-		 * if ((spotX != -1) && (spotY != -1)) { // draw current point Paint p =
-		 * new Paint(); int color = Color.WHITE; p.setColor(color);
-		 * 
-		 * color = Color.BLUE; p.setColor(color); yourcanvas.drawCircle(spotX,
-		 * spotY, 10, p); }
-		 */
+				Paint p = new Paint();
+				int color = Color.WHITE;
+				p.setColor(color);
+
+				color = Color.RED;
+				p.setColor(color);
+
+				if (((point.MapName.equals("Stata")) && (currentMap == MAP_STATA))
+						||
+
+						((point.MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL)))
+					yourcanvas.drawCircle(point.X - x1, point.Y - y1, 10, p);
+			}
+		}*/
+
+		/*if ((spotX != -1) && (spotY != -1)) {
+			// draw current point
+			Paint p = new Paint();
+			int color = Color.WHITE;
+			p.setColor(color);
+
+			color = Color.BLUE;
+			p.setColor(color);
+			yourcanvas.drawCircle(spotX, spotY, 10, p);
+		}*/
 
 		if ((determinedLocation.x != -1) && (determinedLocation.y != -1)) {
 			// draw current point
@@ -307,7 +316,7 @@ public class MainActivity extends ActionBarActivity {
 			btnChangeMap.setText("Tunnel");
 			break;
 		}
-
+		
 		loadMap();
 
 		drawMap();
@@ -354,7 +363,7 @@ public class MainActivity extends ActionBarActivity {
 						}
 					});
 
-			// myAlertDialog.show();
+			//myAlertDialog.show();
 
 		}
 
@@ -452,16 +461,17 @@ public class MainActivity extends ActionBarActivity {
 						boolean pointAdded = false;
 						ArrayList<AccessPoint> nearestAPs = new ArrayList<AccessPoint>();
 						ArrayList<ArrayList<AccessPoint>> _locations = new ArrayList<ArrayList<AccessPoint>>();
-
+						
+						//checking for common MACs between new points and the database
+						boolean hasCommon=false;
+						
+						
 						for (int i = 0; i < _spots.size(); i++) {
 
-							/*
-							 * if (!(((_spots.get(i).MapName.equals("Stata")) &&
-							 * (currentMap == MAP_STATA)) ||
-							 * 
-							 * ((_spots.get(i).MapName.equals("Tunnel")) &&
-							 * (currentMap == MAP_TUNNEL)))) continue;
-							 */
+							/*if (!(((_spots.get(i).MapName.equals("Stata")) && (currentMap == MAP_STATA)) ||
+
+							((_spots.get(i).MapName.equals("Tunnel")) && (currentMap == MAP_TUNNEL))))
+								continue;*/
 
 							pointAdded = false;
 							for (int j = 0; j < _locations.size(); j++) {
@@ -482,43 +492,10 @@ public class MainActivity extends ActionBarActivity {
 							}
 
 						}
-
-						// checking for common MACs between new points and the
-						// database
-
 						AccessPoint closest_point = _locations.get(0).get(0);
 						double closest_distance = 10 ^ 10;
 
 						for (int i = 0; i < _locations.size(); i++) {
-
-							boolean hasCommon = false;
-
-							for (int ii = 0; ii < _locations.size(); ii++) {
-
-								if (hasCommon)
-									break;
-								for (int jj = 0; jj < _locations.get(ii).size(); jj++)
-
-								{
-									if (hasCommon)
-										break;
-
-									for (int gg = 0; gg < _spots.size(); gg++) {
-										if (_locations.get(ii).get(jj).MAC
-												.equals(_spots.get(gg))) {
-											hasCommon = true;
-											break;
-										}
-									}
-
-								}
-
-							}
-
-							if (!hasCommon)
-								continue;
-//							AccessPoint accessPoint = _locations.get(i);
-
 							double distance_sum = 0;
 							for (int k = 0; k < _locations.get(i).size(); k++) {
 								distance_sum += _locations.get(i).get(k).LEVEL ^ 2;
@@ -802,17 +779,20 @@ public class MainActivity extends ActionBarActivity {
 						.parseInt(jsonCurrentAP.getString("LEVEL"));
 				point.MAC = jsonCurrentAP.getString("MAC");
 				point.SSID = jsonCurrentAP.getString("MAC");
-				// point.MapName = jsonCurrentAP.getString("Map");
+				//point.MapName = jsonCurrentAP.getString("Map");
 				_spots.add(point);
 
-				/*
-				 * switch (currentMap) { case MAP_STATA: if
-				 * (jsonCurrentAP.getString("Map").equals("Stata"))
-				 * _spots.add(point); break; case MAP_TUNNEL:
-				 * 
-				 * if (jsonCurrentAP.getString("Map").equals("Tunnel"))
-				 * _spots.add(point); break; }
-				 */
+				/*switch (currentMap) {
+				case MAP_STATA:
+					if (jsonCurrentAP.getString("Map").equals("Stata"))
+						_spots.add(point);
+					break;
+				case MAP_TUNNEL:
+
+					if (jsonCurrentAP.getString("Map").equals("Tunnel"))
+						_spots.add(point);
+					break;
+				}*/
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

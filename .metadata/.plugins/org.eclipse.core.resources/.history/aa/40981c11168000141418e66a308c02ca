@@ -494,15 +494,13 @@ public class MainActivity extends ActionBarActivity {
 							boolean hasCommon = false;
 
 							for (int ii = 0; ii < _locations.size(); ii++) {
-
-								if (hasCommon)
-									break;
+								
+								if (hasCommon) break;
 								for (int jj = 0; jj < _locations.get(ii).size(); jj++)
 
 								{
-									if (hasCommon)
-										break;
-
+if (hasCommon) break;
+									
 									for (int gg = 0; gg < _spots.size(); gg++) {
 										if (_locations.get(ii).get(jj).MAC
 												.equals(_spots.get(gg))) {
@@ -515,9 +513,7 @@ public class MainActivity extends ActionBarActivity {
 
 							}
 
-							if (!hasCommon)
-								continue;
-//							AccessPoint accessPoint = _locations.get(i);
+							AccessPoint accessPoint = _locations.get(i);
 
 							double distance_sum = 0;
 							for (int k = 0; k < _locations.get(i).size(); k++) {
